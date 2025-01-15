@@ -10,7 +10,9 @@
   },
   "dependencies": {
     "@fontsource/pt-sans": "^5.1.1",
+    "kysely": "^0.27.5",
     "next": "15.1.4",
+    "pg": "^8.13.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "the-new-css-reset": "^1.11.3",
@@ -20,6 +22,7 @@
     "@shcherbin/eslint-config": "^0.15.9",
     "@shcherbin/stylelint-config": "^0.2.0",
     "@types/node": "^20",
+    "@types/pg": "^8.11.10",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9.18.0",
