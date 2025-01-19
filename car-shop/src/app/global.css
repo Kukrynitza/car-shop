@@ -2,3 +2,8 @@ body {
   font-family: "PT Sans", sans-serif;
   background-color: #201318;
 }
+
+main {
+  display: grid;
+  grid-template-columns: 1fr 5fr 1fr;
+}

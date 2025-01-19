@@ -1,0 +1,31 @@
+.brand {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  margin-top: 100px;
+  color: #fdd3e8;
+}
+
+/* stylelint-disable-next-line selector-class-pattern */
+.linkUnactive {
+  padding-right: 15px;
+  color: #fdd3e8;
+  cursor: pointer;
+  transition: color 0.1s;
+
+  &:hover {
+    color: #ffe7b3;
+  }
+}
+
+/* stylelint-disable-next-line selector-class-pattern */
+.linkActive {
+  padding-right: 5px;
+  color: #ffe7b3;
+  cursor: pointer;
+  background: linear-gradient(135deg, #201318 90%, #ffe629 5%);
+  transition: color 0.1s;
+
+  &:hover {
+    color: #fdd3e8;
+  }
+}
