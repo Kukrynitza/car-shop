@@ -1,7 +1,8 @@
 /* --error-color: #e54d2e; */
 
 .modal {
-  position: absolute;
+  position: fixed;
+  top: 0;
   display: grid;
   grid-template-columns: 2fr 1fr;
   width: 100%;
@@ -9,6 +10,8 @@
 }
 
 .space {
+  display: grid;
+  place-items: center center;
   background: rgb(0 0 0 / 50%);
 }
 

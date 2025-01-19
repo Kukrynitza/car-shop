@@ -1,4 +1,9 @@
 import { createContext } from 'react'
 
-const RegistrationContext = createContext<boolean>
+interface RegistrationContextType {
+  registration: boolean
+  setRegistration: (value: boolean) => void
+}
+const RegistrationContext = createContext<RegistrationContextType | undefined>(undefined)
+
 export default RegistrationContext

@@ -1,6 +1,7 @@
 'use client'
-import { useActionState, useState } from 'react'
+import { useActionState, useCallback, useContext, useState } from 'react'
 import { minLength, parse, pipe, regex, string, trim, unknown } from 'valibot'
+import RegistrationContext from '@/contexts/RegistrationContext'
 import styles from './Registration.module.css'
 
 interface RegistrationForm {
@@ -8,12 +9,17 @@ interface RegistrationForm {
   login?: string
   password?: string
 }
+interface RegistrationContextType {
+  registration: boolean;
+  setRegistration: (value: boolean) => void;
+}
 
 const numberShema = pipe(string(), regex(/^\+?[1-9]{1}[0-9]{3,14}$/, 'Некорректный номер телефона'), minLength(9, 'Минимальная длина адреса номера - 9'), trim())
 const loginSchema = pipe(string(), minLength(5, 'Минимальная длина логина - 5'), trim())
 const passwordSchema = pipe(string(), minLength(6, 'Минимальная длина пароля - 6'), trim())
 
 export default function Registration() {
+  const { setRegistration }:RegistrationContextType = useContext(RegistrationContext)
   const [record, setRecord] = useState([false, false, false])
   const [isError, setIsError] = useState<string[]>(['', ''])
   const [status, setStatus] = useState<boolean>(true)
@@ -51,33 +57,55 @@ export default function Registration() {
 
   return (
     <section className={styles.modal}>
-      <div className={styles.space}></div>
+      <div className={styles.space} onClick={() => setRegistration(false)}><svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 256 256" fill="#ffe7b3"><path d="M208,32H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32Zm0,176H48V48H208ZM80,128a8,8,0,0,1,8-8h60.69l-18.35-18.34a8,8,0,0,1,11.32-11.32l32,32a8,8,0,0,1,0,11.32l-32,32a8,8,0,0,1-11.32-11.32L148.69,136H88A8,8,0,0,1,80,128Z" /></svg></div>
       <article className={styles.registration}>
-        <h1 className={styles.h1}>{ status ? 'Вход'
-          : 'Регистрация'}</h1>
+        <h1 className={styles.h1}>
+          {status ? 'Вход'
+            : 'Регистрация'}
+        </h1>
         <form action={formAction} className={styles.form}>
-          <label htmlFor="number" className={styles.error}>{isError[1] === '0' && !record[0] && isError[0] }
-            <input onChange={() => setRecord(record.map((element, index) => (index === 0 ? true : element)))} className={ record[0] ? styles.numberSuccess : styles.numberFailure} id="number" name="number" type="text" defaultValue={message.number} placeholder="Мобильный номер" /></label>
-          <label htmlFor="password" className={styles.error}>{isError[1] === '1' && !record[1] && isError[0] }
-            <input onChange={() => setRecord(record.map((element, index) => (index === 1 ? true : element)))} className={ record[1] ? styles.passwordSuccess : styles.passwordFailure} id="password" name="password" type="password" defaultValue={message.password} placeholder="Пароль" /></label>
-          <label htmlFor="login" className={styles.error}>{isError[1] === '2' && !record[2] && isError[0] }
-            <input onChange={() => setRecord(record.map((element, index) => (index === 2 ? true : element)))} className={record[2] ? styles.loginSuccess : styles.loginFailure} id="login" name="login" type='text' defaultValue={message.login} placeholder='Логин'/></label>
-          <button disabled={!record[0] || !record[1] || !record[2] || isPending} className={
-            !record[0] || !record[1] || !record[2]
+          <label htmlFor="number" className={styles.error}>
+            {isError[1] === '0' && !record[0] ? isError[0] : '\u00A0'}
+            <input type="text" name="number" id="number" className={record[0] ? styles.numberSuccess : styles.numberFailure} defaultValue={message.number} placeholder="Мобильный номер" onChange={() => setRecord(record.map((element, index) => (index === 0 ? true : element)))} />
+          </label>
+          <label htmlFor="password" className={styles.error}>
+            {isError[1] === '1' && !record[1] ? isError[0] : '\u00A0'}
+            <input type="password" name="password" id="password" className={record[1] ? styles.passwordSuccess : styles.passwordFailure} defaultValue={message.password} placeholder="Пароль" onChange={() => setRecord(record.map((element, index) => (index === 1 ? true : element)))} />
+          </label>
+          <label htmlFor="login" className={styles.error}>
+            {isError[1] === '2' && !record[2] ? isError[0] : '\u00A0'}
+            <input type="text" name="login" id="login" className={record[2] ? styles.loginSuccess : styles.loginFailure} defaultValue={message.login} placeholder="Логин" onChange={() => setRecord(record.map((element, index) => (index === 2 ? true : element)))} />
+          </label>
+          <button
+            className={!record[0] || !record[1] || !record[2]
               ? styles.enterFailure
-              : styles.enterSuccess}>Войти</button>
+              : styles.enterSuccess}
+            disabled={!record[0] || !record[1] || !record[2] || isPending}
+          >
+            Войти
+          </button>
         </form>
         <div className={styles.registrationDiv}>
           {status
-            ? (<><button className={styles.registrationButton}
-                onClick={() => setStatus((stat) => !stat)}>
-              Зарегестрироваться
-              </button>
-              <p className={styles.p}> Для тех кто в первый раз на сайте</p></>)
-            : <button className={styles.registrationButton}
-                onClick={() => setStatus((stat) => !stat)}>
-              Войти
-              </button>}
+            ? (
+                <>
+                  <button
+                    className={styles.registrationButton}
+                    onClick={() => setStatus((stat) => !stat)}
+                  >
+                    Зарегестрироваться
+                  </button>
+                  <p className={styles.p}> Для тех кто в первый раз на сайте</p>
+                </>
+              )
+            : (
+                <button
+                  className={styles.registrationButton}
+                  onClick={() => setStatus((stat) => !stat)}
+                >
+                  Войти
+                </button>
+              )}
         </div>
 
       </article>

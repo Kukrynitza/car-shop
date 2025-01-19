@@ -7,10 +7,17 @@
 
 /* stylelint-disable-next-line selector-class-pattern */
 .linkUnactive {
+  display: grid;
+  grid-template-columns: auto auto;
   padding-right: 15px;
   color: #fdd3e8;
   cursor: pointer;
   transition: color 0.1s;
+
+  & :last-child {
+    font-size: 12px;
+    color: #49474e;
+  }
 
   &:hover {
     color: #ffe7b3;
@@ -19,13 +26,24 @@
 
 /* stylelint-disable-next-line selector-class-pattern */
 .linkActive {
+  display: grid;
+  grid-template-columns: auto auto;
   padding-right: 5px;
   color: #ffe7b3;
   cursor: pointer;
   background: linear-gradient(135deg, #201318 90%, #ffe629 5%);
   transition: color 0.1s;
 
-  &:hover {
-    color: #fdd3e8;
+  & :last-child {
+    font-size: 12px;
+    color: #7c7a85;
   }
+}
+
+.form {
+  background-color: #381525;
+}
+/* stylelint-disable-next-line selector-class-pattern */
+.formDiv {
+  border: 3px solid #4d3000;
 }
