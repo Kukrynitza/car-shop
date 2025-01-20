@@ -33,7 +33,6 @@ export interface AnnouncementTable {
   photo_ids: number[]
   place_of_production: string
   price: number
-  role: boolean
   text: string
   transmission: string
   type_of_equipment: string

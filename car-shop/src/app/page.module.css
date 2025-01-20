@@ -40,10 +40,319 @@
   }
 }
 
-.form {
+/* stylelint-disable-next-line selector-class-pattern */
+.formLarge {
+  display: grid;
+  grid-template-areas:
+    "model model typeOfEquipment brandCountry brandCountry coast coast transmission"
+    "volume volume mileage mileage placeOfProduction year year color"
+    "power power fuel fuel space drive advancedSearch advancedSearch";
+  grid-template-rows: repeat(3, 1fr);
+  grid-template-columns: repeat(8, 1fr);
+  gap: 15px;
+  width: 1000px;
+  height: 200px;
+  padding: 15px;
+  margin-top: 55px;
+  color: #fdd3e8;
   background-color: #381525;
+  border-radius: 15px;
 }
 /* stylelint-disable-next-line selector-class-pattern */
-.formDiv {
-  border: 3px solid #4d3000;
+.formSmall {
+  display: grid;
+  grid-template-areas:
+    "model model typeOfEquipment brandCountry brandCountry coast coast transmission"
+    "volume volume mileage mileage placeOfProduction year year color"
+    "advancedSearch advancedSearch advancedSearch advancedSearch advancedSearch advancedSearch advancedSearch advancedSearch";
+  grid-template-rows: repeat(3, 1fr);
+  grid-template-columns: repeat(8, 1fr);
+  gap: 15px;
+  width: 1000px;
+  height: 200px;
+  padding: 15px;
+  margin-top: 55px;
+  color: #fdd3e8;
+  background-color: #381525;
+  border-radius: 15px;
+}
+
+.coast {
+  display: grid;
+  grid-area: coast;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  width: 100%;
+  padding: 0 8px;
+  border: 2px solid #836a21;
+  border-radius: 8px;
+
+  & input {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 8px;
+    border: none;
+  }
+
+  & :first-child {
+    border-right: 2px solid #836a21;
+  }
+
+  &:hover {
+    border: 2px solid #ffe629;
+
+    & :first-child {
+      border-right: 2px solid #ffe629;
+    }
+  }
+}
+
+.volume {
+  display: grid;
+  grid-area: volume;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+  padding: 0 8px;
+  border: 2px solid #836a21;
+  border-radius: 8px;
+
+  & input {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 8px;
+    border: none;
+  }
+
+  & :first-child {
+    border-right: 2px solid #836a21;
+  }
+
+  &:hover {
+    border: 2px solid #ffe629;
+
+    & :first-child {
+      border-right: 2px solid #ffe629;
+    }
+  }
+}
+
+.mileage {
+  display: grid;
+  grid-area: mileage;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+  padding: 0 8px;
+  border: 2px solid #836a21;
+  border-radius: 8px;
+
+  & input {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 8px;
+    border: none;
+  }
+
+  & :first-child {
+    border-right: 2px solid #836a21;
+  }
+
+  &:hover {
+    border: 2px solid #ffe629;
+
+    & :first-child {
+      border-right: 2px solid #ffe629;
+    }
+  }
+}
+
+.year {
+  display: grid;
+  grid-area: year;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  width: 100%;
+  padding: 0 8px;
+  border: 2px solid #836a21;
+  border-radius: 8px;
+
+  & input {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 8px;
+    border: none;
+  }
+
+  & :first-child {
+    border-right: 2px solid #836a21;
+  }
+
+  &:hover {
+    border: 2px solid #ffe629;
+
+    & :first-child {
+      border-right: 2px solid #ffe629;
+    }
+  }
+}
+
+.power {
+  display: grid;
+  grid-area: power;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+  padding: 0 8px;
+  border: 2px solid #836a21;
+  border-radius: 8px;
+
+  & input {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 8px;
+    border: none;
+  }
+
+  & :first-child {
+    border-right: 2px solid #836a21;
+  }
+
+  &:hover {
+    border: 2px solid #ffe629;
+
+    & :first-child {
+      border-right: 2px solid #ffe629;
+    }
+  }
+}
+/* stylelint-disable-next-line selector-class-pattern */
+.advancedSearch {
+  grid-area: advancedSearch;
+  padding: 0 8px;
+  text-align: center;
+  background-color: #836a21;
+  border-radius: 8px;
+
+  &:hover {
+    border: 2px solid #ffe629;
+  }
+}
+
+.model {
+  box-sizing: content-box;
+  display: grid;
+  grid-area: model;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8px;
+  border: 2px solid #836a21;
+  border-radius: 8px;
+
+  &:hover {
+    border: 2px solid #ffe629;
+  }
+}
+/* stylelint-disable-next-line selector-class-pattern */
+.typeOfEquipment {
+  display: grid;
+  grid-area: typeOfEquipment;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8px;
+  border: 2px solid #836a21;
+  border-radius: 8px;
+
+  &:hover {
+    border: 2px solid #ffe629;
+  }
+}
+/* stylelint-disable-next-line selector-class-pattern */
+.brandCountry {
+  display: grid;
+  grid-area: brandCountry;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8px;
+  border: 2px solid #836a21;
+  border-radius: 8px;
+
+  &:hover {
+    border: 2px solid #ffe629;
+  }
+}
+
+.transmission {
+  display: grid;
+  grid-area: transmission;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8px;
+  border: 2px solid #836a21;
+  border-radius: 8px;
+
+  &:hover {
+    border: 2px solid #ffe629;
+  }
+}
+/* stylelint-disable-next-line selector-class-pattern */
+.placeOfProduction {
+  display: grid;
+  grid-area: placeOfProduction;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8px;
+  border: 2px solid #836a21;
+  border-radius: 8px;
+
+  &:hover {
+    border: 2px solid #ffe629;
+  }
+}
+
+.drive {
+  display: grid;
+  grid-area: drive;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8px;
+  border: 2px solid #836a21;
+  border-radius: 8px;
+
+  &:hover {
+    border: 2px solid #ffe629;
+  }
+}
+
+.fuel {
+  display: grid;
+  grid-area: fuel;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8px;
+  border: 2px solid #836a21;
+  border-radius: 8px;
+
+  &:hover {
+    border: 2px solid #ffe629;
+  }
+}
+
+.color {
+  display: grid;
+  grid-area: color;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8px;
+  border: 2px solid #836a21;
+  border-radius: 8px;
+
+  &:hover {
+    border: 2px solid #ffe629;
+  }
 }
