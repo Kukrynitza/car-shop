@@ -81,15 +81,15 @@ export default function Registration() {
         <form action={formAction} className={styles.form}>
           <label htmlFor="number" className={styles.error}>
             {isError[1] === '0' && !record[0] ? isError[0] : '\u00A0'}
-            <input type="text" name="number" id="number" className={record[0] ? styles.numberSuccess : styles.numberFailure} defaultValue={message.number} placeholder="Мобильный номер" onChange={() => setRecord(record.map((element, index) => (index === 0 ? true : element)))} />
+            <input type="text" name="number" id="number" className={record[0] ? styles.numberSuccess : styles.numberFailure} defaultValue={typeof message.number === 'string' ? message.number : ''} placeholder="Мобильный номер" onChange={() => setRecord(record.map((element, index) => (index === 0 ? true : element)))} />
           </label>
           <label htmlFor="password" className={styles.error}>
             {isError[1] === '1' && !record[1] ? isError[0] : '\u00A0'}
-            <input type="password" name="password" id="password" className={record[1] ? styles.passwordSuccess : styles.passwordFailure} defaultValue={message.password} placeholder="Пароль" onChange={() => setRecord(record.map((element, index) => (index === 1 ? true : element)))} />
+            <input type="password" name="password" id="password" className={record[1] ? styles.passwordSuccess : styles.passwordFailure} defaultValue={typeof message.password === 'string' ? message.password : ''} placeholder="Пароль" onChange={() => setRecord(record.map((element, index) => (index === 1 ? true : element)))} />
           </label>
           <label htmlFor="login" className={styles.error}>
             {isError[1] === '2' && !record[2] ? isError[0] : '\u00A0'}
-            <input type="text" name="login" id="login" className={record[2] ? styles.loginSuccess : styles.loginFailure} defaultValue={message.login} placeholder="Логин" onChange={() => setRecord(record.map((element, index) => (index === 2 ? true : element)))} />
+            <input type="text" name="login" id="login" className={record[2] ? styles.loginSuccess : styles.loginFailure} defaultValue={typeof message.login === 'string' ? message.login : ''} placeholder="Логин" onChange={() => setRecord(record.map((element, index) => (index === 2 ? true : element)))} />
           </label>
           <button
             type="submit"
