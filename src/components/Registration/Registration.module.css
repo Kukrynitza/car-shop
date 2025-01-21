@@ -1,3 +1,4 @@
+/* stylelint-disable-next-line selector-class-pattern */
 .modalVisible {
   position: fixed;
   top: 0;
@@ -7,7 +8,7 @@
   height: 100%;
   visibility: visible;
 }
-
+/* stylelint-disable-next-line selector-class-pattern */
 .modalUnvisible {
   position: fixed;
   top: 0;
@@ -26,7 +27,7 @@
   transition: opacity 0.5s ease-in-out 0.5s, transform 0.5s ease-in-out 0.5s;
   transform: translateX(20px);
 }
-
+/* stylelint-disable-next-line selector-class-pattern */
 .modalVisible .space {
   opacity: 1;
   transform: translateX(0);
@@ -42,13 +43,14 @@
   transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
   transform: translateX(100%);
 }
-
+/* stylelint-disable-next-line selector-class-pattern */
 .modalVisible .registration {
   opacity: 1;
   transform: translateX(0);
 }
-
+/* stylelint-disable-next-line selector-class-pattern */
 .modalUnvisible .space,
+/* stylelint-disable-next-line selector-class-pattern */
 .modalUnvisible .registration {
   opacity: 0;
   transition: none;

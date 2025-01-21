@@ -23,7 +23,6 @@ export default async function getSortInfo(modelActive:boolean, brands: number[])
   const modelAndPlace = await selectModelAndPlace(modelActive, brands)
   const modelName = cleanAndSortArray(modelAndPlace.map((element) => element.model))
   const placeOfProduction = cleanAndSortArray(modelAndPlace.map((element) => element.place))
-  console.log(modelAndPlace)
 
   return {
     brandCountry,

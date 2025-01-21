@@ -1,13 +1,12 @@
 'use server'
 import database from '@/modules/database'
 
-// eslint-disable-next-line @typescript-eslint/require-await
 export default async function selectCarBrand(): Promise<
   { id: number; count: number; name: string; }[]
 > {
   return database
     .selectFrom('brand')
-    .leftJoin('announcements', 'brand.id', 'announcements.brand_id')
+    .leftJoin('announcements', 'brand.id', 'announcements.brandId')
     .select(({ fn }) => [
       'brand.id',
       'brand.name',

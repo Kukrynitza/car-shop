@@ -1,14 +1,15 @@
+/* eslint-disable @eslint-react/no-complex-conditional-rendering */
 'use client'
-import { useActionState, useCallback, useContext, useState } from 'react'
-import { minLength, parse, pipe, regex, string, trim, unknown } from 'valibot'
+import { useActionState, useContext, useState } from 'react'
+import { minLength, parse, pipe, regex, string, trim } from 'valibot'
 import RegistrationContext from '@/contexts/RegistrationContext'
 import styles from './Registration.module.css'
 
-interface RegistrationForm {
-  email?: string
-  login?: string
-  password?: string
-}
+// interface RegistrationForm {
+//   email?: string
+//   login?: string
+//   password?: string
+// }
 interface RegistrationContextType {
   registration: boolean;
   setRegistration: (value: boolean) => void;
@@ -19,29 +20,42 @@ const loginSchema = pipe(string(), minLength(5, 'Минимальная длин
 const passwordSchema = pipe(string(), minLength(6, 'Минимальная длина пароля - 6'), trim())
 
 export default function Registration() {
-  const { registration, setRegistration }:RegistrationContextType = useContext(RegistrationContext)
+  const context = useContext<RegistrationContextType | null>(RegistrationContext)
+  const registration = context?.registration
+  const setRegistration = context?.setRegistration
+  if (!setRegistration) {
+    throw new Error('setRegistration не доступен в RegistrationContext.')
+  }
   const [record, setRecord] = useState([false, false, false])
   const [isError, setIsError] = useState<string[]>(['', ''])
   const [status, setStatus] = useState<boolean>(true)
-  const [message, formAction, isPending] = useActionState((message, formData) => {
+  const [
+    message, formAction, isPending
+  ] = useActionState((_: unknown, formData: FormData) => {
     setIsError(['', ''])
     try {
       parse(numberShema, formData.get('number'))
     } catch (error) {
-      setIsError([error.message, '0'])
-      setRecord(record.map((element, index) => (index === 0 ? false : element)))
+      if (error instanceof Error) {
+        setIsError([error.message, '0'])
+        setRecord(record.map((element, index) => (index === 0 ? false : element)))
+      }
     }
     try {
       parse(passwordSchema, formData.get('password'))
     } catch (error) {
-      setIsError([error.message, '1'])
-      setRecord(record.map((element, index) => (index === 1 ? false : element)))
+      if (error instanceof Error) {
+        setIsError([error.message, '1'])
+        setRecord(record.map((element, index) => (index === 1 ? false : element)))
+      }
     }
     try {
       parse(loginSchema, formData.get('login'))
     } catch (error) {
-      setIsError([error.message, '2'])
-      setRecord(record.map((element, index) => (index === 2 ? false : element)))
+      if (error instanceof Error) {
+        setIsError([error.message, '2'])
+        setRecord(record.map((element, index) => (index === 2 ? false : element)))
+      }
     }
 
     return {
@@ -54,10 +68,11 @@ export default function Registration() {
     number: '+375',
     password: ''
   })
+  // console.log(isError)
 
   return (
     <section className={registration ? styles.modalVisible : styles.modalUnvisible}>
-      <div className={styles.space} onClick={() => setRegistration(false)}><svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 256 256" fill="#ffe7b3"><path d="M208,32H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32Zm0,176H48V48H208ZM80,128a8,8,0,0,1,8-8h60.69l-18.35-18.34a8,8,0,0,1,11.32-11.32l32,32a8,8,0,0,1,0,11.32l-32,32a8,8,0,0,1-11.32-11.32L148.69,136H88A8,8,0,0,1,80,128Z" /></svg></div>
+      <button type="button" className={styles.space} onClick={() => setRegistration(false)}><svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 256 256" fill="#ffe7b3"><path d="M208,32H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32Zm0,176H48V48H208ZM80,128a8,8,0,0,1,8-8h60.69l-18.35-18.34a8,8,0,0,1,11.32-11.32l32,32a8,8,0,0,1,0,11.32l-32,32a8,8,0,0,1-11.32-11.32L148.69,136H88A8,8,0,0,1,80,128Z" /></svg></button>
       <article className={styles.registration}>
         <h1 className={styles.h1}>
           {status ? 'Вход'
@@ -77,6 +92,7 @@ export default function Registration() {
             <input type="text" name="login" id="login" className={record[2] ? styles.loginSuccess : styles.loginFailure} defaultValue={message.login} placeholder="Логин" onChange={() => setRecord(record.map((element, index) => (index === 2 ? true : element)))} />
           </label>
           <button
+            type="submit"
             className={!record[0] || !record[1] || !record[2]
               ? styles.enterFailure
               : styles.enterSuccess}
@@ -90,6 +106,7 @@ export default function Registration() {
             ? (
                 <>
                   <button
+                    type="button"
                     className={styles.registrationButton}
                     onClick={() => setStatus((stat) => !stat)}
                   >
@@ -100,6 +117,7 @@ export default function Registration() {
               )
             : (
                 <button
+                  type="button"
                   className={styles.registrationButton}
                   onClick={() => setStatus((stat) => !stat)}
                 >

@@ -1,5 +1,5 @@
 'use client'
-import { useActionState, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import selectAllCarBrand from '@/actions/CarBrand/selectAllCarBrand'
 import selectFirstCarBrand from '@/actions/CarBrand/selectFirstCarBrand'
 import SortForm from '@/components/SortForm/SortForm'
@@ -11,7 +11,6 @@ interface BrandForFilter {
   active: boolean
   count: number
   name: string
-  slug: string
 }
 // interface Brand {
 //   id: number
@@ -19,7 +18,7 @@ interface BrandForFilter {
 //   name: string
 // }
 interface SortInfo {
-  brandCountry: string[]
+  brandCountry?: string[]
   color: string[]
   drive: string[]
   fuel: string[]
@@ -72,13 +71,14 @@ export default function Page() {
         .filter((element) => element.active)
         .map((element) => element.id)
       const modelActive = ids.length !== 0
-      console.log(ids, modelActive)
+      // console.log(ids, modelActive)
       const data = await sortInfo(modelActive, ids)
       setSortInfoData(data)
     }
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     fetchData()
   }, [brandFilter])
-  console.log(sortInfoData)
+  // console.log(sortInfoData)
   useEffect(() => {
     const fetchData = async () => {
       const carBrand = (otherBrand) ? await selectAllCarBrand() : await selectFirstCarBrand()
@@ -110,9 +110,9 @@ export default function Page() {
   function clickInSortElement(type: string) : void {
     setActiveSortButton((prevState) => ({ ...prevState, [type]: true }))
   }
-  function onMouseLeaveSortElement(type: string) : void {
-    setActiveSortButton((prevState) => ({ ...prevState, [type]: false }))
-  }
+  // function onMouseLeaveSortElement(type: string) : void {
+  //   setActiveSortButton((prevState) => ({ ...prevState, [type]: false }))
+  // }
 
   return (
     <div>
@@ -138,7 +138,7 @@ export default function Page() {
         <button type="button" className={styles.model} onClick={() => clickInSortElement('modelName')}> Модель<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="#fdd3e8"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" /></svg></button>
         {activeSortButton.modelName && (
           <SortForm
-            activeData={activeSortData ?? []}
+            activeData={activeSortData ?? null}
             data={sortInfoData?.modelName ?? []}
             setActiveData={setActiveSortData}
           />
@@ -146,7 +146,7 @@ export default function Page() {
         <button type="button" className={styles.typeOfEquipment}>Кузов<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="#fdd3e8"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" /></svg></button>
         {activeSortButton.typeOfEquipment && (
           <SortForm
-            activeData={activeSortData ?? []}
+            activeData={activeSortData ?? null}
             data={sortInfoData?.typeOfEquipment ?? []}
             setActiveData={setActiveSortData}
           />
@@ -154,7 +154,7 @@ export default function Page() {
         <button type="button" className={styles.brandCountry}>Страна бренда<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="#fdd3e8"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" /></svg></button>
         {activeSortButton.brandCountry && (
           <SortForm
-            activeData={activeSortData ?? []}
+            activeData={activeSortData ?? null}
             data={sortInfoData?.brandCountry ?? []}
             setActiveData={setActiveSortData}
           />
@@ -166,7 +166,7 @@ export default function Page() {
         <button type="button" className={styles.transmission}>КПП<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="#fdd3e8"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" /></svg></button>
         {activeSortButton.transmission && (
           <SortForm
-            activeData={activeSortData ?? []}
+            activeData={activeSortData ?? null}
             data={sortInfoData?.transmission ?? []}
             setActiveData={setActiveSortData}
           />
@@ -182,7 +182,7 @@ export default function Page() {
         <button type="button" className={styles.placeOfProduction}>Страна-производитель<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="#fdd3e8"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" /></svg></button>
         {activeSortButton.placeOfProduction && (
           <SortForm
-            activeData={activeSortData ?? []}
+            activeData={activeSortData ?? null}
             data={sortInfoData?.placeOfProduction ?? []}
             setActiveData={setActiveSortData}
           />
@@ -194,7 +194,7 @@ export default function Page() {
         <button type="button" className={styles.color}>Цвет <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="#fdd3e8"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" /></svg></button>
         {activeSortButton.color && (
           <SortForm
-            activeData={activeSortData ?? []}
+            activeData={activeSortData ?? null}
             data={sortInfoData?.color ?? []}
             setActiveData={setActiveSortData}
           />
@@ -226,7 +226,7 @@ export default function Page() {
             <button type="button" className={styles.fuel}>Топливо<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="#fdd3e8"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" /></svg></button>
             {activeSortButton.fuel && (
               <SortForm
-                activeData={activeSortData ?? []}
+                activeData={activeSortData ?? null}
                 data={sortInfoData?.fuel ?? []}
                 setActiveData={setActiveSortData}
               />
@@ -234,7 +234,7 @@ export default function Page() {
             <button type="button" className={styles.drive}>Привод<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="#fdd3e8"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" /></svg></button>
             {activeSortButton.drive && (
               <SortForm
-                activeData={activeSortData ?? []}
+                activeData={activeSortData ?? null}
                 data={sortInfoData?.drive ?? []}
                 setActiveData={setActiveSortData}
               />

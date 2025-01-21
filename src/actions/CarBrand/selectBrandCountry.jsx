@@ -1,7 +1,6 @@
 'use server'
 import database from '@/modules/database'
 
-// eslint-disable-next-line @typescript-eslint/require-await
 export default async function selectBrandCountry() {
   const countries = await database
     .selectFrom('brand')

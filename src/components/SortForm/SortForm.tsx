@@ -17,9 +17,9 @@ interface SortFormProps {
 }
 
 export default function SortForm({
-  activeData,
-  data,
-  setActiveData
+  // activeData,
+  data
+  // setActiveData
 }: SortFormProps) {
   return (
     <ul className={styles.form}>

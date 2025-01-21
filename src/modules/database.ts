@@ -22,30 +22,30 @@ export interface UserTable {
 
 export interface AnnouncementTable {
   id: GeneratedAlways<number>
+  brandId: number
+  userId: number
   announcements: number
-  brand_id: number
   color: string
   drive: string
   fuel: string
   mileage: number
-  model_name: string
+  modelName: string
   password: string
-  photo_ids: number[]
-  place_of_production: string
+  photoIds: number[]
+  placeOfProduction: string
   price: number
   text: string
   transmission: string
-  type_of_equipment: string
-  user_id: number
+  typeOfEquipment: string
   volume: number
   year: number
   createdAt: GeneratedAlways<Date>
 }
 
 export interface Database {
-  announcement: AnnouncementTable
+  announcements: AnnouncementTable
   brand: BrandTable
-  user: UserTable
+  users: UserTable
 }
 
 const database = new Kysely<Database>({

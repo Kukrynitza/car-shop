@@ -8,14 +8,14 @@ export default async function selectModelAndPlace(modelActive:boolean, brands: n
   const ModelAndPlace = modelActive
     ? await database
       .selectFrom('announcements')
-      .select(['place_of_production', 'model_name'])
-      .where('brand_id', 'in', brands)
-      .groupBy(['place_of_production', 'model_name'])
+      .select(['placeOfProduction', 'modelName'])
+      .where('brandId', 'in', brands)
+      .groupBy(['placeOfProduction', 'modelName'])
       .execute()
     : await database
       .selectFrom('announcements')
-      .select(['place_of_production', 'model_name'])
-      .groupBy(['place_of_production', 'model_name'])
+      .select(['placeOfProduction', 'modelName'])
+      .groupBy(['placeOfProduction', 'modelName'])
       .execute()
 
   return ModelAndPlace.map((element) => ({

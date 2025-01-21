@@ -1,6 +1,6 @@
 'use client'
 import 'the-new-css-reset'
-import { type ReactNode, useContext, useState } from 'react'
+import { useState } from 'react'
 import Header from '@/components/Header/Header'
 import Registration from '@/components/Registration/Registration'
 import RegistrationContext from '@/contexts/RegistrationContext'
@@ -8,13 +8,13 @@ import './global.css'
 // eslint-disable-next-line import-x/first
 import '@fontsource/pt-sans'
 
-interface RegistrationContextType {
-  registration: boolean;
-  setRegistration: (value: boolean) => void;
-}
+// interface RegistrationContextType {
+//   registration: boolean;
+//   setRegistration: (value: boolean) => void;
+// }
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode; }>) {
   // const registration = useContext(RegistrationContext)
-  const [registration, setRegistration] = useState(false)
+  const [registration, setRegistration] = useState(true)
 
   return (
     <html lang="ru">
