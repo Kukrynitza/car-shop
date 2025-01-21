@@ -254,6 +254,7 @@
 }
 /* stylelint-disable-next-line selector-class-pattern */
 .typeOfEquipment {
+  position: relative;
   display: grid;
   grid-area: typeOfEquipment;
   grid-template-columns: 1fr auto;
@@ -269,6 +270,7 @@
 }
 /* stylelint-disable-next-line selector-class-pattern */
 .brandCountry {
+  position: relative;
   display: grid;
   grid-area: brandCountry;
   grid-template-columns: 1fr auto;
@@ -284,6 +286,7 @@
 }
 
 .transmission {
+  position: relative;
   display: grid;
   grid-area: transmission;
   grid-template-columns: 1fr auto;
@@ -299,6 +302,7 @@
 }
 /* stylelint-disable-next-line selector-class-pattern */
 .placeOfProduction {
+  position: relative;
   display: grid;
   grid-area: placeOfProduction;
   grid-template-columns: 1fr auto;
@@ -314,6 +318,7 @@
 }
 
 .drive {
+  position: relative;
   display: grid;
   grid-area: drive;
   grid-template-columns: 1fr auto;
@@ -329,6 +334,7 @@
 }
 
 .fuel {
+  position: relative;
   display: grid;
   grid-area: fuel;
   grid-template-columns: 1fr auto;
@@ -344,6 +350,7 @@
 }
 
 .color {
+  position: relative;
   display: grid;
   grid-area: color;
   grid-template-columns: 1fr auto;

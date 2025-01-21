@@ -14,7 +14,7 @@ import '@fontsource/pt-sans'
 // }
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode; }>) {
   // const registration = useContext(RegistrationContext)
-  const [registration, setRegistration] = useState(true)
+  const [registration, setRegistration] = useState(false)
 
   return (
     <html lang="ru">

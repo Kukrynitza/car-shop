@@ -53,7 +53,7 @@ export default function Page() {
   const [largeSort, setLargeSort] = useState(false)
   const [sortInfoData, setSortInfoData] = useState<SortInfo | null>(null)
   const [activeSortData, setActiveSortData] = useState<ActiveSort | null>(null)
-  const [activeSortButton, setActiveSortButton] = useState<ActiveButton>(
+  const [activeSortButton, setActiveSortButton] = useState<ActiveButton >(
     {
       brandCountry: false,
       color: false,
@@ -110,9 +110,6 @@ export default function Page() {
   function clickInSortElement(type: string) : void {
     setActiveSortButton((prevState) => ({ ...prevState, [type]: true }))
   }
-  // function onMouseLeaveSortElement(type: string) : void {
-  //   setActiveSortButton((prevState) => ({ ...prevState, [type]: false }))
-  // }
 
   return (
     <div>
@@ -134,43 +131,63 @@ export default function Page() {
         </button>
       </ul>
       <form action="formAction" className={largeSort ? styles.formLarge : styles.formSmall}>
-        {/* onMouseLeave={() => onMouseLeaveSortElement('modelName')} */}
-        <button type="button" className={styles.model} onClick={() => clickInSortElement('modelName')}> Модель<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="#fdd3e8"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" /></svg></button>
-        {activeSortButton.modelName && (
-          <SortForm
-            activeData={activeSortData ?? null}
-            data={sortInfoData?.modelName ?? []}
-            setActiveData={setActiveSortData}
-          />
-        )}
-        <button type="button" className={styles.typeOfEquipment}>Кузов<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="#fdd3e8"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" /></svg></button>
-        {activeSortButton.typeOfEquipment && (
-          <SortForm
-            activeData={activeSortData ?? null}
-            data={sortInfoData?.typeOfEquipment ?? []}
-            setActiveData={setActiveSortData}
-          />
-        )}
-        <button type="button" className={styles.brandCountry}>Страна бренда<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="#fdd3e8"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" /></svg></button>
-        {activeSortButton.brandCountry && (
-          <SortForm
-            activeData={activeSortData ?? null}
-            data={sortInfoData?.brandCountry ?? []}
-            setActiveData={setActiveSortData}
-          />
-        )}
+        <button type="button" className={styles.model} onClick={() => clickInSortElement('modelName')}>
+          {' '}
+          Модель
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="#fdd3e8"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" /></svg>
+          {activeSortButton.modelName && (
+            <SortForm
+              activeData={activeSortData ?? null}
+              category="modelName"
+              data={sortInfoData?.modelName ?? []}
+              setActiveData={setActiveSortData}
+              setActiveSortButton={setActiveSortButton}
+            />
+          )}
+        </button>
+        <button type="button" className={styles.typeOfEquipment} onClick={() => clickInSortElement('typeOfEquipment')}>
+          Кузов
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="#fdd3e8"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" /></svg>
+          {activeSortButton.typeOfEquipment && (
+            <SortForm
+              activeData={activeSortData ?? null}
+              category="typeOfEquipment"
+              data={sortInfoData?.typeOfEquipment ?? []}
+              setActiveData={setActiveSortData}
+              setActiveSortButton={setActiveSortButton}
+            />
+          )}
+        </button>
+        <button type="button" className={styles.brandCountry} onClick={() => clickInSortElement('brandCountry')}>
+          Страна бренда
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="#fdd3e8"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" /></svg>
+          {activeSortButton.brandCountry && (
+            <SortForm
+              activeData={activeSortData ?? null}
+              category="brandCountry"
+              data={sortInfoData?.brandCountry ?? []}
+              setActiveData={setActiveSortData}
+              setActiveSortButton={setActiveSortButton}
+            />
+          )}
+        </button>
         <div className={styles.coast}>
           <input type="text" placeholder="Цена от, $" />
           <input type="text" placeholder="до" />
         </div>
-        <button type="button" className={styles.transmission}>КПП<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="#fdd3e8"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" /></svg></button>
-        {activeSortButton.transmission && (
-          <SortForm
-            activeData={activeSortData ?? null}
-            data={sortInfoData?.transmission ?? []}
-            setActiveData={setActiveSortData}
-          />
-        )}
+        <button type="button" className={styles.transmission} onClick={() => clickInSortElement('transmission')}>
+          КПП
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="#fdd3e8"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" /></svg>
+          {activeSortButton.transmission && (
+            <SortForm
+              activeData={activeSortData ?? null}
+              category="transmission"
+              data={sortInfoData?.transmission ?? []}
+              setActiveData={setActiveSortData}
+              setActiveSortButton={setActiveSortButton}
+            />
+          )}
+        </button>
         <div className={styles.volume}>
           <input type="text" placeholder="Объем от, л." />
           <input type="text" placeholder="до" />
@@ -179,26 +196,36 @@ export default function Page() {
           <input type="text" placeholder="Пробег от, км" />
           <input type="text" placeholder="до" />
         </div>
-        <button type="button" className={styles.placeOfProduction}>Страна-производитель<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="#fdd3e8"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" /></svg></button>
-        {activeSortButton.placeOfProduction && (
-          <SortForm
-            activeData={activeSortData ?? null}
-            data={sortInfoData?.placeOfProduction ?? []}
-            setActiveData={setActiveSortData}
-          />
-        )}
+        <button type="button" className={styles.placeOfProduction} onClick={() => clickInSortElement('placeOfProduction')}>
+          Страна-производитель
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="#fdd3e8"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" /></svg>
+          {activeSortButton.placeOfProduction && (
+            <SortForm
+              activeData={activeSortData ?? null}
+              category="placeOfProduction"
+              data={sortInfoData?.placeOfProduction ?? []}
+              setActiveData={setActiveSortData}
+              setActiveSortButton={setActiveSortButton}
+            />
+          )}
+        </button>
         <div className={styles.year}>
           <input type="text" placeholder="Год от" />
           <input type="text" placeholder="до" />
         </div>
-        <button type="button" className={styles.color}>Цвет <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="#fdd3e8"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" /></svg></button>
-        {activeSortButton.color && (
-          <SortForm
-            activeData={activeSortData ?? null}
-            data={sortInfoData?.color ?? []}
-            setActiveData={setActiveSortData}
-          />
-        )}
+        <button type="button" className={styles.color} onClick={() => clickInSortElement('color')}>
+          Цвет
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="#fdd3e8"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" /></svg>
+          {activeSortButton.color && (
+            <SortForm
+              activeData={activeSortData ?? null}
+              category="color"
+              data={sortInfoData?.color ?? []}
+              setActiveData={setActiveSortData}
+              setActiveSortButton={setActiveSortButton}
+            />
+          )}
+        </button>
         <button type="button" className={styles.advancedSearch} onClick={() => setLargeSort((sort) => !sort)}>
           {largeSort
             ? (
@@ -223,22 +250,32 @@ export default function Page() {
               <input type="text" placeholder="Мощность от" />
               <input type="text" placeholder="до, л.с." />
             </div>
-            <button type="button" className={styles.fuel}>Топливо<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="#fdd3e8"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" /></svg></button>
-            {activeSortButton.fuel && (
-              <SortForm
-                activeData={activeSortData ?? null}
-                data={sortInfoData?.fuel ?? []}
-                setActiveData={setActiveSortData}
-              />
-            )}
-            <button type="button" className={styles.drive}>Привод<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="#fdd3e8"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" /></svg></button>
-            {activeSortButton.drive && (
-              <SortForm
-                activeData={activeSortData ?? null}
-                data={sortInfoData?.drive ?? []}
-                setActiveData={setActiveSortData}
-              />
-            )}
+            <button type="button" className={styles.fuel} onClick={() => clickInSortElement('fuel')}>
+              Топливо
+              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="#fdd3e8"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" /></svg>
+              {activeSortButton.fuel && (
+                <SortForm
+                  activeData={activeSortData ?? null}
+                  category="fuel"
+                  data={sortInfoData?.fuel ?? []}
+                  setActiveData={setActiveSortData}
+                  setActiveSortButton={setActiveSortButton}
+                />
+              )}
+            </button>
+            <button type="button" className={styles.drive} onClick={() => clickInSortElement('drive')}>
+              Привод
+              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="#fdd3e8"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" /></svg>
+              {activeSortButton.drive && (
+                <SortForm
+                  activeData={activeSortData ?? null}
+                  category="drive"
+                  data={sortInfoData?.drive ?? []}
+                  setActiveData={setActiveSortData}
+                  setActiveSortButton={setActiveSortButton}
+                />
+              )}
+            </button>
           </>
         )}
       </form>

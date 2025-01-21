@@ -10,19 +10,37 @@ interface ActiveSort {
   transmission?: string[]
   typeOfEquipment?: string[]
 }
+interface ActiveButton {
+  brandCountry: boolean;
+  color: boolean;
+  drive: boolean;
+  fuel: boolean;
+  modelName: boolean;
+  placeOfProduction: boolean;
+  transmission: boolean;
+  typeOfEquipment: boolean;
+}
 interface SortFormProps {
   activeData: ActiveSort | null;
+  category: string;
   data: string[];
   setActiveData: (value: ActiveSort | null) => void;
+  setActiveSortButton: (value: ActiveButton) => void;
 }
-
 export default function SortForm({
-  // activeData,
-  data
-  // setActiveData
+  activeData,
+  category,
+  data,
+  setActiveData,
+  setActiveSortButton
 }: SortFormProps) {
+  function onMouseLeaveSortElement(activeCategory: string) {
+    setActiveSortButton((prev) => ({ ...prev, [activeCategory]: false }))
+  }
+
   return (
-    <ul className={styles.form}>
+    // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
+    <ul className={styles.form} onMouseLeave={() => onMouseLeaveSortElement(category)}>
       {data.map((element:string) => (<li key={element}>{element}</li>))}
     </ul>
   )
