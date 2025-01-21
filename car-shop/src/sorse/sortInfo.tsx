@@ -13,12 +13,16 @@ interface SortInfo {
   typeOfEquipment: string[]
 }
 
+function cleanAndSortArray(arr: string[]): string[] {
+  return Array.from(new Set(arr)).sort()
+}
+
 export default async function getSortInfo(modelActive:boolean, brands: number[])
   : Promise<SortInfo> {
   const brandCountry = await selectBrandCountry()
   const modelAndPlace = await selectModelAndPlace(modelActive, brands)
-  const modelName = modelAndPlace.map((element) => element.model)
-  const placeOfProduction = modelAndPlace.map((element) => element.place)
+  const modelName = cleanAndSortArray(modelAndPlace.map((element) => element.model))
+  const placeOfProduction = cleanAndSortArray(modelAndPlace.map((element) => element.place))
   console.log(modelAndPlace)
 
   return {

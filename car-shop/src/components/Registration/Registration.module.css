@@ -1,18 +1,35 @@
-/* --error-color: #e54d2e; */
-
-.modal {
+.modalVisible {
   position: fixed;
   top: 0;
   display: grid;
   grid-template-columns: 2fr 1fr;
   width: 100%;
   height: 100%;
+  visibility: visible;
+}
+
+.modalUnvisible {
+  position: fixed;
+  top: 0;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  width: 100%;
+  height: 100%;
+  visibility: hidden;
 }
 
 .space {
   display: grid;
-  place-items: center center;
+  place-items: center;
   background: rgb(0 0 0 / 50%);
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out 0.5s, transform 0.5s ease-in-out 0.5s;
+  transform: translateX(20px);
+}
+
+.modalVisible .space {
+  opacity: 1;
+  transform: translateX(0);
 }
 
 .registration {
@@ -21,6 +38,21 @@
   row-gap: 40px;
   color: #ffe7b3;
   background-color: #1a191b;
+  opacity: 0;
+  transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+  transform: translateX(100%);
+}
+
+.modalVisible .registration {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.modalUnvisible .space,
+.modalUnvisible .registration {
+  opacity: 0;
+  transition: none;
+  transform: translateX(20px);
 }
 
 .h1 {

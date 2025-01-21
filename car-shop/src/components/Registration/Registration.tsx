@@ -19,7 +19,7 @@ const loginSchema = pipe(string(), minLength(5, 'Минимальная длин
 const passwordSchema = pipe(string(), minLength(6, 'Минимальная длина пароля - 6'), trim())
 
 export default function Registration() {
-  const { setRegistration }:RegistrationContextType = useContext(RegistrationContext)
+  const { registration, setRegistration }:RegistrationContextType = useContext(RegistrationContext)
   const [record, setRecord] = useState([false, false, false])
   const [isError, setIsError] = useState<string[]>(['', ''])
   const [status, setStatus] = useState<boolean>(true)
@@ -56,7 +56,7 @@ export default function Registration() {
   })
 
   return (
-    <section className={styles.modal}>
+    <section className={registration ? styles.modalVisible : styles.modalUnvisible}>
       <div className={styles.space} onClick={() => setRegistration(false)}><svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 256 256" fill="#ffe7b3"><path d="M208,32H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32Zm0,176H48V48H208ZM80,128a8,8,0,0,1,8-8h60.69l-18.35-18.34a8,8,0,0,1,11.32-11.32l32,32a8,8,0,0,1,0,11.32l-32,32a8,8,0,0,1-11.32-11.32L148.69,136H88A8,8,0,0,1,80,128Z" /></svg></div>
       <article className={styles.registration}>
         <h1 className={styles.h1}>

@@ -1,0 +1,9 @@
+.form {
+  position: absolute;
+  width: 222px;
+  background-color: #023b37;
+
+  & li {
+    border-bottom: 2px solid #ffd60a;
+  }
+}

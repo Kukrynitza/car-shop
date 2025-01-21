@@ -21,7 +21,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body>
         <RegistrationContext value={{ registration, setRegistration }}>
           <Header />
-          {registration && <Registration />}
+          <Registration />
         </RegistrationContext>
         <main>
           <div />

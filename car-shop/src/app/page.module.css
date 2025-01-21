@@ -237,6 +237,7 @@
 }
 
 .model {
+  position: relative;
   box-sizing: content-box;
   display: grid;
   grid-area: model;
