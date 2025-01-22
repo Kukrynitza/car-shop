@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unnecessary-condition */
 'use client'
-import { useEffect, useState } from 'react'
+import { useActionState, useEffect, useState } from 'react'
 import selectAllCarBrand from '@/actions/CarBrand/selectAllCarBrand'
 import selectFirstCarBrand from '@/actions/CarBrand/selectFirstCarBrand'
 import SortForm from '@/components/SortForm/SortForm'
@@ -37,48 +38,75 @@ interface ActiveSort {
   transmission?: string[]
   typeOfEquipment?: string[]
 }
+interface InputForm {
+  coastMax: number,
+  coastMin: number,
+  mileageMax: number,
+  mileageMin: number,
+  powerMax: number,
+  powerMin: number,
+  volumeMax: number,
+  volumeMin: number,
+  yearMax: number,
+  yearMin: number
+}
 interface ActiveButton {
-  brandCountry: boolean
-  color: boolean
-  drive: boolean
-  fuel: boolean
-  modelName: boolean
-  placeOfProduction: boolean
-  transmission: boolean
-  typeOfEquipment: boolean
+  active: boolean,
+  category: string
 }
 export default function Page() {
   const [brandFilter, setBrandFilter] = useState<BrandForFilter[]>([])
   const [otherBrand, setOtherBrand] = useState(false)
   const [largeSort, setLargeSort] = useState(false)
   const [sortInfoData, setSortInfoData] = useState<SortInfo | null>(null)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [fullSortInfoData, setFullSortInfoData] = useState<SortInfo | null>(null)
   const [activeSortData, setActiveSortData] = useState<ActiveSort | null>(null)
+
+  const [inputSortInfo, setInputSortInfo] = useState<InputForm | null>(null)
   const [activeSortButton, setActiveSortButton] = useState<ActiveButton >(
     {
-      brandCountry: false,
-      color: false,
-      drive: false,
-      fuel: false,
-      modelName: false,
-      placeOfProduction: false,
-      transmission: false,
-      typeOfEquipment: false
+      active: false,
+      category: ''
     }
   )
   useEffect(() => {
-    async function fetchData() {
+    async function fetchDataAndProcess() {
       const ids = brandFilter
         .filter((element) => element.active)
         .map((element) => element.id)
       const modelActive = ids.length !== 0
-      // console.log(ids, modelActive)
       const data = await sortInfo(modelActive, ids)
       setSortInfoData(data)
+      setFullSortInfoData(data)
+
+      if (activeSortData) {
+        const updatedActiveSortData = { ...activeSortData }
+        const updatedSortInfoData = { ...data }
+        Object.keys(activeSortData).forEach((keyTyped) => {
+          const key = keyTyped as keyof SortInfo
+          if (data[key]) {
+            updatedSortInfoData[key] = data[key]
+              .filter((item) => updatedActiveSortData[key]
+                && !updatedActiveSortData[key].includes(item))
+
+            if (updatedSortInfoData[key] && activeSortData[key]) {
+              updatedActiveSortData[key] = activeSortData[key]
+                .filter((item) => data[key]?.includes(item))
+            }
+          } else {
+            updatedActiveSortData[key] = []
+          }
+        })
+        setActiveSortData(updatedActiveSortData)
+        setSortInfoData(updatedSortInfoData)
+      }
     }
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    fetchData()
+    fetchDataAndProcess()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [brandFilter])
-  // console.log(sortInfoData)
+
   useEffect(() => {
     const fetchData = async () => {
       const carBrand = (otherBrand) ? await selectAllCarBrand() : await selectFirstCarBrand()
@@ -108,8 +136,76 @@ export default function Page() {
     ))
   }
   function clickInSortElement(type: string) : void {
-    setActiveSortButton((prevState) => ({ ...prevState, [type]: true }))
+    setActiveSortButton((prevState) => ({
+      active: prevState.category === type ? !prevState.active : true,
+      category: type
+    }))
   }
+  const [
+    message, formAction
+  ] = useActionState((message: InputForm, formData: FormData) => {
+    const coastMax = formData.get('coastMax')
+    const coastMin = formData.get('coastMin')
+    const mileageMax = formData.get('mileageMax')
+    const mileageMin = formData.get('mileageMin')
+    const powerMax = formData.get('powerMax')
+    const powerMin = formData.get('powerMin')
+    const volumeMax = formData.get('volumeMax')
+    const volumeMin = formData.get('volumeMin')
+    const yearMax = formData.get('yearMax')
+    const yearMin = formData.get('yearMin')
+    console.log('message', message)
+    setInputSortInfo({
+      coastMax: coastMax ? Number(coastMax) : 0,
+      coastMin: coastMin ? Number(coastMin) : 0,
+      mileageMax: mileageMax ? Number(mileageMax) : 0,
+      mileageMin: mileageMin ? Number(mileageMin) : 0,
+      powerMax: powerMax ? Number(powerMax) : 0,
+      powerMin: powerMin ? Number(powerMin) : 0,
+      volumeMax: volumeMax ? Number(volumeMax) : 0,
+      volumeMin: volumeMin ? Number(volumeMin) : 0,
+      yearMax: yearMax ? Number(yearMax) : 0,
+      yearMin: yearMin ? Number(yearMin) : 0
+    })
+    console.log('message', inputSortInfo)
+
+    const newInputSortInfo = {
+      coastMax: coastMax ? Number(coastMax) : null,
+      coastMin: coastMin ? Number(coastMin) : null,
+      mileageMax: mileageMax ? Number(mileageMax) : null,
+      mileageMin: mileageMin ? Number(mileageMin) : null,
+      powerMax: powerMax ? Number(powerMax) : null,
+      powerMin: powerMin ? Number(powerMin) : null,
+      volumeMax: volumeMax ? Number(volumeMax) : null,
+      volumeMin: volumeMin ? Number(volumeMin) : null,
+      yearMax: yearMax ? Number(yearMax) : null,
+      yearMin: yearMin ? Number(yearMin) : null
+    }
+
+    return {
+      coastMax: coastMax ? Number(coastMax) : null,
+      coastMin: coastMin ? Number(coastMin) : null,
+      mileageMax: mileageMax ? Number(mileageMax) : null,
+      mileageMin: mileageMin ? Number(mileageMin) : null,
+      powerMax: powerMax ? Number(powerMax) : null,
+      powerMin: powerMin ? Number(powerMin) : null,
+      volumeMax: volumeMax ? Number(volumeMax) : null,
+      volumeMin: volumeMin ? Number(volumeMin) : null,
+      yearMax: yearMax ? Number(yearMax) : null,
+      yearMin: yearMin ? Number(yearMin) : null
+    }
+  }, {
+    coastMax: null,
+    coastMin: null,
+    mileageMax: null,
+    mileageMin: null,
+    powerMax: null,
+    powerMin: null,
+    volumeMax: null,
+    volumeMin: null,
+    yearMax: null,
+    yearMin: null
+  })
 
   return (
     <div>
@@ -130,102 +226,121 @@ export default function Page() {
           {otherBrand ? 'Свернуть' : 'Все марки'}
         </button>
       </ul>
-      <form action="formAction" className={largeSort ? styles.formLarge : styles.formSmall}>
-        <button type="button" className={styles.model} onClick={() => clickInSortElement('modelName')}>
-          {' '}
-          Модель
-          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="#fdd3e8"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" /></svg>
-          {activeSortButton.modelName && (
+      <form action={formAction} className={largeSort ? styles.formLarge : styles.formSmall}>
+        <div className={styles.model}>
+          <button type="button" className={styles.button} onClick={() => clickInSortElement('modelName')}>
+            {' '}
+            Модель
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="#fdd3e8"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" /></svg>
+          </button>
+          {activeSortButton.category === 'modelName' && activeSortButton.active && (
             <SortForm
               activeData={activeSortData ?? null}
               category="modelName"
-              data={sortInfoData?.modelName ?? []}
+              data={sortInfoData ?? {}}
               setActiveData={setActiveSortData}
               setActiveSortButton={setActiveSortButton}
+              setData={setSortInfoData}
             />
           )}
-        </button>
-        <button type="button" className={styles.typeOfEquipment} onClick={() => clickInSortElement('typeOfEquipment')}>
-          Кузов
-          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="#fdd3e8"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" /></svg>
-          {activeSortButton.typeOfEquipment && (
+        </div>
+        <button type="submit" className={styles.conclusion}>Показать</button>
+        <div className={styles.typeOfEquipment}>
+          <button type="button" className={styles.button} onClick={() => clickInSortElement('typeOfEquipment')}>
+            Кузов
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="#fdd3e8"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" /></svg>
+          </button>
+          {activeSortButton.category === 'typeOfEquipment' && activeSortButton.active && (
             <SortForm
               activeData={activeSortData ?? null}
               category="typeOfEquipment"
-              data={sortInfoData?.typeOfEquipment ?? []}
+              data={sortInfoData ?? {}}
               setActiveData={setActiveSortData}
               setActiveSortButton={setActiveSortButton}
+              setData={setSortInfoData}
             />
           )}
-        </button>
-        <button type="button" className={styles.brandCountry} onClick={() => clickInSortElement('brandCountry')}>
-          Страна бренда
-          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="#fdd3e8"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" /></svg>
-          {activeSortButton.brandCountry && (
+        </div>
+        <div className={styles.brandCountry}>
+          <button type="button" className={styles.button} onClick={() => clickInSortElement('brandCountry')}>
+            Страна бренда
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="#fdd3e8"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" /></svg>
+          </button>
+          {activeSortButton.category === 'brandCountry' && activeSortButton.active && (
             <SortForm
               activeData={activeSortData ?? null}
               category="brandCountry"
-              data={sortInfoData?.brandCountry ?? []}
+              data={sortInfoData ?? {}}
               setActiveData={setActiveSortData}
               setActiveSortButton={setActiveSortButton}
+              setData={setSortInfoData}
             />
           )}
-        </button>
-        <div className={styles.coast}>
-          <input type="text" placeholder="Цена от, $" />
-          <input type="text" placeholder="до" />
         </div>
-        <button type="button" className={styles.transmission} onClick={() => clickInSortElement('transmission')}>
-          КПП
-          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="#fdd3e8"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" /></svg>
-          {activeSortButton.transmission && (
+        <div className={styles.coast}>
+          <input type="number" name="coastMin" id="coastMin" defaultValue={message.coastMin} placeholder="Цена от, $" min="0" />
+          <input type="number" name="coastMax" id="coastMax" defaultValue={message.coastMax} placeholder="до" min="0" />
+        </div>
+        <div className={styles.transmission}>
+          <button type="button" className={styles.button} onClick={() => clickInSortElement('transmission')}>
+            КПП
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="#fdd3e8"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" /></svg>
+          </button>
+          {activeSortButton.category === 'transmission' && activeSortButton.active && (
             <SortForm
               activeData={activeSortData ?? null}
               category="transmission"
-              data={sortInfoData?.transmission ?? []}
+              data={sortInfoData ?? {}}
               setActiveData={setActiveSortData}
               setActiveSortButton={setActiveSortButton}
+              setData={setSortInfoData}
             />
           )}
-        </button>
+        </div>
         <div className={styles.volume}>
-          <input type="text" placeholder="Объем от, л." />
-          <input type="text" placeholder="до" />
+          <input type="number" name="volumeMin" id="volumeMin" defaultValue={message.volumeMin} placeholder="Объем от, л." min="0" pattern="\d*" />
+          <input type="number" name="volumeMax" id="volumeMax" defaultValue={message.volumeMax} placeholder="до" min="0" pattern="\d*" />
         </div>
         <div className={styles.mileage}>
-          <input type="text" placeholder="Пробег от, км" />
-          <input type="text" placeholder="до" />
+          <input type="number" name="mileageMin" id="mileageMin" defaultValue={message.mileageMax} placeholder="Пробег от, км" min="0" pattern="\d*" />
+          <input type="number" name="mileageMax" id="mileageMax" defaultValue={message.mileageMin} placeholder="до" min="0" pattern="\d*" />
         </div>
-        <button type="button" className={styles.placeOfProduction} onClick={() => clickInSortElement('placeOfProduction')}>
-          Страна-производитель
-          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="#fdd3e8"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" /></svg>
-          {activeSortButton.placeOfProduction && (
+        <div className={styles.placeOfProduction}>
+          <button type="button" className={styles.button} onClick={() => clickInSortElement('placeOfProduction')}>
+            Страна-производитель
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="#fdd3e8"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" /></svg>
+          </button>
+          {activeSortButton.category === 'placeOfProduction' && activeSortButton.active && (
             <SortForm
               activeData={activeSortData ?? null}
               category="placeOfProduction"
-              data={sortInfoData?.placeOfProduction ?? []}
+              data={sortInfoData ?? {}}
               setActiveData={setActiveSortData}
               setActiveSortButton={setActiveSortButton}
+              setData={setSortInfoData}
             />
           )}
-        </button>
-        <div className={styles.year}>
-          <input type="text" placeholder="Год от" />
-          <input type="text" placeholder="до" />
         </div>
-        <button type="button" className={styles.color} onClick={() => clickInSortElement('color')}>
-          Цвет
-          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="#fdd3e8"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" /></svg>
-          {activeSortButton.color && (
+        <div className={styles.year}>
+          <input type="number" name="yearMin" id="yearMin" defaultValue={message.yearMin} placeholder="Год от" min="0" pattern="\d*" />
+          <input type="number" name="yearMax" id="yearMax" defaultValue={message.yearMax} placeholder="до" min="0" pattern="\d*" />
+        </div>
+        <div className={styles.color}>
+          <button type="button" className={styles.button} onClick={() => clickInSortElement('color')}>
+            Цвет
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="#fdd3e8"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" /></svg>
+          </button>
+          {activeSortButton.category === 'color' && activeSortButton.active && (
             <SortForm
               activeData={activeSortData ?? null}
               category="color"
-              data={sortInfoData?.color ?? []}
+              data={sortInfoData ?? {}}
               setActiveData={setActiveSortData}
               setActiveSortButton={setActiveSortButton}
+              setData={setSortInfoData}
             />
           )}
-        </button>
+        </div>
         <button type="button" className={styles.advancedSearch} onClick={() => setLargeSort((sort) => !sort)}>
           {largeSort
             ? (
@@ -247,35 +362,41 @@ export default function Page() {
         && (
           <>
             <div className={styles.power}>
-              <input type="text" placeholder="Мощность от" />
-              <input type="text" placeholder="до, л.с." />
+              <input type="number" name="powerMin" id="powerMin" defaultValue={message.powerMin} placeholder="Мощность от" min="0" pattern="\d*" />
+              <input type="number" name="powerMax" id="powerMax" defaultValue={message.powerMax} placeholder="до, л.с." min="0" pattern="\d*" />
             </div>
-            <button type="button" className={styles.fuel} onClick={() => clickInSortElement('fuel')}>
-              Топливо
-              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="#fdd3e8"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" /></svg>
-              {activeSortButton.fuel && (
+            <div className={styles.fuel}>
+              <button type="button" className={styles.button} onClick={() => clickInSortElement('fuel')}>
+                Топливо
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="#fdd3e8"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" /></svg>
+              </button>
+              {activeSortButton.category === 'fuel' && activeSortButton.active && (
                 <SortForm
                   activeData={activeSortData ?? null}
                   category="fuel"
-                  data={sortInfoData?.fuel ?? []}
+                  data={sortInfoData ?? {}}
                   setActiveData={setActiveSortData}
                   setActiveSortButton={setActiveSortButton}
+                  setData={setSortInfoData}
                 />
               )}
-            </button>
-            <button type="button" className={styles.drive} onClick={() => clickInSortElement('drive')}>
-              Привод
-              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="#fdd3e8"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" /></svg>
-              {activeSortButton.drive && (
+            </div>
+            <div className={styles.drive}>
+              <button type="button" className={styles.button} onClick={() => clickInSortElement('drive')}>
+                Привод
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="#fdd3e8"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" /></svg>
+              </button>
+              {activeSortButton.category === 'drive' && activeSortButton.active && (
                 <SortForm
                   activeData={activeSortData ?? null}
                   category="drive"
-                  data={sortInfoData?.drive ?? []}
+                  data={sortInfoData ?? {}}
                   setActiveData={setActiveSortData}
                   setActiveSortButton={setActiveSortButton}
+                  setData={setSortInfoData}
                 />
               )}
-            </button>
+            </div>
           </>
         )}
       </form>

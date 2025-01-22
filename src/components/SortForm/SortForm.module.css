@@ -1,20 +1,39 @@
+/* stylelint-disable selector-class-pattern */
 .form {
   position: absolute;
-  top: 43px;
+  top: 46px;
+  z-index: 100;
   width: 100%;
+  max-height: 250px;
   padding: 5px;
+  /* stylelint-disable-next-line plugin/use-defensive-css */
+  overflow-y: auto;
   background-color: #381525;
   border: 2px solid #836a21;
   border-radius: 7px;
   opacity: 1;
+}
 
-  & li {
-    padding-top: 5px;
-    border-bottom: 2px solid #836a21;
+.active {
+  display: grid;
+  margin-bottom: 10px;
+}
 
-    &:hover {
-      background-color: #49152c;
-      border-bottom: 2px solid #ffe629;
-    }
+.unactive {
+  display: grid;
+}
+
+.buttonUnactive {
+  padding-top: 5px;
+  border-bottom: 2px solid #836a21;
+
+  &:hover {
+    background-color: #49152c;
+    border-bottom: 2px solid #ffe629;
   }
+}
+
+.buttonActive {
+  background-color: #49152c;
+  border-bottom: 2px solid #ffe629;
 }
