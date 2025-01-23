@@ -2,6 +2,7 @@
 .modalVisible {
   position: fixed;
   top: 0;
+  z-index: 1000;
   display: grid;
   grid-template-columns: 2fr 1fr;
   width: 100%;

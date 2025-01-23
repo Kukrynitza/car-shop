@@ -2,6 +2,7 @@
 'use client'
 import { useActionState, useContext, useState } from 'react'
 import { minLength, parse, pipe, regex, string, trim } from 'valibot'
+import InsertUser from '@/actions/Insert/InsertUser'
 import RegistrationContext from '@/contexts/RegistrationContext'
 import styles from './Registration.module.css'
 
@@ -14,7 +15,11 @@ interface RegistrationContextType {
   registration: boolean;
   setRegistration: (value: boolean) => void;
 }
-
+interface InsertUser {
+  login: string
+  number: string
+  password: string
+}
 const numberShema = pipe(string(), regex(/^\+?[1-9]{1}[0-9]{3,14}$/, 'Некорректный номер телефона'), minLength(9, 'Минимальная длина адреса номера - 9'), trim())
 const loginSchema = pipe(string(), minLength(5, 'Минимальная длина логина - 5'), trim())
 const passwordSchema = pipe(string(), minLength(6, 'Минимальная длина пароля - 6'), trim())
@@ -35,26 +40,33 @@ export default function Registration() {
     setIsError(['', ''])
     try {
       parse(numberShema, formData.get('number'))
+      try {
+        parse(passwordSchema, formData.get('password'))
+        try {
+          parse(loginSchema, formData.get('login'))
+          const insertUser = {
+            login: formData.get('login'),
+            number: formData.get('number'),
+            password: formData.get('password')
+          }
+          InsertUser(insertUser)
+          setRegistration(false)
+        } catch (error) {
+          if (error instanceof Error) {
+            setIsError([error.message, '2'])
+            setRecord(record.map((element, index) => (index === 2 ? false : element)))
+          }
+        }
+      } catch (error) {
+        if (error instanceof Error) {
+          setIsError([error.message, '1'])
+          setRecord(record.map((element, index) => (index === 1 ? false : element)))
+        }
+      }
     } catch (error) {
       if (error instanceof Error) {
         setIsError([error.message, '0'])
         setRecord(record.map((element, index) => (index === 0 ? false : element)))
-      }
-    }
-    try {
-      parse(passwordSchema, formData.get('password'))
-    } catch (error) {
-      if (error instanceof Error) {
-        setIsError([error.message, '1'])
-        setRecord(record.map((element, index) => (index === 1 ? false : element)))
-      }
-    }
-    try {
-      parse(loginSchema, formData.get('login'))
-    } catch (error) {
-      if (error instanceof Error) {
-        setIsError([error.message, '2'])
-        setRecord(record.map((element, index) => (index === 2 ? false : element)))
       }
     }
 

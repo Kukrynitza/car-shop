@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@fontsource/pt-sans": "^5.1.1",
+    "@node-rs/bcrypt": "^1.10.7",
     "kysely": "^0.27.5",
     "next": "15.1.4",
     "pg": "^8.13.1",
