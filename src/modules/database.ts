@@ -12,12 +12,20 @@ export interface BrandTable {
 
 export interface UserTable {
   id: GeneratedAlways<number>
-  announcements: number
   login: string
   number: string
   password: string
   role: boolean
   createdAt: GeneratedAlways<Date>
+}
+
+export interface UserSession {
+  id: GeneratedAlways<number>
+  userId: number
+  token: string
+  expiresAt: Date
+  createdAt: GeneratedAlways<Date>
+  updatedAt: Date
 }
 
 export interface AnnouncementTable {
@@ -46,6 +54,7 @@ export interface Database {
   announcements: AnnouncementTable
   brand: BrandTable
   users: UserTable
+  userSession: UserSession
 }
 
 const database = new Kysely<Database>({

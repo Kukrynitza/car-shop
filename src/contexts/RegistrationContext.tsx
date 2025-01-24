@@ -1,8 +1,8 @@
 import { createContext } from 'react'
 
 interface RegistrationContextType {
-  registration: boolean
-  setRegistration: (value: boolean) => void
+  registration: number
+  setRegistration: (value: number) => void
 }
 const RegistrationContext = createContext<RegistrationContextType | null>(null)
 

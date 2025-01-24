@@ -66,15 +66,12 @@
 
 .form {
   display: grid;
-  grid-template-rows: repeat(4, min-content);
+  grid-template-rows: repeat(3, min-content);
   row-gap: 20px;
   place-items: center start;
   justify-content: center;
-  justify-items: center;
 }
 
-/* stylelint-disable-next-line selector-class-pattern */
-.numberSuccess,
 /* stylelint-disable-next-line selector-class-pattern */
 .passwordSuccess,
 /* stylelint-disable-next-line selector-class-pattern */
@@ -87,8 +84,6 @@
   border: #3dd68c 2px solid;
   border-radius: 5px;
 }
-/* stylelint-disable-next-line selector-class-pattern */
-.numberFailure,
 /* stylelint-disable-next-line selector-class-pattern */
 .passwordFailure,
 /* stylelint-disable-next-line selector-class-pattern */
@@ -127,6 +122,7 @@
 
 /* stylelint-disable-next-line selector-class-pattern */
 .registrationButton {
+  margin-top: 79px;
   cursor: pointer;
 
   &:hover {

@@ -7,7 +7,8 @@
   max-height: 250px;
   padding: 5px;
   /* stylelint-disable-next-line plugin/use-defensive-css */
-  overflow-y: auto;
+  overflow: hidden auto;
+  /* stylelint-disable-next-line plugin/use-defensive-css */
   background-color: #381525;
   border: 2px solid #836a21;
   border-radius: 7px;
