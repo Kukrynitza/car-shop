@@ -11,7 +11,7 @@ interface InsertUser {
   password: string
 }
 export default async function InsertUser(user: InsertUser) {
-  const loginFromUsers = await database
+  const fromUsers = await database
     .selectFrom('users')
     .select(['login', 'number'])
     .where((eb) => eb.or([
@@ -20,9 +20,8 @@ export default async function InsertUser(user: InsertUser) {
     ]))
     .execute()
 
-  if (loginFromUsers.length > 0) {
-    console.log(loginFromUsers)
-    if (loginFromUsers[0].login === user.login) {
+  if (fromUsers.length > 0) {
+    if (fromUsers[0].login === user.login) {
       return 'Такой логин уже существует'
     }
 
@@ -34,7 +33,7 @@ export default async function InsertUser(user: InsertUser) {
       login: user.login,
       number: user.number,
       password: await hash(user.password),
-      role: false
+      role: 0
     })
     .returning('id')
     .executeTakeFirstOrThrow()
@@ -48,7 +47,6 @@ export default async function InsertUser(user: InsertUser) {
       userId: registration.id
     })
     .executeTakeFirstOrThrow()
-  // console.log(result)
   const cookieStore = await cookies()
 
   cookieStore.set('session', token, {

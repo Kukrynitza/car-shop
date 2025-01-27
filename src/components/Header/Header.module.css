@@ -6,12 +6,12 @@
   color: #f6eeb4;
   background-color: #524202;
 
-  & ul {
+  & .ul {
     display: grid;
     grid-template-columns: 1fr 2fr 1fr;
     align-content: center;
 
-    & ul {
+    & .ulUl {
       display: grid;
       grid-template-columns: auto auto auto;
       gap: 7px;
@@ -37,17 +37,46 @@
   font-size: 25px;
 }
 
+.userModal {
+  position: absolute;
+  top: 50px;
+  right: 70px;
+  z-index: 100;
+  display: grid;
+  grid-template-rows: repeat(4, 1fr);
+  width: 200px;
+  padding: 8px;
+  background-color: #5c3d05;
+  border-radius: 10px;
+
+  & li {
+    border-bottom: 2px solid #836a21;
+  }
+}
+
 .avatar {
   display: grid;
   justify-content: end;
+
+  & div {
+    z-index: 100;
+    display: grid;
+  }
 }
 
 .serves {
   display: grid;
   align-items: center;
 
-  & a:hover {
-    color: #fdd3e8;
+  & ul {
+    display: grid;
+    grid-template-columns: auto auto;
+    column-gap: 20px;
+    justify-items: center;
+
+    & a:hover {
+      color: #fdd3e8;
+    }
   }
 }
 

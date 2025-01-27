@@ -229,7 +229,7 @@ export default function Page() {
       <form action={formAction} className={largeSort ? styles.formLarge : styles.formSmall}>
         <div className={styles.model}>
           <button type="button" className={styles.button} onClick={() => clickInSortElement('modelName')}>
-            <span>{activeSortData?.modelName?.length > 0 ? activeSortData.modelName.join() : 'Модель'}</span>
+            <span>{activeSortData?.modelName ? activeSortData.modelName.join() : 'Модель'}</span>
             <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="#fdd3e8"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" /></svg>
           </button>
           {activeSortButton.category === 'modelName' && activeSortButton.active && (
@@ -246,7 +246,7 @@ export default function Page() {
         <button type="submit" className={styles.conclusion}>Показать</button>
         <div className={styles.typeOfEquipment}>
           <button type="button" className={styles.button} onClick={() => clickInSortElement('typeOfEquipment')}>
-            <span>{activeSortData?.typeOfEquipment?.length > 0 ? activeSortData.typeOfEquipment.join() : 'Кузов'}</span>
+            <span>{activeSortData?.typeOfEquipment ? activeSortData.typeOfEquipment.join() : 'Кузов'}</span>
             <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="#fdd3e8"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" /></svg>
           </button>
           {activeSortButton.category === 'typeOfEquipment' && activeSortButton.active && (
@@ -262,7 +262,7 @@ export default function Page() {
         </div>
         <div className={styles.brandCountry}>
           <button type="button" className={styles.button} onClick={() => clickInSortElement('brandCountry')}>
-            <span>{activeSortData?.brandCountry?.length > 0 ? activeSortData.brandCountry.join() : 'Страна бренда'}</span>
+            <span>{activeSortData?.brandCountry ? activeSortData.brandCountry.join() : 'Страна бренда'}</span>
             <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="#fdd3e8"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" /></svg>
           </button>
           {activeSortButton.category === 'brandCountry' && activeSortButton.active && (
@@ -282,7 +282,7 @@ export default function Page() {
         </div>
         <div className={styles.transmission}>
           <button type="button" className={styles.button} onClick={() => clickInSortElement('transmission')}>
-            <span>{activeSortData?.transmission?.length > 0 ? activeSortData.transmission.join() : 'КПП'}</span>
+            <span>{activeSortData?.transmission ? activeSortData.transmission.join() : 'КПП'}</span>
             <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="#fdd3e8"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" /></svg>
           </button>
           {activeSortButton.category === 'transmission' && activeSortButton.active && (
@@ -306,7 +306,7 @@ export default function Page() {
         </div>
         <div className={styles.placeOfProduction}>
           <button type="button" className={styles.button} onClick={() => clickInSortElement('placeOfProduction')}>
-            <span>{activeSortData?.placeOfProduction?.length > 0 ? activeSortData.placeOfProduction.join() : 'Страна-производитель'}</span>
+            <span>{activeSortData?.placeOfProduction ? activeSortData.placeOfProduction.join() : 'Страна-производитель'}</span>
             <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="#fdd3e8"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" /></svg>
           </button>
           {activeSortButton.category === 'placeOfProduction' && activeSortButton.active && (
@@ -326,7 +326,7 @@ export default function Page() {
         </div>
         <div className={styles.color}>
           <button type="button" className={styles.button} onClick={() => clickInSortElement('color')}>
-            <span>{activeSortData?.color?.length > 0 ? activeSortData.color.join() : 'Цвет'}</span>
+            <span>{activeSortData?.color ? activeSortData.color.join() : 'Цвет'}</span>
             <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="#fdd3e8"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" /></svg>
           </button>
           {activeSortButton.category === 'color' && activeSortButton.active && (
@@ -366,7 +366,7 @@ export default function Page() {
             </div>
             <div className={styles.fuel}>
               <button type="button" className={styles.button} onClick={() => clickInSortElement('fuel')}>
-                <span>{activeSortData?.fuel?.length > 0 ? activeSortData.fuel.join() : 'Топливо'}</span>
+                <span>{activeSortData?.fuel ? activeSortData.fuel.join() : 'Топливо'}</span>
                 <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="#fdd3e8"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" /></svg>
               </button>
               {activeSortButton.category === 'fuel' && activeSortButton.active && (
@@ -382,7 +382,7 @@ export default function Page() {
             </div>
             <div className={styles.drive}>
               <button type="button" className={styles.button} onClick={() => clickInSortElement('drive')}>
-                <span>{activeSortData?.drive?.length > 0 ? activeSortData.drive.join() : 'Привод'}</span>
+                <span>{activeSortData?.drive ? activeSortData.drive.join() : 'Привод'}</span>
                 <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="#fdd3e8"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" /></svg>
               </button>
               {activeSortButton.category === 'drive' && activeSortButton.active && (

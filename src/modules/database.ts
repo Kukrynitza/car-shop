@@ -15,7 +15,7 @@ export interface UserTable {
   login: string
   number: string
   password: string
-  role: boolean
+  role: number
   createdAt: GeneratedAlways<Date>
 }
 

@@ -76,6 +76,12 @@ export default function SortForm({
   function clickOnActiveButton(categoryElement: string) {
     setActiveData((prev: ActiveSort | null) => {
       if (prev?.[category]) {
+        if (prev[category].length === 1) {
+          delete prev[category]
+
+          return { ...prev }
+        }
+
         return {
           ...prev,
           [category]: prev[category].filter((element) => element !== categoryElement)

@@ -2,7 +2,8 @@
 'use client'
 import { useActionState, useContext, useState } from 'react'
 import { minLength, pipe, safeParse, string, trim } from 'valibot'
-import InsertUser from '@/actions/Insert/InsertUser'
+import InsertUser from '@/actions/LoginAndSign/InsertUser'
+import logIn from '@/actions/LoginAndSign/LogIn'
 import RegistrationContext from '@/contexts/RegistrationContext'
 import styles from './SignIn.module.css'
 
@@ -34,18 +35,29 @@ export default function Registration() {
   const [isError, setIsError] = useState<string[]>(['', ''])
   const [
     message, formAction, isPending
-  ] = useActionState((_: unknown, formData: FormData) => {
+  ] = useActionState(async (_: unknown, formData: FormData) => {
     setIsError(['', ''])
     const passwordError = safeParse(passwordSchema, formData.get('password'))
     if (passwordError.success) {
       const loginError = safeParse(loginSchema, formData.get('login'))
       if (loginError.success) {
-        // const insertUser = {
-        //   login: formData.get('login'),
-        //   password: formData.get('password')
-        // }
-        // InsertUser(insertUser)
-        setRegistration(0)
+        const insertUser = {
+          login: formData.get('login'),
+          password: formData.get('password')
+        }
+        const error = await logIn(insertUser)
+        if (error) {
+          console.log(error)
+          if (error === 'Такого логина нет') {
+            setIsError([error, '2'])
+            setRecord(record.map((element, index) => (index === 2 ? false : element)))
+          } else {
+            setIsError([error, '1'])
+            setRecord(record.map((element, index) => (index === 1 ? false : element)))
+          }
+        } else {
+          setRegistration(0)
+        }
       } else {
         setIsError([loginError.issues[0].message, '2'])
         setRecord(record.map((element, index) => (index === 2 ? false : element)))
@@ -81,10 +93,10 @@ export default function Registration() {
           </label>
           <button
             type="submit"
-            className={!record[0] || !record[1] || !record[2]
+            className={!record[1] || !record[2]
               ? styles.enterFailure
               : styles.enterSuccess}
-            disabled={!record[0] || !record[1] || !record[2] || isPending}
+            disabled={!record[1] || !record[2] || isPending}
           >
             Войти
           </button>
