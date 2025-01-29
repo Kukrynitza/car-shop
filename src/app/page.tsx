@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unnecessary-condition */
 'use client'
-import { useActionState, useEffect, useState } from 'react'
+import { useActionState, useEffect, useRef, useState } from 'react'
 import selectAllCarBrand from '@/actions/CarBrand/selectAllCarBrand'
 import selectFirstCarBrand from '@/actions/CarBrand/selectFirstCarBrand'
 import SortForm from '@/components/SortForm/SortForm'
@@ -65,12 +65,57 @@ export default function Page() {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [inputSortInfo, setInputSortInfo] = useState<InputForm | null>(null)
+  const menuRefs = {
+    brandCountry: useRef<HTMLDivElement>(null),
+    color: useRef<HTMLDivElement>(null),
+    drive: useRef<HTMLDivElement>(null),
+    fuel: useRef<HTMLDivElement>(null),
+    modelName: useRef<HTMLDivElement>(null),
+    placeOfProduction: useRef<HTMLDivElement>(null),
+    transmission: useRef<HTMLDivElement>(null),
+    typeOfEquipment: useRef<HTMLDivElement>(null)
+  }
   const [activeSortButton, setActiveSortButton] = useState<ActiveButton >(
     {
       active: false,
       category: ''
     }
   )
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      Object.entries(menuRefs).forEach(([key, ref]) => {
+        if (ref.current && !ref.current.contains(event.target as Node)) {
+          if (activeSortButton.category === key) {
+            setActiveSortButton({
+              active: false,
+              category: ''
+            })
+          }
+        }
+      })
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+  }, [activeSortButton, menuRefs])
+  // useEffect(() => {
+  //   function handleClickOutside(event: MouseEvent) {
+  //     Object.entries(menuRefs).forEach(([key, ref]) => {
+  //       if (ref.current && !ref.current.contains(event.target as Node)) {
+  //         if (activeSortButton.category === key) {
+  //           setActiveSortButton({
+  //             active: false,
+  //             category: ''
+  //           })
+  //         }
+  //       }
+  //     })
+  //   }
+
+  //   document.addEventListener('mousedown', handleClickOutside)
+
+  //   return () => {
+  //     document.removeEventListener('mousedown', handleClickOutside)
+  //   }
+  // }, [activeSortButton, menuRefs])
   useEffect(() => {
     async function fetchDataAndProcess() {
       const ids = brandFilter
@@ -227,7 +272,7 @@ export default function Page() {
         </button>
       </ul>
       <form action={formAction} className={largeSort ? styles.formLarge : styles.formSmall}>
-        <div className={styles.model}>
+        <div ref={menuRefs.modelName} className={styles.model}>
           <button type="button" className={styles.button} onClick={() => clickInSortElement('modelName')}>
             <span>{activeSortData?.modelName ? activeSortData.modelName.join() : 'Модель'}</span>
             <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="#fdd3e8"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" /></svg>
@@ -238,13 +283,12 @@ export default function Page() {
               category="modelName"
               data={sortInfoData ?? {}}
               setActiveData={setActiveSortData}
-              setActiveSortButton={setActiveSortButton}
               setData={setSortInfoData}
             />
           )}
         </div>
         <button type="submit" className={styles.conclusion}>Показать</button>
-        <div className={styles.typeOfEquipment}>
+        <div ref={menuRefs.typeOfEquipment} className={styles.typeOfEquipment}>
           <button type="button" className={styles.button} onClick={() => clickInSortElement('typeOfEquipment')}>
             <span>{activeSortData?.typeOfEquipment ? activeSortData.typeOfEquipment.join() : 'Кузов'}</span>
             <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="#fdd3e8"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" /></svg>
@@ -255,12 +299,11 @@ export default function Page() {
               category="typeOfEquipment"
               data={sortInfoData ?? {}}
               setActiveData={setActiveSortData}
-              setActiveSortButton={setActiveSortButton}
               setData={setSortInfoData}
             />
           )}
         </div>
-        <div className={styles.brandCountry}>
+        <div ref={menuRefs.brandCountry} className={styles.brandCountry}>
           <button type="button" className={styles.button} onClick={() => clickInSortElement('brandCountry')}>
             <span>{activeSortData?.brandCountry ? activeSortData.brandCountry.join() : 'Страна бренда'}</span>
             <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="#fdd3e8"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" /></svg>
@@ -271,7 +314,6 @@ export default function Page() {
               category="brandCountry"
               data={sortInfoData ?? {}}
               setActiveData={setActiveSortData}
-              setActiveSortButton={setActiveSortButton}
               setData={setSortInfoData}
             />
           )}
@@ -280,7 +322,7 @@ export default function Page() {
           <input type="number" name="coastMin" id="coastMin" defaultValue={message.coastMin} placeholder="Цена от, $" min="0" />
           <input type="number" name="coastMax" id="coastMax" defaultValue={message.coastMax} placeholder="до" min="0" />
         </div>
-        <div className={styles.transmission}>
+        <div ref={menuRefs.transmission} className={styles.transmission}>
           <button type="button" className={styles.button} onClick={() => clickInSortElement('transmission')}>
             <span>{activeSortData?.transmission ? activeSortData.transmission.join() : 'КПП'}</span>
             <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="#fdd3e8"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" /></svg>
@@ -291,7 +333,6 @@ export default function Page() {
               category="transmission"
               data={sortInfoData ?? {}}
               setActiveData={setActiveSortData}
-              setActiveSortButton={setActiveSortButton}
               setData={setSortInfoData}
             />
           )}
@@ -304,7 +345,7 @@ export default function Page() {
           <input type="number" name="mileageMin" id="mileageMin" defaultValue={message.mileageMax} placeholder="Пробег от, км" min="0" pattern="\d*" />
           <input type="number" name="mileageMax" id="mileageMax" defaultValue={message.mileageMin} placeholder="до" min="0" pattern="\d*" />
         </div>
-        <div className={styles.placeOfProduction}>
+        <div ref={menuRefs.placeOfProduction} className={styles.placeOfProduction}>
           <button type="button" className={styles.button} onClick={() => clickInSortElement('placeOfProduction')}>
             <span>{activeSortData?.placeOfProduction ? activeSortData.placeOfProduction.join() : 'Страна-производитель'}</span>
             <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="#fdd3e8"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" /></svg>
@@ -315,7 +356,6 @@ export default function Page() {
               category="placeOfProduction"
               data={sortInfoData ?? {}}
               setActiveData={setActiveSortData}
-              setActiveSortButton={setActiveSortButton}
               setData={setSortInfoData}
             />
           )}
@@ -324,7 +364,7 @@ export default function Page() {
           <input type="number" name="yearMin" id="yearMin" defaultValue={message.yearMin} placeholder="Год от" min="0" pattern="\d*" />
           <input type="number" name="yearMax" id="yearMax" defaultValue={message.yearMax} placeholder="до" min="0" pattern="\d*" />
         </div>
-        <div className={styles.color}>
+        <div ref={menuRefs.color} className={styles.color}>
           <button type="button" className={styles.button} onClick={() => clickInSortElement('color')}>
             <span>{activeSortData?.color ? activeSortData.color.join() : 'Цвет'}</span>
             <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="#fdd3e8"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" /></svg>
@@ -335,7 +375,6 @@ export default function Page() {
               category="color"
               data={sortInfoData ?? {}}
               setActiveData={setActiveSortData}
-              setActiveSortButton={setActiveSortButton}
               setData={setSortInfoData}
             />
           )}
@@ -364,7 +403,7 @@ export default function Page() {
               <input type="number" name="powerMin" id="powerMin" defaultValue={message.powerMin} placeholder="Мощность от" min="0" pattern="\d*" />
               <input type="number" name="powerMax" id="powerMax" defaultValue={message.powerMax} placeholder="до, л.с." min="0" pattern="\d*" />
             </div>
-            <div className={styles.fuel}>
+            <div ref={menuRefs.fuel} className={styles.fuel}>
               <button type="button" className={styles.button} onClick={() => clickInSortElement('fuel')}>
                 <span>{activeSortData?.fuel ? activeSortData.fuel.join() : 'Топливо'}</span>
                 <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="#fdd3e8"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" /></svg>
@@ -375,12 +414,11 @@ export default function Page() {
                   category="fuel"
                   data={sortInfoData ?? {}}
                   setActiveData={setActiveSortData}
-                  setActiveSortButton={setActiveSortButton}
                   setData={setSortInfoData}
                 />
               )}
             </div>
-            <div className={styles.drive}>
+            <div ref={menuRefs.drive} className={styles.drive}>
               <button type="button" className={styles.button} onClick={() => clickInSortElement('drive')}>
                 <span>{activeSortData?.drive ? activeSortData.drive.join() : 'Привод'}</span>
                 <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="#fdd3e8"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" /></svg>
@@ -391,7 +429,6 @@ export default function Page() {
                   category="drive"
                   data={sortInfoData ?? {}}
                   setActiveData={setActiveSortData}
-                  setActiveSortButton={setActiveSortButton}
                   setData={setSortInfoData}
                 />
               )}

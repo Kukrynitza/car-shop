@@ -21,16 +21,11 @@ interface SortInfo {
   transmission: string[]
   typeOfEquipment: string[]
 }
-interface ActiveButton {
-  active: boolean;
-  category: string;
-}
 interface SortFormProps {
   activeData: ActiveSort | null;
   category: keyof ActiveSort;
   data: ActiveSort;
   setActiveData: (value: ActiveSort | null) => void;
-  setActiveSortButton: (value: ActiveButton) => void;
   setData: (value: SortInfo | null) => void;
 }
 export default function SortForm({
@@ -38,13 +33,8 @@ export default function SortForm({
   category,
   data,
   setActiveData,
-  setActiveSortButton,
   setData
 }: SortFormProps) {
-  function onMouseLeaveSortElement(activeCategory: string) {
-    setActiveSortButton({ active: false, category: activeCategory })
-  }
-
   function clickOnUnactiveButton(categoryElement: string) {
     setData((prev: ActiveSort | null) => {
       if (prev) {
@@ -104,8 +94,8 @@ export default function SortForm({
   }
 
   return (
-    // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
-    <ul className={styles.form} onMouseLeave={() => onMouseLeaveSortElement(category)}>
+
+    <ul className={styles.form}>
       <ul className={styles.active}>
         {Array.isArray(activeData?.[category]) && activeData[category].map((element: string) => (
           <button key={element} type="button" className={styles.buttonActive} onClick={() => clickOnActiveButton(element)}>
