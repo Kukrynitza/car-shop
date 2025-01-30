@@ -15,6 +15,7 @@ export default function Header() {
   const menuRef = useRef<HTMLDivElement>(null)
   const context = useContext(RegistrationContext)
   const setRegistration = context?.setRegistration
+  const registration = context?.registration
   useEffect(() => {
     async function getToken() {
       if (await headerModal()) {
@@ -24,7 +25,7 @@ export default function Header() {
       }
     }
     getToken()
-  }, [isUserModal])
+  }, [registration])
   if (!setRegistration) {
     throw new Error('setRegistration не доступен в RegistrationContext.')
   }

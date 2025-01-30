@@ -72,10 +72,6 @@
   background-color: #5c3d05;
   border-radius: 10px;
 
-  & li:first-child {
-    border-bottom: 2px solid #836a21;
-  }
-
   & li:hover {
     color: #fdd3e8;
   }

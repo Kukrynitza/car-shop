@@ -4,11 +4,14 @@ import { NextRequest, NextResponse } from 'next/server'
 import verifyJwt from './sorse/verifyJwt'
 
 const adminPages = ['/admin']
-const userPages = ['/user']
+const userPages = ['/user', '/user/announcement', '/user/announcement/create']
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
   const cookieStore = await cookies()
   const token = cookieStore.get('session')?.value
+  if (!token && userPages.includes(pathname)) {
+    return NextResponse.redirect(new URL('/', request.nextUrl))
+  }
   if (token) {
     const payload = await verifyJwt(token)
     // console.log(payload)
@@ -17,9 +20,6 @@ export async function middleware(request: NextRequest) {
     }
 
     return NextResponse.next()
-  }
-  if (!token && userPages.includes(pathname)) {
-    return NextResponse.redirect(new URL('/', request.nextUrl))
   }
 }
 export const config = {
