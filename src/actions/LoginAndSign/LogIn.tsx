@@ -4,6 +4,7 @@ import { verify } from '@node-rs/bcrypt'
 import { randomUUID } from 'crypto'
 import { cookies } from 'next/headers'
 import database from '@/modules/database'
+import jwt from '@/sorse/jwt'
 
 interface InsertUser {
   login: string
@@ -12,7 +13,7 @@ interface InsertUser {
 export default async function logIn(user: InsertUser) {
   const fromUser = await database
     .selectFrom('users')
-    .select(['id', 'password'])
+    .select(['id', 'password', 'role'])
     .where('login', '=', user.login)
     .limit(1)
     .execute()
@@ -24,8 +25,8 @@ export default async function logIn(user: InsertUser) {
     return 'Неверный пароль'
   }
 
-  const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
-  const token = randomUUID()
+  const expiresAt = new Date(Date.now() + 2 * 24 * 60 * 60 * 1000)
+  const token = await jwt({ id: fromUser[0].id, role: fromUser[0].role })
   await database
     .insertInto('userSession')
     .values({

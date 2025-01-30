@@ -1,14 +1,19 @@
 'use server'
 
 import { hash } from '@node-rs/bcrypt'
-import { randomUUID } from 'crypto'
+// import { randomUUID } from 'crypto'
 import { cookies } from 'next/headers'
 import database from '@/modules/database'
+import jwt from '@/sorse/jwt'
 
 interface InsertUser {
   login: string
   number: string
   password: string
+}
+interface Token {
+  id: number
+  role: number
 }
 export default async function InsertUser(user: InsertUser) {
   const fromUsers = await database
@@ -35,10 +40,10 @@ export default async function InsertUser(user: InsertUser) {
       password: await hash(user.password),
       role: 0
     })
-    .returning('id')
+    .returning(['id', 'role'])
     .executeTakeFirstOrThrow()
-  const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
-  const token = randomUUID()
+  const token = await jwt({ id: registration.id, role: registration.role })
+  const expiresAt = new Date(Date.now() + 2 * 24 * 60 * 60 * 1000)
   await database
     .insertInto('userSession')
     .values({

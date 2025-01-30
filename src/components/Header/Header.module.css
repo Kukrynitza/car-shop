@@ -49,8 +49,35 @@
   background-color: #5c3d05;
   border-radius: 10px;
 
-  & li {
+  & li:hover {
+    color: #fdd3e8;
+  }
+
+  & .mainModalLi {
     border-bottom: 2px solid #836a21;
+  }
+}
+
+.userModalUnFalse {
+  position: absolute;
+  top: 50px;
+  right: 70px;
+  z-index: 100;
+  display: grid;
+  grid-template-rows: repeat(2, 1fr);
+  row-gap: 20px;
+  justify-items: center;
+  width: 200px;
+  padding: 8px;
+  background-color: #5c3d05;
+  border-radius: 10px;
+
+  & li:first-child {
+    border-bottom: 2px solid #836a21;
+  }
+
+  & li:hover {
+    color: #fdd3e8;
   }
 }
 
@@ -71,8 +98,10 @@
   & ul {
     display: grid;
     grid-template-columns: auto auto;
-    column-gap: 20px;
+    column-gap: 47px;
+    justify-content: start;
     justify-items: center;
+    margin-left: 100px;
 
     & a:hover {
       color: #fdd3e8;
@@ -80,7 +109,6 @@
   }
 }
 
-/* stylelint-disable-next-line selector-class-pattern */
-.avatarButton {
+.button {
   cursor: pointer;
 }
