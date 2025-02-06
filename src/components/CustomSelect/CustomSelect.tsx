@@ -52,7 +52,7 @@ export default function CustomSelect({ isChange, options, setChange }) {
 
   return (
     <Select
-      defaultValue={isChange}
+      value={isChange}
       options={options}
       styles={customStyles}
       onChange={setChange}

@@ -18,16 +18,16 @@
 /* stylelint-disable-next-line selector-class-pattern */
 .selectDiv {
   width: 100%;
-  margin-top: 16px;
-  margin-bottom: 16px;
 }
 
 .form {
   display: grid;
   grid-template-rows: repeat(3, min-content);
-  row-gap: 20px;
+  row-gap: 40px;
   place-items: center start;
   justify-content: center;
+  color: #f1d3db;
+  scrollbar-color: #b0436e #201318;
 }
 
 /* stylelint-disable-next-line selector-class-pattern */
@@ -69,6 +69,10 @@
   cursor: pointer;
   background-color: #e54d2e;
   border-radius: 5px;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
 }
 
 .error {

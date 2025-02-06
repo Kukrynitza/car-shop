@@ -1,11 +1,11 @@
 'use server'
 import database from '@/modules/database'
 
-export default async function selectBrandCountry() {
+export default async function selectBrandCountry(type:string) {
   const countries = await database
     .selectFrom('brand')
     .select('country')
-    .where('brand.type', 'like', 'car')
+    .where('brand.type', '=', type)
     .groupBy('country')
     .orderBy('country', 'desc')
     .execute()

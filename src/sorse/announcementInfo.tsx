@@ -1,60 +1,59 @@
 'use server'
-import selectBrandCountry from '@/actions/Select/selectBrandCountry'
-import selectModelAndPlace from '@/actions/Select/selectModelAndPlace'
+import selectCarBrand from '@/actions/CarBrand/selectBrand'
+import selectMotorcycleBrand from '@/actions/Motorcycle/selectBrand'
+import selectTruckBrand from '@/actions/Truck/selectBrand'
+import countries from './countries'
 
 interface SortInfo {
-  brandCountry?: string[]
+  brand: string[]
   color: string[]
   drive: string[]
   fuel: string[]
-  modelName?: string[]
-  placeOfProduction?: string[]
+  modelName: string[]
+  placeOfProduction: string[]
   transmission: string[]
   typeOfEquipment: string[]
 }
 
-function cleanAndSortArray(arr: string[]): string[] {
-  return Array.from(new Set(arr)).sort()
-}
-
-export default async function getSortInfo(modelActive:boolean, brands?: number[], type:string)
-  : Promise<SortInfo> {
-  const brandCountry = await selectBrandCountry(type)
-  const modelAndPlace = await selectModelAndPlace(modelActive, brands, type)
-  const modelName = cleanAndSortArray(modelAndPlace.map((element) => element.model))
-  const placeOfProduction = cleanAndSortArray(modelAndPlace.map((element) => element.place))
+export default async function announcementInfo(type:string) {
   if (type === 'car') {
+    const dataBrands = await selectCarBrand()
+    const brand = dataBrands.map(({ name }) => name)
+
     return {
-      brandCountry,
+      brand,
       color: ['белый', 'черный', 'синий', 'красный', 'серый', 'зеленый', 'желтый', 'оранжевый', 'серебристый', 'бежевый'],
       drive: ['передний', 'задний', 'полный'],
       fuel: ['бензин', 'дизель', 'газ', 'гибрид', 'электро', 'бензин-газ'],
-      modelName,
-      placeOfProduction,
+      placeOfProduction: countries,
       transmission: ['механика', 'автомат', 'робот', 'вариатор'],
       typeOfEquipment: ['седан', 'хэтчбек', 'универсал', 'купе', 'кабриолет', 'внедорожник', 'минивен', 'пикап', 'микроавтобус', 'кроссовер']
     }
   }
   if (type === 'motorcycle') {
+    const dataBrands = await selectMotorcycleBrand()
+    const brand = dataBrands.map(({ name }) => name)
+
     return {
-      brandCountry,
+      brand,
       color: ['белый', 'черный', 'синий', 'красный', 'серый', 'зеленый', 'желтый', 'оранжевый', 'серебристый', 'бежевый'],
       drive: ['цепной', 'карданный', 'ременной'],
       fuel: ['бензин', 'электро', 'гибрид'],
-      modelName,
-      placeOfProduction,
+      placeOfProduction: countries,
       transmission: ['механика', 'автомат'],
       typeOfEquipment: ['спортивный', 'круизер', 'туристический', 'эндуро', 'кроссовый', 'чоппер', 'скутер', 'кастом', 'стрит', 'мопед']
     }
   }
   if (type === 'truck') {
+    const dataBrands = await selectTruckBrand()
+    const brand = dataBrands.map(({ name }) => name)
+
     return {
-      brandCountry,
+      brand,
       color: ['белый', 'черный', 'синий', 'красный', 'серый', 'зеленый', 'желтый', 'оранжевый', 'серебристый', 'бежевый'],
       drive: ['задний', 'передний', 'полный', '6x4', '6x6', '8x4', '8x8'],
       fuel: ['дизель', 'бензин', 'газ', 'электро', 'гибрид'],
-      modelName,
-      placeOfProduction,
+      placeOfProduction: countries,
       transmission: ['механика', 'автомат', 'робот'],
       typeOfEquipment: ['бортовой', 'самосвал', 'фургон', 'тягач', 'рефрижератор', 'цементовоз', 'автовоз', 'топливозаправщик', 'эвакуатор', 'лесовоз']
     }

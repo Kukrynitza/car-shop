@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation'
 import { minLength, pipe, safeParse, string, trim } from 'valibot'
 import insertBrand from '@/actions/Insert/InsertBrand'
 import CustomSelect from '@/components/CustomSelect/CustomSelect'
+import countries from '@/sorse/countries'
 // import getSortInfo from '@/sorse/sortInfo'
 import styles from './page.module.css'
 
@@ -15,18 +16,19 @@ interface Select {
   label: string
   value: string
 }
-const nameSchema = pipe(string(), trim(), minLength(2, 'Минимальная длина названия - 2'))
-const countrySchema = pipe(string(), trim(), minLength(2, 'Минимальная длина страны - 2'))
+const nameSchema = pipe(string(), trim(), minLength(3, 'Минимальная длина названия - 3'))
 export default function Page() {
   const router = useRouter()
-  const [record, setRecord] = useState([false, false])
-  const [isError, setIsError] = useState<string[]>(['', ''])
+  const [record, setRecord] = useState(false)
+  const [isError, setIsError] = useState<string>('')
   const [mounted, setMounted] = useState(false)
   const types = [
     { label: 'Машина', value: 'car' },
     { label: 'Мотоцикл', value: 'motorcycle' },
     { label: 'Грузовик', value: 'truck' }
   ]
+  const selectCountries = countries.map((element) => ({ label: element, value: element }))
+  const [isCountry, setCountry] = useState<Select>(selectCountries[0])
   const [isType, setType] = useState<Select>(types[0])
   useEffect(() => {
     setMounted(true)
@@ -35,23 +37,16 @@ export default function Page() {
   const [
     message, formAction, isPending
   ] = useActionState(async (_: unknown, formData: FormData) => {
-    setIsError(['', ''])
+    setIsError('')
     const nameError = safeParse(nameSchema, formData.get('name'))
     if (nameError.success) {
-      const countryError = safeParse(countrySchema, formData.get('country'))
-      if (countryError.success) {
-        const name = nameError.output
-        const slug = name.toLowerCase().replace(' ', '-')
-        const country = countryError.output
-        await insertBrand({ country, name, slug, type: isType.value })
-        router.push('/user')
-      } else {
-        setIsError([countryError.issues[0].message, '1'])
-        setRecord(record.map((element, index) => (index === 1 ? false : element)))
-      }
+      const name = nameError.output
+      const slug = name.toLowerCase().replace(' ', '-')
+      await insertBrand({ country: isCountry, name, slug, type: isType.value })
+      router.push('/user')
     } else {
-      setIsError([nameError.issues[0].message, '0'])
-      setRecord(record.map((element, index) => (index === 0 ? false : element)))
+      setIsError(nameError.issues[0].message)
+      setRecord(false)
     }
 
     return {
@@ -68,14 +63,21 @@ export default function Page() {
       <h1 className={styles.h1}>Создание бренда</h1>
       <form action={formAction} className={styles.form}>
         <label htmlFor="password" className={styles.error}>
-          {isError[1] === '0' && !record[0] ? isError[0] : '\u00A0'}
-          <input type="text" name="name" id="name" className={record[0] ? styles.nameSuccess : styles.nameFailure} defaultValue={typeof message.name === 'string' ? message.name : ''} placeholder="Название" onChange={() => setRecord(record.map((element, index) => (index === 0 ? true : element)))} />
-        </label>
-        <label htmlFor="password" className={styles.error}>
-          {isError[1] === '1' && !record[1] ? isError[0] : '\u00A0'}
-          <input type="text" name="country" id="country" className={record[1] ? styles.countrySuccess : styles.countryFailure} defaultValue={typeof message.country === 'string' ? message.country : ''} placeholder="Страна" onChange={() => setRecord(record.map((element, index) => (index === 1 ? true : element)))} />
+          {isError && !record ? isError : '\u00A0'}
+          <input type="text" name="name" id="name" className={record ? styles.nameSuccess : styles.nameFailure} defaultValue={typeof message.name === 'string' ? message.name : ''} placeholder="Название" onChange={() => setRecord(true)} />
         </label>
         <div className={styles.selectDiv}>
+          <p>Страна</p>
+          {mounted ? (
+            <CustomSelect
+              isChange={isCountry}
+              options={selectCountries}
+              setChange={setCountry}
+            />
+          ) : null}
+        </div>
+        <div className={styles.selectDiv}>
+          <p>Тип ТС</p>
           {mounted ? (
             <CustomSelect
               isChange={isType}
@@ -86,10 +88,10 @@ export default function Page() {
         </div>
         <button
           type="submit"
-          className={!record[0] || !record[1]
+          className={!record
             ? styles.enterFailure
             : styles.enterSuccess}
-          disabled={!record[0] || !record[1] || isPending}
+          disabled={!record || isPending}
         >
           Создать
         </button>

@@ -87,7 +87,7 @@ export default function Page() {
         .filter((element) => element.active)
         .map((element) => element.id)
       const modelActive = ids.length !== 0
-      const data = await sortInfo(modelActive, ids)
+      const data = await sortInfo(modelActive, ids, 'car')
       setSortInfoData(data)
       setFullSortInfoData(data)
 
