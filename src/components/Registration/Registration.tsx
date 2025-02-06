@@ -1,7 +1,7 @@
 /* eslint-disable @eslint-react/no-complex-conditional-rendering */
 'use client'
 import { useActionState, useContext, useState } from 'react'
-import { maxLength, minLength, pipe, regex, safeParse, string, trim } from 'valibot'
+import { custom, maxLength, minLength, pipe, regex, safeParse, string, trim } from 'valibot'
 import InsertUser from '@/actions/LoginAndSign/InsertUser'
 import RegistrationContext from '@/contexts/RegistrationContext'
 import styles from './Registration.module.css'
@@ -21,9 +21,18 @@ interface InsertUser {
   password: string
 }
 const numberShema = pipe(string(), regex(/^\+?[1-9]{1}[0-9]{3,14}$/, 'Некорректный номер телефона'), minLength(9, 'Минимальная длина адреса номера - 9'), maxLength(13, 'Максимальная длина адреса номера - 12'), trim())
-const loginSchema = pipe(string(), minLength(5, 'Минимальная длина логина - 5'), trim())
-const passwordSchema = pipe(string(), minLength(6, 'Минимальная длина пароля - 6'), trim())
-
+const passwordSchema = pipe(
+  string(),
+  trim(),
+  minLength(6, 'Минимальная длина пароля - 6 символов'),
+  maxLength(30, 'Максимальная длина пароля - 30 символов')
+)
+const loginSchema = pipe(
+  string(),
+  trim(),
+  minLength(5, 'Минимальная длина логина - 5 символов'),
+  maxLength(20, 'Максимальная длина логина - 20 символов')
+)
 export default function Registration() {
   const context = useContext<RegistrationContextType | null>(RegistrationContext)
   const registration = context?.registration
@@ -43,10 +52,12 @@ export default function Registration() {
       if (passwordError.success) {
         const loginError = safeParse(loginSchema, formData.get('login'))
         if (loginError.success) {
+          const login = loginError.output
+          const password = passwordError.output
           const insertUser = {
-            login: formData.get('login'),
+            login,
             number: formData.get('number'),
-            password: formData.get('password')
+            password
           }
 
           // eslint-disable-next-line new-cap

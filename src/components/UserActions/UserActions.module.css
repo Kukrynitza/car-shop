@@ -1,0 +1,56 @@
+/* stylelint-disable-next-line selector-class-pattern */
+.userModal {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  row-gap: 40px;
+  height: calc(100vh - 50px);
+  margin-left: 25px;
+  font-size: 18px;
+  color: #f1d3e8;
+  border-right: 5px solid #5c1839;
+
+  & .returnToMain {
+    margin-top: 20px;
+
+    & .returnLink {
+      display: flex;
+      align-items: center;
+    }
+
+    & .returnText {
+      margin-left: 3px;
+    }
+
+    &:hover {
+      text-decoration: 2px underline #f6eeb4;
+    }
+  }
+
+  & .div {
+    & .p {
+      margin-bottom: 3px;
+      font-size: 21px;
+      color: #f6eeb4;
+    }
+
+    & ul {
+      display: grid;
+      grid-template-rows: repeat(3, min-content);
+      gap: 10px;
+
+      & li {
+        &:hover {
+          text-decoration: 2px underline #f6eeb4;
+        }
+      }
+    }
+  }
+
+  & .newAccount {
+    margin-bottom: 30px;
+
+    &:hover {
+      text-decoration: 2px underline #f6eeb4;
+    }
+  }
+}

@@ -17,7 +17,7 @@ function cleanAndSortArray(arr: string[]): string[] {
   return Array.from(new Set(arr)).sort()
 }
 
-export default async function getSortInfo(modelActive:boolean, brands: number[])
+export default async function getSortInfo(modelActive:boolean, brands?: number[])
   : Promise<SortInfo> {
   const brandCountry = await selectBrandCountry()
   const modelAndPlace = await selectModelAndPlace(modelActive, brands)

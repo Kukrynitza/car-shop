@@ -21,8 +21,8 @@ interface InsertUser {
   number: string
   password: string
 }
-const loginSchema = pipe(string(), minLength(5, 'Минимальная длина логина - 5'), trim())
-const passwordSchema = pipe(string(), minLength(6, 'Минимальная длина пароля - 6'), trim())
+const loginSchema = pipe(string(), trim(), minLength(5, 'Минимальная длина логина - 5'))
+const passwordSchema = pipe(string(), trim(), minLength(6, 'Минимальная длина пароля - 6'))
 
 export default function Registration() {
   const context = useContext<RegistrationContextType | null>(RegistrationContext)
@@ -41,9 +41,11 @@ export default function Registration() {
     if (passwordError.success) {
       const loginError = safeParse(loginSchema, formData.get('login'))
       if (loginError.success) {
+        const login = loginError.output
+        const password = passwordError.output
         const insertUser = {
-          login: formData.get('login'),
-          password: formData.get('password')
+          login,
+          password
         }
         const error = await logIn(insertUser)
         if (error) {
@@ -108,9 +110,9 @@ export default function Registration() {
             className={styles.registrationButton}
             onClick={() => setRegistration(1)}
           >
-            Зарегестрироваться
+            Зарегистрироваться
           </button>
-          <p className={styles.p}> Для тех кто в первый раз на сайте</p>
+          <p className={styles.p}> Для тех, кто в первый раз на сайте</p>
         </div>
 
       </article>

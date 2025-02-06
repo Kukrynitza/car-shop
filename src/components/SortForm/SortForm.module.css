@@ -8,6 +8,7 @@
   padding: 5px;
   /* stylelint-disable-next-line plugin/use-defensive-css */
   overflow: hidden auto;
+  scrollbar-color: #836a21 #381525;
   /* stylelint-disable-next-line plugin/use-defensive-css */
   background-color: #381525;
   border: 2px solid #836a21;

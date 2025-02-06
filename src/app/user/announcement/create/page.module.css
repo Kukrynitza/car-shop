@@ -1,0 +1,249 @@
+.h1 {
+  margin-top: 20px;
+  margin-bottom: 30px;
+  font-size: 25px;
+  color: #ffe7b3;
+  text-align: center;
+}
+
+.form {
+  display: grid;
+  grid-template-areas:
+    "color drive typeOfEquipment"
+    "brand transmission fuel"
+    "power modelName placeOfProduction"
+    "price photo photo"
+    "volume year mileage"
+    "text text text"
+    "text text text"
+    "text text text"
+    "formDiv formDiv formDiv";
+  gap: 20px;
+  place-items: center start;
+  justify-content: center;
+  color: #fdd3e8;
+}
+
+.text {
+  grid-area: text;
+  width: 100%;
+  height: 120px; /* Высота */
+  word-wrap: break-word; /* Для старых браузеров */
+  overflow-wrap: break-word; /* Переносит длинные слова */
+  white-space: pre-wrap; /* Сохраняет переносы строк */
+  resize: none;
+  scrollbar-color: #b0436e #201318;
+  border: 3px solid #b0436e;
+  border-radius: 4px;
+}
+
+.brand {
+  grid-area: brand;
+  width: 100%;
+}
+
+.modelName {
+  grid-area: modelName;
+  width: 100%;
+
+  & input {
+    width: 100%;
+    padding-top: 10px;
+    padding-right: 7px;
+    padding-bottom: 10px;
+    color: #f6eeb4;
+    border: 3px solid #b0436e;
+    border-radius: 4px;
+
+    &:hover {
+      border: 3px solid #ff92ad;
+    }
+  }
+}
+
+.placeOfProductionTry {
+  grid-area: placeOfProduction;
+  width: 100%;
+
+  & input {
+    width: 100%;
+    padding-top: 10px;
+    padding-right: 7px;
+    padding-bottom: 10px;
+    color: #f6eeb4;
+    border: 3px solid #b0436e;
+    border-radius: 4px;
+
+    &:hover {
+      border: 3px solid #ff92ad;
+    }
+  }
+}
+
+.placeOfProductionFalse {
+  grid-area: placeOfProduction;
+  width: 100%;
+
+  & input {
+    width: 100%;
+    padding-top: 10px;
+    padding-right: 7px;
+    padding-bottom: 10px;
+    color: #f6eeb4;
+    border: 3px solid #ac4d39;
+    border-radius: 4px;
+  }
+}
+
+.price {
+  grid-area: price;
+  width: 100%;
+
+  & input {
+    width: 100%;
+    padding-top: 10px;
+    padding-right: 7px;
+    padding-bottom: 10px;
+    color: #f6eeb4;
+    border: 3px solid #b0436e;
+    border-radius: 4px;
+
+    &:hover {
+      border: 3px solid #ff92ad;
+    }
+  }
+}
+
+.photo {
+  grid-area: photo;
+  width: 100%;
+  padding-top: 10px;
+  padding-right: 7px;
+  padding-bottom: 10px;
+  color: #f6eeb4;
+  border: 3px solid #b0436e;
+  border-radius: 4px;
+
+  &:hover {
+    border: 3px solid #ff92ad;
+  }
+}
+
+.volume {
+  grid-area: volume;
+  width: 100%;
+
+  & input {
+    width: 100%;
+    padding-top: 10px;
+    padding-right: 7px;
+    padding-bottom: 10px;
+    color: #f6eeb4;
+    border: 3px solid #b0436e;
+    border-radius: 4px;
+
+    &:hover {
+      border: 3px solid #ff92ad;
+    }
+  }
+}
+
+.year {
+  grid-area: year;
+  width: 100%;
+
+  & input {
+    width: 100%;
+    padding-top: 10px;
+    padding-right: 7px;
+    padding-bottom: 10px;
+    color: #f6eeb4;
+    border: 3px solid #b0436e;
+    border-radius: 4px;
+
+    &:hover {
+      border: 3px solid #ff92ad;
+    }
+  }
+}
+
+.color {
+  grid-area: color;
+  width: 100%;
+}
+
+.mileage {
+  grid-area: mileage;
+  width: 100%;
+
+  & input {
+    width: 100%;
+    padding-top: 10px;
+    padding-right: 7px;
+    padding-bottom: 10px;
+    color: #f6eeb4;
+    border: 3px solid #b0436e;
+    border-radius: 4px;
+
+    &:hover {
+      border: 3px solid #ff92ad;
+    }
+  }
+}
+
+.drive {
+  grid-area: drive;
+  width: 100%;
+}
+
+.typeOfEquipment {
+  grid-area: typeOfEquipment;
+  width: 100%;
+}
+
+.power {
+  grid-area: power;
+
+  & input {
+    width: 100%;
+    padding-top: 10px;
+    padding-right: 7px;
+    padding-bottom: 10px;
+    color: #f6eeb4;
+    border: 3px solid #b0436e;
+    border-radius: 4px;
+
+    &:hover {
+      border: 3px solid #ff92ad;
+    }
+  }
+}
+
+.transmission {
+  grid-area: transmission;
+  width: 100%;
+}
+
+.fuel {
+  grid-area: fuel;
+  width: 100%;
+}
+/* stylelint-disable-next-line selector-class-pattern */
+.enterSuccess {
+  padding: 10px 40px;
+  cursor: pointer;
+  background-color: #3dd68c;
+  border-radius: 5px;
+}
+
+/* stylelint-disable-next-line selector-class-pattern */
+.enterFailure {
+  padding: 10px 40px;
+  cursor: pointer;
+  background-color: #e54d2e;
+  border-radius: 5px;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+}

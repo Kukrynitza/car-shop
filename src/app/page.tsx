@@ -82,41 +82,6 @@ export default function Page() {
     }
   )
   useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      Object.entries(menuRefs).forEach(([key, ref]) => {
-        if (ref.current && !ref.current.contains(event.target as Node)) {
-          if (activeSortButton.category === key) {
-            setActiveSortButton({
-              active: false,
-              category: ''
-            })
-          }
-        }
-      })
-    }
-    document.addEventListener('mousedown', handleClickOutside)
-  }, [activeSortButton, menuRefs])
-  // useEffect(() => {
-  //   function handleClickOutside(event: MouseEvent) {
-  //     Object.entries(menuRefs).forEach(([key, ref]) => {
-  //       if (ref.current && !ref.current.contains(event.target as Node)) {
-  //         if (activeSortButton.category === key) {
-  //           setActiveSortButton({
-  //             active: false,
-  //             category: ''
-  //           })
-  //         }
-  //       }
-  //     })
-  //   }
-
-  //   document.addEventListener('mousedown', handleClickOutside)
-
-  //   return () => {
-  //     document.removeEventListener('mousedown', handleClickOutside)
-  //   }
-  // }, [activeSortButton, menuRefs])
-  useEffect(() => {
     async function fetchDataAndProcess() {
       const ids = brandFilter
         .filter((element) => element.active)
@@ -174,18 +139,36 @@ export default function Page() {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     fetchData()
   }, [otherBrand])
+  function clickInSortElement(type: string) : void {
+    setActiveSortButton((prevState) => ({
+      active: prevState.category === type ? !prevState.active : true,
+      category: type
+    }))
+  }
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (activeSortButton.active) {
+        const activeRef = menuRefs[activeSortButton.category as keyof typeof menuRefs]
+        if (activeRef.current && !activeRef.current.contains(event.target as Node)) {
+          setActiveSortButton({
+            active: false,
+            category: ''
+          })
+        }
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [activeSortButton, menuRefs])
   function linkClicked(name:string): void {
     setBrandFilter((brandFilterOld) => brandFilterOld.map(
       (element:BrandForFilter) => (element.name === name
         ? { ...element, active: !element.active }
         : element)
     ))
-  }
-  function clickInSortElement(type: string) : void {
-    setActiveSortButton((prevState) => ({
-      active: prevState.category === type ? !prevState.active : true,
-      category: type
-    }))
   }
   const [
     message, formAction
@@ -305,7 +288,7 @@ export default function Page() {
         </div>
         <div ref={menuRefs.brandCountry} className={styles.brandCountry}>
           <button type="button" className={styles.button} onClick={() => clickInSortElement('brandCountry')}>
-            <span>{activeSortData?.brandCountry.length > 0 ? activeSortData.brandCountry.join() : 'Страна бренда'}</span>
+            <span>{activeSortData?.brandCountry?.length > 0 ? activeSortData.brandCountry.join() : 'Страна бренда'}</span>
             <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="#fdd3e8"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" /></svg>
           </button>
           {activeSortButton.category === 'brandCountry' && activeSortButton.active && (
@@ -347,7 +330,7 @@ export default function Page() {
         </div>
         <div ref={menuRefs.placeOfProduction} className={styles.placeOfProduction}>
           <button type="button" className={styles.button} onClick={() => clickInSortElement('placeOfProduction')}>
-            <span>{activeSortData?.placeOfProduction.length > 0 ? activeSortData.placeOfProduction.join() : 'Страна-производитель'}</span>
+            <span>{activeSortData?.placeOfProduction?.length > 0 ? activeSortData.placeOfProduction.join() : 'Страна-производитель'}</span>
             <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="#fdd3e8"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" /></svg>
           </button>
           {activeSortButton.category === 'placeOfProduction' && activeSortButton.active && (

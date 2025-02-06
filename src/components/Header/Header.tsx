@@ -18,11 +18,7 @@ export default function Header() {
   const registration = context?.registration
   useEffect(() => {
     async function getToken() {
-      if (await headerModal()) {
-        setUserSign(true)
-      } else {
-        setUserSign(false)
-      }
+      setUserSign(await headerModal())
     }
     getToken()
   }, [registration])
@@ -37,7 +33,6 @@ export default function Header() {
     }
     document.addEventListener('mousedown', handleClickOutside)
   }, [])
-  console.log(isUserModal)
 
   return (
     <header className={styles.header}>
@@ -76,9 +71,8 @@ export default function Header() {
                     <ul className={styles.userModal}>
                       <li className={styles.mainModalLi}><Link href="/user">Все дейтсвия</Link></li>
                       <li><Link href="/user/announcement/create">Создать объявление</Link></li>
-                      <li>Добавить бренд</li>
                       <li className={styles.mainModalLi}>Посмотреть объявления</li>
-                      <li><button type="button" className={styles.button} onClick={() => setRegistration(2)}>Другой аккаунт</button></li>
+                      <li><button type="button" className={styles.button} onClick={() => setRegistration(2)}>Сменить аккаунт</button></li>
                     </ul>
                   )
                 : (
