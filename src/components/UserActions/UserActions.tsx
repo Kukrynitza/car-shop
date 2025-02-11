@@ -34,7 +34,8 @@ export default function UserActions() {
           {haveAccessRights
             ? (<li><Link href="/user/announcement/create/brand">Создать бренд</Link></li>)
             : null}
-          <li>Посмотреть объявления</li>
+          <li><Link href="/user/">Посмотреть объявления</Link></li>
+
         </ul>
       </div>
       <button type="button" className={styles.newAccount} onClick={() => setRegistration(2)}>Сменить аккаунт</button>

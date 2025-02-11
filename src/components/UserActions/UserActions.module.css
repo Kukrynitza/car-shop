@@ -8,6 +8,7 @@
   font-size: 18px;
   color: #f1d3e8;
   border-right: 5px solid #5c1839;
+  border-bottom: 5px solid #5c1839;
 
   & .returnToMain {
     margin-top: 20px;

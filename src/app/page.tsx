@@ -1,8 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unnecessary-condition */
 'use client'
 import { useActionState, useEffect, useRef, useState } from 'react'
+import Link from 'next/link'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import selectAllCarBrand from '@/actions/CarBrand/selectAllCarBrand'
 import selectFirstCarBrand from '@/actions/CarBrand/selectFirstCarBrand'
+import selectAnnouncements from '@/actions/Select/selectAnnouncements'
+import selectAnnouncementsCount from '@/actions/Select/selectAnnouncementsCount'
+import AnnouncementItem from '@/components/AnnouncementItem/AnnouncementItem'
+import CustomSelect from '@/components/CustomSelect/CustomSelectForm'
 import SortForm from '@/components/SortForm/SortForm'
 import sortInfo from '@/sorse/sortInfo'
 import styles from './page.module.css'
@@ -55,16 +61,44 @@ interface ActiveButton {
   category: string
 }
 export default function Page() {
+  const router = useRouter()
+  const [announcements, setAnnouncements] = useState<Announcement[]>()
+  const [mounted, setMounted] = useState(false)
   const [brandFilter, setBrandFilter] = useState<BrandForFilter[]>([])
+  const [isBrandExist, setBrandExist] = useState(false)
   const [otherBrand, setOtherBrand] = useState(false)
   const [largeSort, setLargeSort] = useState(false)
   const [sortInfoData, setSortInfoData] = useState<SortInfo | null>(null)
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [fullSortInfoData, setFullSortInfoData] = useState<SortInfo | null>(null)
   const [activeSortData, setActiveSortData] = useState<ActiveSort | null>(null)
+  const [totalCount, setTotalCount] = useState(1)
+  const sortSelectInfo = [
+    { label: 'Новые объявления', value: 'createdNew' },
+    { label: 'Старые объявления', value: 'createdOld' },
+    { label: 'Низкой ценой', value: 'coastMin' },
+    { label: 'Высокой ценой', value: 'coastMax' },
+    { label: 'Новые по году', value: 'yearNew' },
+    { label: 'Старые по году', value: 'yearOld' },
+    { label: 'С меньшим пробегом', value: 'mileage' },
+    { label: 'С большим объемом', value: 'volume' }
+  ]
+  const [sortSelect, setSortSelect] = useState(sortSelectInfo[0])
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [inputSortInfo, setInputSortInfo] = useState<InputForm | null>(null)
+  const pathname = usePathname()
+  const serchParams = useSearchParams()
+  const currentPage = Number(serchParams.get('page')) || 1
+  function generateUrl(page:number) {
+    const params = new URLSearchParams(serchParams)
+    if (page < 1) {
+      params.delete('page')
+    } else {
+      params.set('page', page.toString())
+    }
+
+    return `${pathname}?${params.toString()}`
+  }
   const menuRefs = {
     brandCountry: useRef<HTMLDivElement>(null),
     color: useRef<HTMLDivElement>(null),
@@ -81,6 +115,9 @@ export default function Page() {
       category: ''
     }
   )
+  useEffect(() => {
+    setMounted(true)
+  }, [])
   useEffect(() => {
     async function fetchDataAndProcess() {
       const ids = brandFilter
@@ -120,6 +157,7 @@ export default function Page() {
 
   useEffect(() => {
     const fetchData = async () => {
+      setBrandExist(false)
       const carBrand = (otherBrand) ? await selectAllCarBrand() : await selectFirstCarBrand()
       const car: BrandForFilter[] = carBrand.map(
         (element) => (
@@ -132,6 +170,7 @@ export default function Page() {
         )
       )
       setBrandFilter(car)
+      setBrandExist(true)
     }
     // const [message, formAction, isPending] = useActionState((_, formData) => {
 
@@ -170,9 +209,32 @@ export default function Page() {
         : element)
     ))
   }
+  useEffect(() => {
+    async function getAnnouncementCount() {
+      const count = await selectAnnouncementsCount('car', inputSortInfo, activeSortData, [])
+      setTotalCount(count[0].count)
+    }getAnnouncementCount()
+  }, [isBrandExist])
+  useEffect(() => {
+    async function getAnnouncement() {
+      const brands = brandFilter.reduce((result, element) => {
+        if (element.active) {
+          return [...result, element.name]
+        }
+      })
+      const anns = currentPage
+        ? await selectAnnouncements('car', inputSortInfo, activeSortData, brands, sortSelect.value, currentPage)
+        : await selectAnnouncements('car', inputSortInfo, activeSortData, brands, sortSelect.value, 1)
+      setAnnouncements(anns)
+    }
+    if (isBrandExist) {
+      getAnnouncement()
+    }
+  }, [isBrandExist, currentPage])
   const [
     message, formAction
   ] = useActionState((_: unknown, formData: FormData) => {
+    router.push(generateUrl(0))
     const coastMax = formData.get('coastMax')
     const coastMin = formData.get('coastMin')
     const mileageMax = formData.get('mileageMax')
@@ -196,7 +258,6 @@ export default function Page() {
       yearMin: yearMin ? Number(yearMin) : 0
     })
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const newInputSortInfo = {
       coastMax: coastMax ? Number(coastMax) : null,
       coastMin: coastMin ? Number(coastMin) : null,
@@ -209,6 +270,21 @@ export default function Page() {
       yearMax: yearMax ? Number(yearMax) : null,
       yearMin: yearMin ? Number(yearMin) : null
     }
+    async function getAnns() {
+      const brands = brandFilter.reduce((result, element) => {
+        if (element.active) {
+          return [...result, element.name]
+        }
+
+        return result
+      }, [])
+      const anns = await selectAnnouncements('car', inputSortInfo, activeSortData, brands, sortSelect.value, currentPage)
+      const count = await selectAnnouncementsCount('car', inputSortInfo, activeSortData, brands)
+
+      setAnnouncements(anns)
+      setTotalCount(count[0].count)
+    }
+    getAnns()
 
     return {
       coastMax: coastMax ? Number(coastMax) : null,
@@ -270,7 +346,7 @@ export default function Page() {
             />
           )}
         </div>
-        <button type="submit" className={styles.conclusion}>Показать</button>
+        <button type="submit" className={styles.conclusion}>Показать({totalCount})</button>
         <div ref={menuRefs.typeOfEquipment} className={styles.typeOfEquipment}>
           <button type="button" className={styles.button} onClick={() => clickInSortElement('typeOfEquipment')}>
             <span>{activeSortData?.typeOfEquipment ? activeSortData.typeOfEquipment.join() : 'Кузов'}</span>
@@ -325,8 +401,8 @@ export default function Page() {
           <input type="number" name="volumeMax" id="volumeMax" defaultValue={message.volumeMax} placeholder="до" min="0" pattern="\d*" />
         </div>
         <div className={styles.mileage}>
-          <input type="number" name="mileageMin" id="mileageMin" defaultValue={message.mileageMax} placeholder="Пробег от, км" min="0" pattern="\d*" />
-          <input type="number" name="mileageMax" id="mileageMax" defaultValue={message.mileageMin} placeholder="до" min="0" pattern="\d*" />
+          <input type="number" name="mileageMin" id="mileageMin" defaultValue={message.mileageMin} placeholder="Пробег от, км" min="0" pattern="\d*" />
+          <input type="number" name="mileageMax" id="mileageMax" defaultValue={message.mileageMax} placeholder="до" min="0" pattern="\d*" />
         </div>
         <div ref={menuRefs.placeOfProduction} className={styles.placeOfProduction}>
           <button type="button" className={styles.button} onClick={() => clickInSortElement('placeOfProduction')}>
@@ -379,6 +455,15 @@ export default function Page() {
                 </>
               )}
         </button>
+        <div className={styles.sort}>
+          {mounted ? (
+            <CustomSelect
+              isChange={sortSelect}
+              options={sortSelectInfo}
+              setChange={setSortSelect}
+            />
+          ) : null}
+        </div>
         {largeSort
         && (
           <>
@@ -419,6 +504,19 @@ export default function Page() {
           </>
         )}
       </form>
+      <div className={styles.announcements}>
+        {announcements?.length > 0
+          ? announcements.map(
+              (element) => <AnnouncementItem key={element.id} announcement={element} />
+            )
+          : <p>Нет объявлений</p>}
+      </div>
+      <div className={styles.pagination}>
+        {currentPage > 1
+        && <span><Link href={generateUrl(currentPage - 1)}>Pre</Link></span>}
+        {currentPage < Math.ceil(totalCount / 4)
+        && <span><Link href={generateUrl(currentPage + 1)}>Next</Link></span>}
+      </div>
     </div>
   )
 }

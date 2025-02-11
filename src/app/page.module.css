@@ -46,15 +46,17 @@
   grid-template-areas:
     "model model typeOfEquipment brandCountry brandCountry coast coast transmission"
     "volume volume mileage mileage placeOfProduction year year color"
-    "power power fuel advancedSearch advancedSearch drive conclusion conclusion";
-  grid-template-rows: repeat(3, 1fr);
+    "power power fuel fuel fuel drive drive drive"
+    "sort sort advancedSearch advancedSearch advancedSearch advancedSearch conclusion conclusion";
+  grid-template-rows: repeat(4, 1fr);
   /* stylelint-disable-next-line declaration-block-no-redundant-longhand-properties */
   grid-template-columns: repeat(8, 1fr);
   gap: 15px;
-  height: 200px;
+  height: 280px;
   padding: 15px;
   margin-top: 55px;
   color: #fdd3e8;
+  scrollbar-color: #524202 #381525;
   background-color: #381525;
   border-radius: 15px;
 }
@@ -64,17 +66,50 @@
   grid-template-areas:
     "model model typeOfEquipment brandCountry brandCountry coast coast transmission"
     "volume volume mileage mileage placeOfProduction year year color"
-    "advancedSearch advancedSearch advancedSearch advancedSearch advancedSearch advancedSearch conclusion conclusion";
+    "sort sort advancedSearch advancedSearch advancedSearch advancedSearch conclusion conclusion";
   grid-template-rows: repeat(3, 1fr);
   /* stylelint-disable-next-line declaration-block-no-redundant-longhand-properties */
   grid-template-columns: repeat(8, 1fr);
   gap: 15px;
-  height: 200px;
+  height: 210px;
   padding: 15px;
   margin-top: 55px;
   color: #fdd3e8;
+  scrollbar-color: #524202 #381525;
   background-color: #381525;
   border-radius: 15px;
+}
+
+.sort {
+  position: relative;
+  box-sizing: border-box;
+  grid-area: sort;
+  width: 100%;
+  height: 100%;
+
+  & .button {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 260px;
+    height: 100%;
+    padding: 0 8px;
+    border: 2px solid #836a21;
+    border-radius: 8px;
+
+    & span {
+      overflow: hidden;
+      overflow-x: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    &:hover {
+      border: 2px solid #ffe629;
+    }
+  }
 }
 
 .coast {
@@ -351,14 +386,14 @@
   grid-area: transmission;
   width: 100%;
   height: 100%;
-  /* stylelint-disable-next-line no-descending-specificity */
+
   & .button {
     display: grid;
     grid-template-columns: 1fr auto;
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    max-width: 120px;
+    max-width: 260px;
     height: 100%;
     padding: 0 8px;
     border: 2px solid #836a21;
@@ -415,14 +450,14 @@
   grid-area: drive;
   width: 100%;
   height: 100%;
-  /* stylelint-disable-next-line no-descending-specificity */
+
   & .button {
     display: grid;
     grid-template-columns: 1fr auto;
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    max-width: 120px;
+    max-width: 260px;
     height: 100%;
     padding: 0 8px;
     border: 2px solid #836a21;
@@ -447,14 +482,14 @@
   grid-area: fuel;
   width: 100%;
   height: 100%;
-  /* stylelint-disable-next-line no-descending-specificity */
+
   & .button {
     display: grid;
     grid-template-columns: 1fr auto;
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    max-width: 120px;
+    max-width: 260px;
     height: 100%;
     padding: 0 8px;
     border: 2px solid #836a21;
@@ -503,4 +538,13 @@
       border: 2px solid #ffe629;
     }
   }
+}
+
+.announcements {
+  margin-top: 40px;
+}
+
+.pagination {
+  font-size: 27px;
+  color: #fdd3e8;
 }

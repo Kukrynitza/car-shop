@@ -7,16 +7,19 @@ import styles from './page.module.css'
 interface Announcement {
   id: number
   fuel: string
+  login: string
   mileage: number
   modelName: string
   name: string
   path: string[]
   power: number
+  price: number
   text: string
   transmission: string
   typeOfEquipment: string
   volume: number
   year: number
+
 }
 export default function Page() {
   const [isAnnouncement, setAnnouncement] = useState<Announcement[]>()
