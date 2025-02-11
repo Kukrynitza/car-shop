@@ -2,6 +2,7 @@
 import { useActionState, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useDebouncedCallback } from 'use-debounce'
+import CreateAnnouncement from '@/actions/Insert/CreateAnnouncement'
 import CustomSelect from '@/components/CustomSelect/CustomSelect'
 import announcementInfo from '@/sorse/announcementInfo'
 import styles from './page.module.css'
@@ -37,6 +38,7 @@ interface OneInfo {
 }
 export default function Page() {
   const router = useRouter()
+  const [isError, setError] = useState('')
   const [mounted, setMounted] = useState(false)
   const [access, setAccess] = useState(false)
   const [info, setInfo] = useState<FullInfo>({
@@ -115,7 +117,20 @@ export default function Page() {
   const [message,
     formAction,
     isPending] = useActionState(async (_: unknown, formData: FormData) => {
-    router.push('/user')
+    const err = await CreateAnnouncement(formData.getAll('photo'), isBrand.value, {
+      color: isColor.value,
+      drive: isDrive.value,
+      fuel: isFuel.value,
+      placeOfProduction: isPlaceOfProduction.value,
+      transmission: isTransmission.value,
+      typeOfEquipment: isTypeOfEquipment.value,
+      ...announcement
+    })
+    if (err) {
+      setError(err.error)
+    } else {
+      router.push('/user')
+    }
   })
 
   return (
@@ -137,7 +152,7 @@ export default function Page() {
           <input type="text" value={announcement.modelName} placeholder="Модель" onChange={(event) => handleChange('modelName', event)} />
         </label>
         <label className={styles.price}>
-          <p>Стоимость</p>
+          <p>Стоимость, $</p>
           <input type="number" value={announcement.price} placeholder="Стоимость" min="0" step="1" onChange={(event) => handleChange('price', event)} />
         </label>
         <label className={styles.year}>
@@ -146,7 +161,7 @@ export default function Page() {
 
         </label>
         <label className={styles.volume}>
-          <p>Объем</p>
+          <p>Объем, л</p>
           <input type="number" value={announcement.volume} placeholder="Объем" min="0" step="0.1" onChange={(event) => handleChange('volume', event)} />
 
         </label>
@@ -171,7 +186,7 @@ export default function Page() {
           ) : null}
         </label>
         <label className={styles.mileage}>
-          <p>Пробег</p>
+          <p>Пробег, км</p>
           <input type="number" value={announcement.mileage} placeholder="Пробег" min="0" step="1" onChange={(event) => handleChange('mileage', event)} />
 
         </label>
@@ -218,7 +233,7 @@ export default function Page() {
           ) : null}
         </label>
         <label className={styles.power}>
-          <p>Мощность</p>
+          <p>Мощность, л.с.</p>
           <input type="number" value={announcement.power} placeholder="Мощность" min="0" step="0.1" onChange={(event) => handleChange('power', event)} />
 
         </label>
@@ -234,13 +249,14 @@ export default function Page() {
         </label>
         <label className={styles.photo}>
           <p>Фотографии</p>
-          <input type="file" className={styles.photo} placeholder="Фотографии" />
+          <input type="file" name="photo" id="photo" className={styles.photo} placeholder="Фотографии" multiple />
         </label>
         <textarea name="comment" className={styles.text} value={announcement.text} placeholder="Текст объявления" wrap="soft" onChange={(event) => handleChange('text', event)} />
         <div className={styles.formDiv}>
+          {isError && (<p>{isError}</p>)}
           <button
             type="submit"
-            className={access
+            className={access && !isPending
               ? styles.enterSuccess
               : styles.enterFailure}
             disabled={!access || isPending}

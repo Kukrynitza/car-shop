@@ -46,9 +46,9 @@ export default function Header() {
           <li className={styles.logos}>
             <h1 className={styles.logo}>MY_шина</h1>
           </li>
-          <li>
+          {/* <li>
             <input type="search" className={styles.search} placeholder="Поиск" />
-          </li>
+          </li> */}
         </ul>
         <li className={styles.serves}>
           <ul>

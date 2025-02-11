@@ -1,7 +1,13 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-  /* config options here */
-};
-
-export default nextConfig;
+export default {
+  experimental: {
+    serverActions: {
+      bodySizeLimit: '3mb'
+    }
+  },
+  images: {
+    remotePatterns: [{
+      hostname: 'images.unsplash.com',
+      protocol: 'https'
+    }]
+  }
+}

@@ -31,6 +31,7 @@ export interface UserSession {
 export interface AnnouncementTable {
   id: GeneratedAlways<number>
   brandId: number
+  imageId: number
   userId: number
   announcements: number
   color: string
@@ -38,9 +39,8 @@ export interface AnnouncementTable {
   fuel: string
   mileage: number
   modelName: string
-  password: string
-  photoIds: number[]
   placeOfProduction: string
+  power: number
   price: number
   text: string
   transmission: string
@@ -49,10 +49,16 @@ export interface AnnouncementTable {
   year: number
   createdAt: GeneratedAlways<Date>
 }
+export interface ImageTable {
+  id: GeneratedAlways<number>
+  path: string[]
+  createdAt: GeneratedAlways<Date>
+}
 
 export interface Database {
   announcements: AnnouncementTable
   brand: BrandTable
+  image: ImageTable
   users: UserTable
   userSession: UserSession
 }
