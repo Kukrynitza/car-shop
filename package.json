@@ -28,6 +28,7 @@
   "devDependencies": {
     "@shcherbin/eslint-config": "^0.15.9",
     "@shcherbin/stylelint-config": "^0.2.0",
+    "@types/nanoid-dictionary": "^4.2.3",
     "@types/node": "^20",
     "@types/pg": "^8.11.10",
     "@types/react": "^19",

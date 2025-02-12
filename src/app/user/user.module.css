@@ -3,3 +3,23 @@
   grid-template-columns: 1fr 4fr;
   height: 100%;
 }
+
+.userActionsWrapper {
+  display: none;
+}
+
+.userActionsWrapper {
+  display: block;
+}
+
+@media (width <= 768px) {
+  .userActionsWrapper {
+    display: none;
+  }
+
+  .user {
+    display: grid;
+    grid-template-columns: 1fr;
+    height: 100%;
+  }
+}

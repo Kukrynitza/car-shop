@@ -89,7 +89,7 @@ export default function AnnouncementItem({ announcement }: Announcement) {
           </div>
         </li>
         <li className={styles.announcementName}>
-          <Link href={`/${announcement.id}`}>{announcement.name} {announcement.modelName}</Link>
+          <Link href={`/${announcement.id}`} className={styles.link}>{announcement.name} {announcement.modelName}</Link>
         </li>
         <li className={styles.cartInfo}>
           <span>{announcement.year}</span>

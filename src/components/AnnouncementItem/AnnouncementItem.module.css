@@ -10,18 +10,19 @@
   background-color: #381525;
   border-radius: 8px;
 
+  /* stylelint-disable-next-line selector-class-pattern */
   & .announcementName {
     font-size: 20px;
     font-weight: 700;
     color: #f6eeb4;
   }
-
+  /* stylelint-disable-next-line selector-class-pattern */
   & .cartInfo {
     display: grid;
     grid-template-rows: repeat(4, min-content);
     row-gap: 10px;
   }
-
+  /* stylelint-disable-next-line selector-class-pattern */
   & .mainInfo {
     display: grid;
     grid-template-columns: 2fr 1fr min-content 1fr;
@@ -71,8 +72,9 @@
 .li {
   position: relative;
 }
-
+/* stylelint-disable-next-line selector-class-pattern */
 .buttonLeft,
+  /* stylelint-disable-next-line selector-class-pattern */
 .buttonRight {
   position: absolute;
   z-index: 10;
@@ -92,11 +94,18 @@
     border-radius: 50%;
   }
 }
-
+/* stylelint-disable-next-line selector-class-pattern */
 .buttonLeft {
   left: 0;
 }
-
+/* stylelint-disable-next-line selector-class-pattern */
 .buttonRight {
   right: 0;
+}
+
+.link:hover {
+  display: inline-block;
+  color: #f5efc1;
+  transition: transform 0.5s;
+  transform: scale(1.05) rotateY(-21deg) perspective(500px);
 }

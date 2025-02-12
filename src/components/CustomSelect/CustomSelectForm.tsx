@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 import Select from 'react-select'
 
 export default function CustomSelect({ isChange, options, setChange }) {
   const customStyles = {
-    control: (provided, state) => ({
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    control: (provided: any, state: { isFocused: any }) => ({
       ...provided,
       '&:hover': {
         borderColor: '#f6eeb4'
@@ -17,7 +19,8 @@ export default function CustomSelect({ isChange, options, setChange }) {
       'outline': 'none',
       'width': '100%'
     }),
-    dropdownIndicator: (provided, state) => ({
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    dropdownIndicator: (provided: any) => ({
       ...provided,
       '&:hover': {
         color: '#f6eeb4'
@@ -26,24 +29,27 @@ export default function CustomSelect({ isChange, options, setChange }) {
       'padding': '0 8px'
     }),
     indicatorSeparator: () => ({
-      display: 'none' // Убираем разделитель
+      display: 'none'
     }),
-    input: (provided) => ({
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    input: (provided: any) => ({
       ...provided,
       color: '#f6eeb4'
     }),
-    menu: (provided) => ({
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    menu: (provided: any) => ({
       ...provided,
       backgroundColor: '#381525',
       border: '2px solid #f6eeb4',
       borderRadius: '6px',
       marginTop: '4px',
       padding: 0,
-      position: 'absolute', // Гарантируем, что меню не будет сдвигать другие элементы
+      position: 'absolute',
       width: '100%',
-      zIndex: 9999 // Поднимаем меню выше по z-index
+      zIndex: 9999
     }),
-    menuList: (provided) => ({
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    menuList: (provided: any) => ({
       ...provided,
       '::-webkit-scrollbar': {
         width: '8px'
@@ -58,7 +64,8 @@ export default function CustomSelect({ isChange, options, setChange }) {
       'maxHeight': '150px',
       'padding': 0
     }),
-    option: (provided, state) => ({
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    option: (provided: any, state: { isSelected: any }) => ({
       ...provided,
       '&:hover': {
         backgroundColor: '#4a1c31'
@@ -69,11 +76,13 @@ export default function CustomSelect({ isChange, options, setChange }) {
       'cursor': 'pointer',
       'padding': '8px 12px'
     }),
-    singleValue: (provided) => ({
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    singleValue: (provided: any) => ({
       ...provided,
       color: '#f6eeb4'
     }),
-    valueContainer: (provided) => ({
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    valueContainer: (provided: any) => ({
       ...provided,
       padding: '2px 8px'
     })

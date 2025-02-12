@@ -10,14 +10,16 @@
   border-right: 5px solid #5c1839;
   border-bottom: 5px solid #5c1839;
 
+  /* stylelint-disable-next-line selector-class-pattern */
   & .returnToMain {
     margin-top: 20px;
-
+    /* stylelint-disable-next-line selector-class-pattern */
     & .returnLink {
       display: flex;
+      flex-wrap: nowrap;
       align-items: center;
     }
-
+    /* stylelint-disable-next-line selector-class-pattern */
     & .returnText {
       margin-left: 3px;
     }
@@ -46,7 +48,7 @@
       }
     }
   }
-
+  /* stylelint-disable-next-line selector-class-pattern */
   & .newAccount {
     margin-bottom: 30px;
 

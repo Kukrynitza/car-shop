@@ -1,10 +1,14 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+/* eslint-disable @typescript-eslint/no-unsafe-return */
 'use client'
 import Select from 'react-select'
 
 // const DynamicSelect = dynamic(() => import('react-select'), { ssr: false })
 export default function CustomSelect({ isChange, options, setChange }) {
   const customStyles = {
-    control: (provided, state) => ({
+
+    control: (provided: any, state: { isFocused: any }) => ({
       ...provided,
       '&:hover': { borderColor: '#FF92AD' },
       'backgroundColor': '#201318',
@@ -15,36 +19,42 @@ export default function CustomSelect({ isChange, options, setChange }) {
       'width': '100%'
     }),
     // 🔹 Стрелка (Dropdown Indicator)
-    dropdownIndicator: (provided, state) => ({
+
+    dropdownIndicator: (provided: any) => ({
       ...provided,
-      '&:hover': { color: '#f1d3e8' }, // Чуть ярче при наведении
-      'color': '#f6eeb4' // Жёлтая стрелка
+      '&:hover': { color: '#f1d3e8' },
+      'color': '#f6eeb4'
     }),
     // 🔹 Разделительная линия между текстом и стрелкой
-    indicatorSeparator: (provided) => ({
+
+    indicatorSeparator: (provided: any) => ({
       ...provided,
-      backgroundColor: '#f6eeb4' // Жёлтая линия
+      backgroundColor: '#f6eeb4'
     }),
-    input: (provided) => ({
+
+    input: (provided: any) => ({
       ...provided,
-      color: '#f6eeb4' // Жёлтый текст при вводе
+      color: '#f6eeb4'
     }),
-    menu: (provided) => ({
+
+    menu: (provided: any) => ({
       ...provided,
       backgroundColor: '#1a1016',
       border: '3px solid #B0436E',
       borderRadius: '8px',
       width: '100%'
     }),
-    option: (provided, state) => ({
+
+    option: (provided: any, state: { isSelected: any }) => ({
       ...provided,
       '&:focus': { backgroundColor: '#5c1839', color: '#f6eeb4' },
       '&:hover': { backgroundColor: '#a84885' },
       'backgroundColor': state.isSelected ? '#5c1839' : '#201318',
-      'borderBottom': '2px solid #B0436E', // Подчеркивание под каждым элементом
+      'borderBottom': '2px solid #B0436E',
       'color': '#f6eeb4'
     }),
-    singleValue: (provided) => ({
+
+    singleValue: (provided: unknown) => ({
       ...provided,
       color: '#f6eeb4'
     })

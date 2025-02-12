@@ -4,17 +4,6 @@ import selectMotorcycleBrand from '@/actions/Motorcycle/selectBrand'
 import selectTruckBrand from '@/actions/Truck/selectBrand'
 import countries from './countries'
 
-interface SortInfo {
-  brand: string[]
-  color: string[]
-  drive: string[]
-  fuel: string[]
-  modelName: string[]
-  placeOfProduction: string[]
-  transmission: string[]
-  typeOfEquipment: string[]
-}
-
 export default async function announcementInfo(type:string) {
   if (type === 'car') {
     const dataBrands = await selectCarBrand()

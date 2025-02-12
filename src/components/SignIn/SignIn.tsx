@@ -2,7 +2,6 @@
 'use client'
 import { useActionState, useContext, useState } from 'react'
 import { minLength, pipe, safeParse, string, trim } from 'valibot'
-import InsertUser from '@/actions/LoginAndSign/InsertUser'
 import logIn from '@/actions/LoginAndSign/LogIn'
 import RegistrationContext from '@/contexts/RegistrationContext'
 import styles from './SignIn.module.css'
@@ -15,11 +14,6 @@ import styles from './SignIn.module.css'
 interface RegistrationContextType {
   registration: number;
   setRegistration: (value: number) => void;
-}
-interface InsertUser {
-  login: string
-  number: string
-  password: string
 }
 const loginSchema = pipe(string(), trim(), minLength(5, 'Минимальная длина логина - 5'))
 const passwordSchema = pipe(string(), trim(), minLength(6, 'Минимальная длина пароля - 6'))
@@ -49,7 +43,6 @@ export default function Registration() {
         }
         const error = await logIn(insertUser)
         if (error) {
-          console.log(error)
           if (error === 'Такого логина нет') {
             setIsError([error, '2'])
             setRecord(record.map((element, index) => (index === 2 ? false : element)))

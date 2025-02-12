@@ -1,6 +1,7 @@
 .header {
   display: grid;
   align-content: center;
+  min-width: 100%;
   height: 50px;
   padding: 0 150px;
   color: #f6eeb4;
@@ -10,7 +11,7 @@
     display: grid;
     grid-template-columns: 1fr 2fr 1fr;
     align-content: center;
-
+    /* stylelint-disable-next-line selector-class-pattern */
     & .ulUl {
       display: grid;
       grid-template-columns: auto auto auto;
@@ -36,7 +37,7 @@
   padding: 0;
   font-size: 25px;
 }
-
+/* stylelint-disable-next-line selector-class-pattern */
 .userModal {
   position: absolute;
   top: 50px;
@@ -49,15 +50,16 @@
   background-color: #5c3d05;
   border-radius: 10px;
 
+  /* stylelint-disable-next-line no-descending-specificity */
   & li:hover {
     color: #fdd3e8;
   }
-
+  /* stylelint-disable-next-line selector-class-pattern */
   & .mainModalLi {
     border-bottom: 2px solid #836a21;
   }
 }
-
+/* stylelint-disable-next-line selector-class-pattern */
 .userModalUnFalse {
   position: absolute;
   top: 50px;
@@ -72,6 +74,7 @@
   background-color: #5c3d05;
   border-radius: 10px;
 
+  /* stylelint-disable-next-line no-descending-specificity */
   & li:hover {
     color: #fdd3e8;
   }
@@ -107,4 +110,53 @@
 
 .button {
   cursor: pointer;
+}
+
+@media (width <= 768px) {
+  .header {
+    padding: 0 15px;
+  }
+
+  .serves {
+    font-size: 15px;
+  }
+
+  /* stylelint-disable-next-line selector-class-pattern */
+  .userModal {
+    position: absolute;
+    top: 50px;
+    z-index: 100;
+    display: grid;
+    grid-template-rows: repeat(4, 1fr);
+    width: 200px;
+    padding: 8px;
+    background-color: #5c3d05;
+    border-radius: 10px;
+
+    & li:hover {
+      color: #fdd3e8;
+    }
+    /* stylelint-disable-next-line selector-class-pattern */
+    & .mainModalLi {
+      border-bottom: 2px solid #836a21;
+    }
+  }
+  /* stylelint-disable-next-line selector-class-pattern */
+  .userModalUnFalse {
+    position: absolute;
+    top: 50px;
+    z-index: 100;
+    display: grid;
+    grid-template-rows: repeat(2, 1fr);
+    row-gap: 20px;
+    justify-items: center;
+    width: 200px;
+    padding: 8px;
+    background-color: #5c3d05;
+    border-radius: 10px;
+
+    & li:hover {
+      color: #fdd3e8;
+    }
+  }
 }

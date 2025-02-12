@@ -10,7 +10,9 @@ import styles from './Header.module.css'
 import headerModal from './HeaderModal'
 
 export default function Header() {
+  // eslint-disable-next-line @eslint-react/naming-convention/use-state
   const [isUserModal, setUserModal] = useState(false)
+  // eslint-disable-next-line @eslint-react/naming-convention/use-state
   const [isUserSign, setUserSign] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
   const context = useContext(RegistrationContext)
@@ -20,6 +22,7 @@ export default function Header() {
     async function getToken() {
       setUserSign(await headerModal())
     }
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     getToken()
   }, [registration])
   if (!setRegistration) {
@@ -31,6 +34,7 @@ export default function Header() {
         setUserModal(false)
       }
     }
+    // eslint-disable-next-line @eslint-react/web-api/no-leaked-event-listener
     document.addEventListener('mousedown', handleClickOutside)
   }, [])
 
@@ -38,17 +42,9 @@ export default function Header() {
     <header className={styles.header}>
       <ul className={styles.ul}>
         <ul className={styles.ulUl}>
-          <li className={styles.ulUlLi}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 256 256" fill="#F6EEB4">
-              <path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z" />
-            </svg>
-          </li>
           <li className={styles.logos}>
             <h1 className={styles.logo}>MY_шина</h1>
           </li>
-          {/* <li>
-            <input type="search" className={styles.search} placeholder="Поиск" />
-          </li> */}
         </ul>
         <li className={styles.serves}>
           <ul>

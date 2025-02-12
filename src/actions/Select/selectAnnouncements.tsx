@@ -26,11 +26,11 @@ interface ActiveSort {
 }
 export default async function selectAnnouncements(
   type: string,
+  sort:string,
+  offset:number,
   info?: InputForm,
   selectInfo?:ActiveSort,
-  brandFilter?:string[],
-  sort:string,
-  offset:number
+  brandFilter?:string[]
 ) {
   let selectAnnouncement = database
     .selectFrom('announcements')
@@ -39,8 +39,6 @@ export default async function selectAnnouncements(
     .innerJoin('users', 'announcements.userId', 'users.id')
     .select(['announcements.id', 'announcements.year', 'announcements.volume', 'announcements.mileage', 'announcements.typeOfEquipment', 'announcements.fuel', 'announcements.power', 'announcements.transmission', 'image.path', 'brand.name', 'announcements.modelName', 'announcements.price', 'users.login', 'announcements.text'])
     .where('brand.type', '=', type)
-    .limit(4)
-    .offset(offset * 4 - 4)
   if (info) {
     if (info.coastMax !== 0) {
       selectAnnouncement = selectAnnouncement.where('announcements.price', '<=', info.coastMax)
@@ -75,35 +73,33 @@ export default async function selectAnnouncements(
   }
 
   if (selectInfo) {
-    if (selectInfo.brandCountry?.length > 0) {
+    if (selectInfo.brandCountry && selectInfo.brandCountry.length > 0) {
       selectAnnouncement = selectAnnouncement.where('brand.country', 'in', selectInfo.brandCountry)
     }
-    if (selectInfo.color?.length > 0) {
+    if (selectInfo.color && selectInfo.color.length > 0) {
       selectAnnouncement = selectAnnouncement.where('announcements.color', 'in', selectInfo.color)
     }
-    if (selectInfo.drive?.length > 0) {
+    if (selectInfo.drive && selectInfo.drive.length > 0) {
       selectAnnouncement = selectAnnouncement.where('announcements.drive', 'in', selectInfo.drive)
     }
-    if (selectInfo.fuel?.length > 0) {
+    if (selectInfo.fuel && selectInfo.fuel.length > 0) {
       selectAnnouncement = selectAnnouncement.where('announcements.fuel', 'in', selectInfo.fuel)
     }
-    if (selectInfo.modelName?.length > 0) {
-      console.log('2')
+    if (selectInfo.modelName && selectInfo.modelName.length > 0) {
       selectAnnouncement = selectAnnouncement.where('announcements.modelName', 'in', selectInfo.modelName)
     }
-    if (selectInfo.placeOfProduction?.length > 0) {
+    if (selectInfo.placeOfProduction && selectInfo.placeOfProduction.length > 0) {
       selectAnnouncement = selectAnnouncement.where('announcements.placeOfProduction', 'in', selectInfo.placeOfProduction)
     }
-    if (selectInfo.transmission?.length > 0) {
+    if (selectInfo.transmission && selectInfo.transmission.length > 0) {
       selectAnnouncement.where('announcements.transmission', 'in', selectInfo.transmission)
     }
-    if (selectInfo.typeOfEquipment?.length > 0) {
+    if (selectInfo.typeOfEquipment && selectInfo.typeOfEquipment.length > 0) {
       selectAnnouncement = selectAnnouncement.where('announcements.typeOfEquipment', 'in', selectInfo.typeOfEquipment)
     }
   }
 
-  if (brandFilter !== undefined && brandFilter.length > 0) {
-    console.log(brandFilter)
+  if (brandFilter && brandFilter.length > 0) {
     selectAnnouncement = selectAnnouncement.where('brand.name', 'in', brandFilter)
   }
   if (sort === 'createdNew') {
@@ -131,5 +127,6 @@ export default async function selectAnnouncements(
     selectAnnouncement = selectAnnouncement.orderBy('announcements.volume desc')
   }
 
-  return selectAnnouncement.execute()
+  return selectAnnouncement.limit(4)
+    .offset(offset * 4 - 4).execute()
 }

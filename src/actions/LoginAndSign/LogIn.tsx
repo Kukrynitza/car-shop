@@ -1,7 +1,6 @@
 'use server'
 
 import { verify } from '@node-rs/bcrypt'
-import { randomUUID } from 'crypto'
 import { cookies } from 'next/headers'
 import database from '@/modules/database'
 import jwt from '@/sorse/jwt'

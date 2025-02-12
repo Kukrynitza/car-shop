@@ -8,7 +8,7 @@ interface Brand {
   type: string
 }
 export default async function insertBrand(brand:Brand) {
-  database
+  await database
     .insertInto('brand')
     .values({
       country: brand.country,
@@ -17,4 +17,6 @@ export default async function insertBrand(brand:Brand) {
       type: brand.type
     })
     .execute()
+
+  return null
 }

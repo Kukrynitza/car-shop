@@ -93,7 +93,6 @@
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    max-width: 260px;
     height: 100%;
     padding: 0 8px;
     border: 2px solid #836a21;
@@ -297,7 +296,6 @@
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    max-width: 260px;
     height: 100%;
     padding: 0 8px;
     border: 2px solid #836a21;
@@ -361,7 +359,6 @@
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    max-width: 260px;
     height: 100%;
     padding: 0 8px;
     border: 2px solid #836a21;
@@ -393,7 +390,6 @@
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    max-width: 260px;
     height: 100%;
     padding: 0 8px;
     border: 2px solid #836a21;
@@ -425,7 +421,6 @@
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    max-width: 120px;
     height: 100%;
     padding: 0 8px;
     border: 2px solid #836a21;
@@ -444,6 +439,12 @@
   }
 }
 
+.span:hover {
+  color: #ffe7b3;
+  transition: transform 0.2s;
+  transform: scale(1.05);
+}
+
 .drive {
   position: relative;
   box-sizing: border-box;
@@ -457,7 +458,6 @@
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    max-width: 260px;
     height: 100%;
     padding: 0 8px;
     border: 2px solid #836a21;
@@ -489,7 +489,6 @@
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    max-width: 260px;
     height: 100%;
     padding: 0 8px;
     border: 2px solid #836a21;
@@ -510,7 +509,7 @@
 
 .color {
   position: relative;
-  box-sizing: color;
+  box-sizing: border-box;
   grid-area: color;
   width: 100%;
   height: 100%;
@@ -521,7 +520,6 @@
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    max-width: 120px;
     height: 100%;
     padding: 0 8px;
     border: 2px solid #836a21;
@@ -545,6 +543,68 @@
 }
 
 .pagination {
-  font-size: 27px;
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 7px;
+  justify-content: center;
+  font-size: 20px;
   color: #fdd3e8;
+}
+
+@media (width <= 768px) {
+  .brand {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-items: center;
+    margin-top: 100px;
+    color: #fdd3e8;
+  }
+  /* stylelint-disable-next-line selector-class-pattern */
+  .formLarge {
+    display: grid;
+    grid-template-areas:
+      "model volume volume"
+      "typeOfEquipment mileage mileage"
+      "year year brandCountry"
+      "placeOfProduction coast coast"
+      "transmission color drive"
+      "power power fuel"
+      "sort advancedSearch conclusion";
+    grid-template-rows: repeat(7, 1fr);
+    /* stylelint-disable-next-line declaration-block-no-redundant-longhand-properties */
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    height: 490px;
+    margin-top: 55px;
+    margin-right: 40px;
+    margin-left: 40px;
+    color: #fdd3e8;
+    scrollbar-color: #524202 #381525;
+    background-color: #381525;
+    border-radius: 15px;
+  }
+  /* stylelint-disable-next-line selector-class-pattern */
+  .formSmall {
+    display: grid;
+    grid-template-areas:
+      "model volume volume"
+      "typeOfEquipment mileage mileage"
+      "brandCountry year year"
+      "coast coast placeOfProduction"
+      "transmission color color"
+      "sort advancedSearch conclusion";
+    grid-template-rows: repeat(6, 1fr);
+    /* stylelint-disable-next-line declaration-block-no-redundant-longhand-properties */
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    height: 420px;
+    padding: 15px;
+    margin-top: 55px;
+    margin-right: 40px;
+    margin-left: 40px;
+    color: #fdd3e8;
+    scrollbar-color: #524202 #381525;
+    background-color: #381525;
+    border-radius: 15px;
+  }
 }

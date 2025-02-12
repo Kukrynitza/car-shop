@@ -5,9 +5,20 @@ html {
 body {
   font-family: "PT Sans", sans-serif;
   background-color: #201318;
+
+  /* background-image: url("https://avcdn.av.by/wisiwigimage/0002/6174/2082.jpeg"); */
+  background-repeat: repeat;
+  background-size: contain;
 }
 
 main {
   display: grid;
   grid-template-columns: 1fr 5fr 1fr;
+}
+
+@media (width <= 768px) {
+  main {
+    display: grid;
+    grid-template-columns: min-content 1fr min-content;
+  }
 }

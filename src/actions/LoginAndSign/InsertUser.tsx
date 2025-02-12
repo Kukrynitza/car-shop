@@ -11,10 +11,6 @@ interface InsertUser {
   number: string
   password: string
 }
-interface Token {
-  id: number
-  role: number
-}
 export default async function InsertUser(user: InsertUser) {
   const fromUsers = await database
     .selectFrom('users')

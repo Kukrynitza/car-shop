@@ -16,7 +16,9 @@ import '@fontsource/pt-sans'
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode; }>) {
   return (
     <main className={styles.user}>
-      <UserActions />
+      <div className={styles.userActionsWrapper}>
+        <UserActions />
+      </div>
       {children}
     </main>
   )

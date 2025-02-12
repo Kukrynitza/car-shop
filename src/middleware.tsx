@@ -18,9 +18,9 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/', request.nextUrl))
   }
   if (token) {
-    const payload = await verifyJwt(token)
+    const payload = await verifyJwt(token) as { id: string; role: string }
     // console.log(payload)
-    if (adminPages.includes(pathname) && payload.role === 0) {
+    if (adminPages.includes(pathname) && Number(payload.role) === 0) {
       return NextResponse.redirect(new URL('/', request.nextUrl))
     }
 

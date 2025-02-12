@@ -1,7 +1,7 @@
 /* eslint-disable @eslint-react/no-complex-conditional-rendering */
 'use client'
 import { useActionState, useContext, useState } from 'react'
-import { custom, maxLength, minLength, pipe, regex, safeParse, string, trim } from 'valibot'
+import { maxLength, minLength, pipe, regex, safeParse, string, trim } from 'valibot'
 import InsertUser from '@/actions/LoginAndSign/InsertUser'
 import RegistrationContext from '@/contexts/RegistrationContext'
 import styles from './Registration.module.css'

@@ -25,7 +25,6 @@ export interface UserSession {
   token: string
   expiresAt: Date
   createdAt: GeneratedAlways<Date>
-  updatedAt: Date
 }
 
 export interface AnnouncementTable {
@@ -33,7 +32,6 @@ export interface AnnouncementTable {
   brandId: number
   imageId: number
   userId: number
-  announcements: number
   color: string
   drive: string
   fuel: string

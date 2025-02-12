@@ -221,10 +221,13 @@ export default function Page() {
         if (element.active) {
           return [...result, element.name]
         }
-      })
+
+        return result
+      }, [])
+
       const anns = currentPage
-        ? await selectAnnouncements('car', inputSortInfo, activeSortData, brands, sortSelect.value, currentPage)
-        : await selectAnnouncements('car', inputSortInfo, activeSortData, brands, sortSelect.value, 1)
+        ? await selectAnnouncements('car', sortSelect.value, currentPage, inputSortInfo, activeSortData, brands)
+        : await selectAnnouncements('car', sortSelect.value, 1, inputSortInfo, activeSortData, brands)
       setAnnouncements(anns)
     }
     if (isBrandExist) {
@@ -233,8 +236,9 @@ export default function Page() {
   }, [isBrandExist, currentPage])
   const [
     message, formAction
-  ] = useActionState((_: unknown, formData: FormData) => {
-    router.push(generateUrl(0))
+  ] = useActionState(async (_: unknown, formData: FormData) => {
+    const newUrl = generateUrl(1)
+    router.push(newUrl)
     const coastMax = formData.get('coastMax')
     const coastMin = formData.get('coastMin')
     const mileageMax = formData.get('mileageMax')
@@ -278,13 +282,13 @@ export default function Page() {
 
         return result
       }, [])
-      const anns = await selectAnnouncements('car', inputSortInfo, activeSortData, brands, sortSelect.value, currentPage)
+      const anns = await selectAnnouncements('car', sortSelect.value, currentPage, inputSortInfo, activeSortData, brands)
       const count = await selectAnnouncementsCount('car', inputSortInfo, activeSortData, brands)
 
       setAnnouncements(anns)
       setTotalCount(count[0].count)
     }
-    getAnns()
+    await getAnns()
 
     return {
       coastMax: coastMax ? Number(coastMax) : null,
@@ -513,9 +517,36 @@ export default function Page() {
       </div>
       <div className={styles.pagination}>
         {currentPage > 1
-        && <span><Link href={generateUrl(currentPage - 1)}>Pre</Link></span>}
+        && <span className={styles.span}><Link href={generateUrl(currentPage - 1)}>P</Link></span>}
+        {currentPage - 1 > 1
+        && (
+          <span className={styles.span}>
+            <Link href={generateUrl(currentPage - 2)}>{currentPage - 2}</Link>
+          </span>
+        )}
+        {currentPage > 1
+        && (
+          <span className={styles.span}>
+            <Link href={generateUrl(currentPage - 1)}>{currentPage - 1}</Link>
+          </span>
+        )}
+        <span className={styles.span}>
+          <Link href={generateUrl(currentPage)}>..{currentPage}..</Link>
+        </span>
         {currentPage < Math.ceil(totalCount / 4)
-        && <span><Link href={generateUrl(currentPage + 1)}>Next</Link></span>}
+        && (
+          <span className={styles.span}>
+            <Link href={generateUrl(currentPage + 1)}>{currentPage + 1}</Link>
+          </span>
+        )}
+        {currentPage + 1 < Math.ceil(totalCount / 4)
+        && (
+          <span className={styles.span}>
+            <Link href={generateUrl(currentPage + 2)}>{currentPage + 2}</Link>
+          </span>
+        )}
+        {currentPage < Math.ceil(totalCount / 4)
+        && <span className={styles.span}><Link href={generateUrl(currentPage + 1)}>N</Link></span>}
       </div>
     </div>
   )

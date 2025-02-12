@@ -8,6 +8,7 @@ import styles from './UserActions.module.css'
 
 export default function UserActions() {
   const context = useContext(RegistrationContext)
+  // eslint-disable-next-line @eslint-react/naming-convention/use-state
   const [haveAccessRights, isHaveAccessRights] = useState(false)
   const setRegistration = context?.setRegistration
   const registration = context?.registration

@@ -2,7 +2,6 @@
 
 import { customAlphabet } from 'nanoid'
 import { alphanumeric } from 'nanoid-dictionary'
-import { redirect } from 'next/navigation'
 import { extname } from 'node:path'
 import { array, file, mimeType, pipe, safeParse } from 'valibot'
 import database from '@/modules/database'
@@ -45,6 +44,7 @@ export default async function CreateAnnouncement(
   brandName:string,
   announcement:Announcement
 ) {
+  // eslint-disable-next-line @eslint-react/prefer-destructuring-assignment
   if (!photos[0].size) {
     return { error: 'Photos is null' }
   }
@@ -54,25 +54,35 @@ export default async function CreateAnnouncement(
   }
 
   // const filename = generateFilename(output.image.name)
-  const pathes = []
-  for (const oneFile of output) {
-    const filename = generateFilename(oneFile.name)
-    const { data, error } = await supabase.storage
-      .from('images')
-      .upload(filename, oneFile)
-    if (error) {
-      return { error: 'Image upload error' }
-    }
-    pathes.push(data.path)
+  const pathes = await Promise.all(
+    output.map(async (oneFile) => {
+      const filename = generateFilename(oneFile.name)
+      const { data, error } = await supabase.storage
+        .from('images')
+        .upload(filename, oneFile)
+
+      if (error) {
+        return { error: 'Image upload error' }
+      }
+
+      return data.path
+    })
+  )
+  const uploadedPaths = pathes.filter((result): result is string => typeof result === 'string')
+  if (uploadedPaths.length === 0) {
+    return { error: 'No images were uploaded successfully' }
   }
   const createdImage = await database
     .insertInto('image')
     .values({
-      path: pathes
+      path: uploadedPaths
     })
     .returning(['id'])
     .executeTakeFirst()
-  const payload = await payloadGet()
+  if (!createdImage) {
+    return { error: 'Image creation failed' }
+  }
+  const payload = await payloadGet() as { id: string; role: string }
   const brand = await database
     .selectFrom('brand')
     .select('id')
@@ -82,9 +92,21 @@ export default async function CreateAnnouncement(
     .insertInto('announcements')
     .values({
       brandId: brand[0].id,
-      imageId: createdImage?.id,
-      userId: payload.id,
-      ...announcement
+      color: announcement.color,
+      drive: announcement.drive,
+      fuel: announcement.fuel,
+      imageId: createdImage.id,
+      mileage: Number(announcement.mileage),
+      modelName: announcement.modelName,
+      placeOfProduction: announcement.placeOfProduction,
+      power: Number(announcement.power),
+      price: Number(announcement.price),
+      text: announcement.text,
+      transmission: announcement.transmission,
+      typeOfEquipment: announcement.typeOfEquipment,
+      userId: Number(payload.id),
+      volume: Number(announcement.volume),
+      year: Number(announcement.year)
     })
     .executeTakeFirst()
 
