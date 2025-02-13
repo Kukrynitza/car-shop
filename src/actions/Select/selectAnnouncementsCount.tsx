@@ -69,7 +69,6 @@ export default async function selectAnnouncementsCount(
       selectAnnouncement = selectAnnouncement.where('announcements.year', '>=', info.yearMin)
     }
   }
-
   if (selectInfo) {
     if (selectInfo.brandCountry && selectInfo.brandCountry.length > 0) {
       selectAnnouncement = selectAnnouncement.where('brand.country', 'in', selectInfo.brandCountry)
@@ -90,7 +89,7 @@ export default async function selectAnnouncementsCount(
       selectAnnouncement = selectAnnouncement.where('announcements.placeOfProduction', 'in', selectInfo.placeOfProduction)
     }
     if (selectInfo.transmission && selectInfo.transmission.length > 0) {
-      selectAnnouncement.where('announcements.transmission', 'in', selectInfo.transmission)
+      selectAnnouncement = selectAnnouncement.where('announcements.transmission', 'in', selectInfo.transmission)
     }
     if (selectInfo.typeOfEquipment && selectInfo.typeOfEquipment.length > 0) {
       selectAnnouncement = selectAnnouncement.where('announcements.typeOfEquipment', 'in', selectInfo.typeOfEquipment)

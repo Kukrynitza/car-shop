@@ -183,7 +183,9 @@ export default function Page() {
   useEffect(() => {
     const fetchData = async () => {
       setBrandExist(false)
-      const truckBrand = (otherBrand) ? await selectAllTruckBrand() : await selectFirstTruckBrand()
+      const truckBrand = (otherBrand)
+        ? await selectAllTruckBrand()
+        : await selectFirstTruckBrand()
       const truck: BrandForFilter[] = truckBrand.map(
         (element) => (
           {
@@ -234,16 +236,23 @@ export default function Page() {
         : element)
     ))
   }
+  const activeSortDataStringified = JSON.stringify(activeSortData)
   useEffect(() => {
     async function getAnnouncementCount() {
-      const count = await selectAnnouncementsCount('truck', inputSortInfo, activeSortData, [])
+      const brands = brandFilter.reduce<string[]>((result, element) => {
+        if (element.active) {
+          return [...result, element.name]
+        }
+
+        return result
+      }, [])
+      const count = await selectAnnouncementsCount('truck', inputSortInfo, activeSortData, brands)
       if (count) {
         setTotalCount(Number(count[0].count))
       }
     }
     getAnnouncementCount()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isBrandExist])
+  }, [isBrandExist, inputSortInfo, activeSortDataStringified, activeSortData, brandFilter])
   useEffect(() => {
     async function getAnnouncement() {
       const brands = brandFilter.reduce<string[]>((result, element) => {
@@ -300,7 +309,6 @@ export default function Page() {
       }, [])
       const anns = await selectAnnouncements('truck', sortSelect.value, currentPage, inputSortInfo, activeSortData, brands)
       const count = await selectAnnouncementsCount('truck', inputSortInfo, activeSortData, brands)
-
       setAnnouncements(anns)
       setTotalCount(Number(count[0].count))
     }
@@ -542,28 +550,28 @@ export default function Page() {
           {currentPage - 1 > 1
           && (
             <span className={styles.span}>
-              <Link href={generateUrl(currentPage - 2)}>{currentPage - 2}</Link>
+              <Link href={generateUrl(currentPage - 2)}>{currentPage - 2}...</Link>
             </span>
           )}
           {currentPage > 1
           && (
             <span className={styles.span}>
-              <Link href={generateUrl(currentPage - 1)}>{currentPage - 1}</Link>
+              <Link href={generateUrl(currentPage - 1)}>{currentPage - 1}..</Link>
             </span>
           )}
           <span className={styles.span}>
-            <Link href={generateUrl(currentPage)}>..{currentPage}..</Link>
+            <Link href={generateUrl(currentPage)}>{currentPage}</Link>
           </span>
           {currentPage < Math.ceil(totalCount / 4)
           && (
             <span className={styles.span}>
-              <Link href={generateUrl(currentPage + 1)}>{currentPage + 1}</Link>
+              <Link href={generateUrl(currentPage + 1)}>..{currentPage + 1}</Link>
             </span>
           )}
           {currentPage + 1 < Math.ceil(totalCount / 4)
           && (
             <span className={styles.span}>
-              <Link href={generateUrl(currentPage + 2)}>{currentPage + 2}</Link>
+              <Link href={generateUrl(currentPage + 2)}>...{currentPage + 2}</Link>
             </span>
           )}
           {currentPage < Math.ceil(totalCount / 4)

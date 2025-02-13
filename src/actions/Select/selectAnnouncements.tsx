@@ -92,7 +92,7 @@ export default async function selectAnnouncements(
       selectAnnouncement = selectAnnouncement.where('announcements.placeOfProduction', 'in', selectInfo.placeOfProduction)
     }
     if (selectInfo.transmission && selectInfo.transmission.length > 0) {
-      selectAnnouncement.where('announcements.transmission', 'in', selectInfo.transmission)
+      selectAnnouncement = selectAnnouncement.where('announcements.transmission', 'in', selectInfo.transmission)
     }
     if (selectInfo.typeOfEquipment && selectInfo.typeOfEquipment.length > 0) {
       selectAnnouncement = selectAnnouncement.where('announcements.typeOfEquipment', 'in', selectInfo.typeOfEquipment)
