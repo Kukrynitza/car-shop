@@ -10,19 +10,19 @@ import payloadGet from '../Jwt/payloadGet'
 // import createProduct from '@/queries/create-product'
 // import generateFilename from '@/utilities/generate-filename'
 interface Announcement {
-  color: string,
-  drive: string,
-  fuel: string,
-  mileage: string,
-  modelName: string,
-  placeOfProduction: string,
-  power: string,
-  price: string,
-  text: string,
-  transmission: string,
-  typeOfEquipment: string,
-  volume: string,
-  year: string
+  color: string | null,
+  drive: string | null,
+  fuel: string | null,
+  mileage: number | null,
+  modelName: string | null,
+  placeOfProduction: string | null,
+  power: number | null,
+  price: number | null,
+  text: string | null,
+  transmission: string | null,
+  typeOfEquipment: string | null,
+  volume: number | null,
+  year: number | null
 }
 const FileSchema = pipe(
   file('Please select an image file'),
@@ -38,12 +38,11 @@ function generateFilename(initialFilename: string) {
 
   return `${filename}.${extension}`
 }
-export default async function CreateAnnouncement(
+export default async function createAnnouncement(
   photos: File[],
   brandName:string,
   announcement:Announcement
 ) {
-  // eslint-disable-next-line @eslint-react/prefer-destructuring-assignment
   if (!photos[0].size) {
     return { error: 'Photos is null' }
   }

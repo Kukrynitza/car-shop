@@ -2,16 +2,16 @@
 
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 'use client'
-import Select, { SingleValue } from 'react-select'
+import Select from 'react-select'
 
 interface Option {
   label: string;
   value: string;
 }
 interface CustomSelectProps {
-  isChange: Option | null;
+  isChange: Option;
   options: Option[];
-  setChange: (value: SingleValue<Option>) => void;
+  setChange: (value: Option) => void;
 }
 // const DynamicSelect = dynamic(() => import('react-select'), { ssr: false })
 export default function CustomSelect({ isChange, options, setChange }: CustomSelectProps) {

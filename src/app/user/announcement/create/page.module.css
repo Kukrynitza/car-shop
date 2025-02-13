@@ -47,6 +47,7 @@
   width: 100%;
 }
 
+/* stylelint-disable-next-line selector-class-pattern */
 .modelName {
   grid-area: modelName;
   width: 100%;
@@ -65,7 +66,7 @@
     }
   }
 }
-
+/* stylelint-disable-next-line selector-class-pattern */
 .placeOfProduction {
   grid-area: placeOfProduction;
   width: 100%;
@@ -74,7 +75,7 @@
 .price {
   grid-area: price;
   width: 100%;
-
+  /* stylelint-disable-next-line no-descending-specificity */
   & input {
     width: 100%;
     padding-top: 10px;
@@ -93,7 +94,7 @@
 .photo {
   grid-area: photo;
   width: 100%;
-
+  /* stylelint-disable-next-line no-descending-specificity */
   & input {
     width: 100%;
     padding-top: 10px;
@@ -112,7 +113,7 @@
 .volume {
   grid-area: volume;
   width: 100%;
-
+  /* stylelint-disable-next-line no-descending-specificity */
   & input {
     width: 100%;
     padding-top: 10px;
@@ -131,7 +132,7 @@
 .year {
   grid-area: year;
   width: 100%;
-
+  /* stylelint-disable-next-line no-descending-specificity */
   & input {
     width: 100%;
     padding-top: 10px;
@@ -155,7 +156,7 @@
 .mileage {
   grid-area: mileage;
   width: 100%;
-
+  /* stylelint-disable-next-line no-descending-specificity */
   & input {
     width: 100%;
     padding-top: 10px;
@@ -175,7 +176,7 @@
   grid-area: drive;
   width: 100%;
 }
-
+/* stylelint-disable-next-line selector-class-pattern */
 .typeOfEquipment {
   grid-area: typeOfEquipment;
   width: 100%;
@@ -184,6 +185,7 @@
 .power {
   grid-area: power;
 
+  /* stylelint-disable-next-line no-descending-specificity */
   & input {
     width: 100%;
     padding-top: 10px;

@@ -5,3 +5,10 @@
   color: #ffe7b3;
   text-align: center;
 }
+/* stylelint-disable-next-line selector-class-pattern */
+.nonAnnouncement {
+  margin-top: 20px;
+  font-size: 20px;
+  color: #ffe7b3;
+  text-align: center;
+}

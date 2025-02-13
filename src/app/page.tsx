@@ -236,11 +236,9 @@ export default function Page() {
   }
   useEffect(() => {
     async function getAnnouncementCount() {
-      if (inputSortInfo && activeSortData) {
-        const count = await selectAnnouncementsCount('car', inputSortInfo, activeSortData, [])
-        if (count) {
-          setTotalCount(Number(count[0].count))
-        }
+      const count = await selectAnnouncementsCount('car', inputSortInfo, activeSortData, [])
+      if (count) {
+        setTotalCount(Number(count[0].count))
       }
     }
     getAnnouncementCount()

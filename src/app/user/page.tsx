@@ -1,3 +1,4 @@
+/* eslint-disable @eslint-react/no-complex-conditional-rendering */
 'use client'
 import { useEffect, useState } from 'react'
 import selectUserAnnouncements from '@/actions/Select/selectUserAnnouncements'
@@ -22,12 +23,14 @@ interface Announcement {
 
 }
 export default function Page() {
+  // eslint-disable-next-line @eslint-react/naming-convention/use-state
   const [isAnnouncement, setAnnouncement] = useState<Announcement[]>()
   useEffect(() => {
     async function selectAnnouncement() {
       const anns = await selectUserAnnouncements()
       setAnnouncement(anns)
     }
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     selectAnnouncement()
   }, [])
   // console.log(isAnnouncement)
@@ -35,11 +38,11 @@ export default function Page() {
   return (
     <div>
       <h1 className={styles.h1}>Ваши объявления</h1>
-      {isAnnouncement?.length > 0
+      {isAnnouncement && isAnnouncement.length > 0
         ? isAnnouncement.map(
             (element) => <AnnouncementItem key={element.id} announcement={element} />
           )
-        : <p>Нет объявлений</p>}
+        : <p className={styles.nonAnnouncement}>Нет объявлений</p>}
     </div>
   )
 }

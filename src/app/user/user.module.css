@@ -4,15 +4,13 @@
   height: 100%;
 }
 
-.userActionsWrapper {
-  display: none;
-}
-
+/* stylelint-disable-next-line selector-class-pattern */
 .userActionsWrapper {
   display: block;
 }
 
 @media (width <= 768px) {
+  /* stylelint-disable-next-line selector-class-pattern */
   .userActionsWrapper {
     display: none;
   }

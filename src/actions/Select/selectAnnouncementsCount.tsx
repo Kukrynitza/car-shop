@@ -97,7 +97,7 @@ export default async function selectAnnouncementsCount(
     }
   }
 
-  if (brandFilter && brandFilter.length > 0) {
+  if (brandFilter.length > 0) {
     selectAnnouncement = selectAnnouncement.where('brand.name', 'in', brandFilter)
   }
 

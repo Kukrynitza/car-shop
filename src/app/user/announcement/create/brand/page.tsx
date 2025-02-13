@@ -1,3 +1,4 @@
+/* eslint-disable @eslint-react/no-complex-conditional-rendering */
 'use client'
 import { useActionState, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
@@ -28,9 +29,12 @@ export default function Page() {
     { label: 'Грузовик', value: 'truck' }
   ]
   const selectCountries = countries.map((element) => ({ label: element, value: element }))
+  // eslint-disable-next-line @eslint-react/naming-convention/use-state
   const [isCountry, setCountry] = useState<Select>(selectCountries[0])
+  // eslint-disable-next-line @eslint-react/naming-convention/use-state
   const [isType, setType] = useState<Select>(types[0])
   useEffect(() => {
+    // eslint-disable-next-line @eslint-react/hooks-extra/no-direct-set-state-in-use-effect
     setMounted(true)
   }, [])
   // const sortInfo = getSortInfo(false, [])
@@ -42,7 +46,7 @@ export default function Page() {
     if (nameError.success) {
       const name = nameError.output
       const slug = name.toLowerCase().replace(' ', '-')
-      await insertBrand({ country: isCountry, name, slug, type: isType.value })
+      await insertBrand({ country: isCountry.value, name, slug, type: isType.value })
       router.push('/user')
     } else {
       setIsError(nameError.issues[0].message)
@@ -88,9 +92,9 @@ export default function Page() {
         </div>
         <button
           type="submit"
-          className={!record
-            ? styles.enterFailure
-            : styles.enterSuccess}
+          className={record
+            ? styles.enterSuccess
+            : styles.enterFailure}
           disabled={!record || isPending}
         >
           Создать
