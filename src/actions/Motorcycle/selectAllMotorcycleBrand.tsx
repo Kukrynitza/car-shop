@@ -1,7 +1,7 @@
 'use server'
 import database from '@/modules/database'
 
-export default async function selectCarBrand() {
+export default async function selectAllMotorcycleBrand() {
   return database
     .selectFrom('brand')
     .leftJoin('announcements', 'brand.id', 'announcements.brandId')

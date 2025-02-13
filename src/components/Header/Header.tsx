@@ -47,9 +47,14 @@ export default function Header() {
           </li>
         </ul>
         <li className={styles.serves}>
-          <ul>
+          <ul className={styles.firstUl}>
             <a href="https://av.by/news">Новости</a>
             <a href="https://av.by/company">Услуги</a>
+          </ul>
+          <ul className={styles.lastUl}>
+            <Link href="/">Машины</Link>
+            <Link href="/motorcycle">Мотоциклы</Link>
+            <Link href="/truck">Грузовики</Link>
           </ul>
         </li>
         <li className={styles.avatar}>

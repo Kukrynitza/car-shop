@@ -92,15 +92,26 @@
 
 .serves {
   display: grid;
-  align-items: center;
+  grid-template-rows: auto auto;
 
-  & ul {
+  /* stylelint-disable-next-line selector-class-pattern */
+  & .firstUl {
     display: grid;
-    grid-template-columns: auto auto;
-    column-gap: 47px;
-    justify-content: start;
-    justify-items: center;
-    margin-left: 100px;
+    grid-template-columns: repeat(2, min-content);
+    gap: 15px;
+    justify-content: center;
+
+    & a:hover {
+      color: #fdd3e8;
+    }
+  }
+
+  /* stylelint-disable-next-line selector-class-pattern */
+  & .lastUl {
+    display: grid;
+    grid-template-columns: repeat(3, min-content);
+    gap: 15px;
+    justify-content: center;
 
     & a:hover {
       color: #fdd3e8;

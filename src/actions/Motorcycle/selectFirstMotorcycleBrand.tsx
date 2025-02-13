@@ -1,7 +1,7 @@
 'use server'
 import database from '@/modules/database'
 
-export default async function selectCarBrand(): Promise<
+export default async function selectFirstMotorcycleBrand(): Promise<
   { id: number; count: number; name: string; }[]
 > {
   return database
