@@ -73,7 +73,7 @@ export default function Header() {
                     <ul className={styles.userModal}>
                       <li className={styles.mainModalLi}><Link href="/user">Все дейтсвия</Link></li>
                       <li><Link href="/user/announcement/create">Создать объявление</Link></li>
-                      <li className={styles.mainModalLi}>Посмотреть объявления</li>
+                      <li className={styles.mainModalLi}><Link href="/user">Посмотреть объявления</Link></li>
                       <li><button type="button" className={styles.button} onClick={() => setRegistration(2)}>Сменить аккаунт</button></li>
                     </ul>
                   )
