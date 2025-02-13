@@ -2,25 +2,13 @@
 import selectBrandCountry from '@/actions/Select/selectBrandCountry'
 import selectModelAndPlace from '@/actions/Select/selectModelAndPlace'
 
-interface SortInfo {
-  brandCountry?: string[]
-  color: string[]
-  drive: string[]
-  fuel: string[]
-  modelName?: string[]
-  placeOfProduction?: string[]
-  transmission: string[]
-  typeOfEquipment: string[]
-}
-
 function cleanAndSortArray(arr: string[]): string[] {
   return Array.from(new Set(arr)).sort()
 }
 
-export default async function getSortInfo(modelActive:boolean, brands?: number[], type:string)
-  : Promise<SortInfo> {
+export default async function getSortInfo(modelActive:boolean, type:string, brands?: number[]) {
   const brandCountry = await selectBrandCountry(type)
-  const modelAndPlace = await selectModelAndPlace(modelActive, brands, type)
+  const modelAndPlace = await selectModelAndPlace(modelActive, brands ?? [], type)
   const modelName = cleanAndSortArray(modelAndPlace.map((element) => element.model))
   const placeOfProduction = cleanAndSortArray(modelAndPlace.map((element) => element.place))
   if (type === 'car') {

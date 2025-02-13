@@ -12,7 +12,6 @@ export default async function selectOneAnnouncement(announcementId:number) {
     .select([
       'announcements.color',
       'announcements.drive',
-      'announcements.createdAt',
       'announcements.fuel',
       'announcements.mileage',
       'announcements.modelName',

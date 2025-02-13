@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
-import Select, { SingleValue } from 'react-select'
+import Select from 'react-select'
 
 interface Option {
   label: string;
   value: string;
 }
 interface CustomSelectProps {
-  isChange: Option | null;
+  isChange: Option;
   options: Option[];
-  setChange: (value: SingleValue<Option>) => void;
+  setChange: (value: Option) => void;
 }
 export default function CustomSelect({ isChange, options, setChange }: CustomSelectProps) {
   const customStyles = {

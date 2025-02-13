@@ -3,7 +3,7 @@ import database from '@/modules/database'
 
 export default async function selectModelAndPlace(
   modelActive:boolean,
-  brands: number[],
+  brands: [] | number[],
   type:string
 ) {
   // if (brands.length > 0 && brands.some((brand) => typeof brand !== 'number')) {

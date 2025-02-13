@@ -26,9 +26,9 @@ interface ActiveSort {
 }
 export default async function selectAnnouncementsCount(
   type: string,
-  info?: InputForm,
-  selectInfo?:ActiveSort,
-  brandFilter?:string[]
+  info: InputForm | null,
+  selectInfo:ActiveSort | null,
+  brandFilter:[] | string[]
 ) {
   let selectAnnouncement = database
     .selectFrom('announcements')

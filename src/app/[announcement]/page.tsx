@@ -6,34 +6,60 @@ import { useParams } from 'next/navigation'
 import selectOneAnnouncement from '@/actions/Select/selectOneAnnouncement'
 import generateSrc from '@/sorse/generateSrc'
 import styles from './page.module.css'
-// interface AnnouncementInfo {
-// }
+
+interface Announcement {
+  color: string,
+  drive: string,
+  fuel: string,
+  login: string,
+  mileage: number,
+  modelName: string,
+  name: string,
+  number: string
+  path: string[],
+  placeOfProduction: string,
+  power: number,
+  price: number,
+  text: string,
+  transmission: string,
+  type: string,
+  typeOfEquipment: string,
+  volume: number,
+  year: number,
+}
 export default function Page() {
   const { announcement } = useParams()
-  const [announcementInfo, setAnnouncementInfo] = useState()
+  const [announcementInfo, setAnnouncementInfo] = useState<Announcement>()
   const carousel = useRef<HTMLDivElement>(null)
+  // eslint-disable-next-line @eslint-react/naming-convention/use-state
   const [isPathes, setPathes] = useState<string[]>([])
+  // eslint-disable-next-line @eslint-react/naming-convention/use-state
   const [isExist, setExist] = useState(false)
   const [carouselIndex, setCarouselIndex] = useState(0)
   useEffect(() => {
     async function getAnnouncementInfo() {
-      const anns = await selectOneAnnouncement(announcement)
+      const anns = await selectOneAnnouncement(Number(announcement))
       setAnnouncementInfo(anns[0])
       setExist(true)
     }
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     getAnnouncementInfo()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-  console.log(announcementInfo)
   useEffect(() => {
     async function getPath() {
-      const paths = await Promise.all(
-        announcementInfo.path.map(async (element) => generateSrc(element))
-      )
-      setPathes(paths)
+      if (announcementInfo) {
+        const paths = await Promise.all(
+          announcementInfo.path.map(async (element) => generateSrc(element))
+        )
+        setPathes(paths)
+      }
     }
     if (isExist) {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       getPath()
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isExist])
   function scroll(action:boolean) {
     const elements = carousel.current?.children

@@ -1,3 +1,5 @@
+/* eslint-disable @eslint-react/no-complex-conditional-rendering */
+/* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/no-unnecessary-condition */
 'use client'
 import { useActionState, useEffect, useRef, useState } from 'react'
@@ -60,6 +62,23 @@ interface ActiveButton {
   active: boolean,
   category: string
 }
+interface Announcement {
+  id: number;
+  fuel: string;
+  login: string;
+  mileage: number;
+  modelName: string;
+  name: string;
+  path: string[];
+  power: number;
+  price: number;
+  text: string;
+  transmission: string;
+  typeOfEquipment: string;
+  volume: number;
+  year: number;
+}
+
 export default function Page() {
   const router = useRouter()
   const [announcements, setAnnouncements] = useState<Announcement[]>()
@@ -128,16 +147,18 @@ export default function Page() {
         .filter((element) => element.active)
         .map((element) => element.id)
       const modelActive = ids.length !== 0
-      const data = await sortInfo(modelActive, ids, 'car')
-      setSortInfoData(data)
-      setFullSortInfoData(data)
+      const data = await sortInfo(modelActive, 'car', ids)
+      if (data) {
+        setSortInfoData(data)
+        setFullSortInfoData(data)
+      }
 
       if (activeSortData) {
         const updatedActiveSortData = { ...activeSortData }
         const updatedSortInfoData = { ...data }
         Object.keys(activeSortData).forEach((keyTyped) => {
           const key = keyTyped as keyof SortInfo
-          if (data[key]) {
+          if (data?.[key]) {
             updatedSortInfoData[key] = data[key]
               .filter((item) => updatedActiveSortData[key]
                 && !updatedActiveSortData[key].includes(item))
@@ -154,7 +175,7 @@ export default function Page() {
         setSortInfoData(updatedSortInfoData)
       }
     }
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+
     fetchDataAndProcess()
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [brandFilter])
@@ -179,7 +200,7 @@ export default function Page() {
     // const [message, formAction, isPending] = useActionState((_, formData) => {
 
     // })
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+
     fetchData()
   }, [otherBrand])
   function clickInSortElement(type: string) : void {
@@ -215,20 +236,25 @@ export default function Page() {
   }
   useEffect(() => {
     async function getAnnouncementCount() {
-      const count = await selectAnnouncementsCount('car', inputSortInfo, activeSortData, [])
-      setTotalCount(count[0].count)
-    }getAnnouncementCount()
+      if (inputSortInfo && activeSortData) {
+        const count = await selectAnnouncementsCount('car', inputSortInfo, activeSortData, [])
+        if (count) {
+          setTotalCount(Number(count[0].count))
+        }
+      }
+    }
+    getAnnouncementCount()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isBrandExist])
   useEffect(() => {
     async function getAnnouncement() {
-      const brands = brandFilter.reduce((result, element) => {
+      const brands = brandFilter.reduce<string[]>((result, element) => {
         if (element.active) {
           return [...result, element.name]
         }
 
         return result
       }, [])
-
       const anns = currentPage
         ? await selectAnnouncements('car', sortSelect.value, currentPage, inputSortInfo, activeSortData, brands)
         : await selectAnnouncements('car', sortSelect.value, 1, inputSortInfo, activeSortData, brands)
@@ -237,6 +263,7 @@ export default function Page() {
     if (isBrandExist) {
       getAnnouncement()
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isBrandExist, currentPage])
   const [
     message, formAction
@@ -265,21 +292,8 @@ export default function Page() {
       yearMax: yearMax ? Number(yearMax) : 0,
       yearMin: yearMin ? Number(yearMin) : 0
     })
-
-    const newInputSortInfo = {
-      coastMax: coastMax ? Number(coastMax) : null,
-      coastMin: coastMin ? Number(coastMin) : null,
-      mileageMax: mileageMax ? Number(mileageMax) : null,
-      mileageMin: mileageMin ? Number(mileageMin) : null,
-      powerMax: powerMax ? Number(powerMax) : null,
-      powerMin: powerMin ? Number(powerMin) : null,
-      volumeMax: volumeMax ? Number(volumeMax) : null,
-      volumeMin: volumeMin ? Number(volumeMin) : null,
-      yearMax: yearMax ? Number(yearMax) : null,
-      yearMin: yearMin ? Number(yearMin) : null
-    }
     async function getAnns() {
-      const brands = brandFilter.reduce((result, element) => {
+      const brands = brandFilter.reduce<string[]>((result, element) => {
         if (element.active) {
           return [...result, element.name]
         }
@@ -290,7 +304,7 @@ export default function Page() {
       const count = await selectAnnouncementsCount('car', inputSortInfo, activeSortData, brands)
 
       setAnnouncements(anns)
-      setTotalCount(count[0].count)
+      setTotalCount(Number(count[0].count))
     }
     await getAnns()
 
@@ -320,7 +334,7 @@ export default function Page() {
   })
 
   return (
-    <div>
+    <div className={styles.mainDiv}>
       <ul className={styles.brand}>
         {brandFilter.map((element) => (
           <li key={element.name}>
@@ -341,7 +355,7 @@ export default function Page() {
       <form action={formAction} className={largeSort ? styles.formLarge : styles.formSmall}>
         <div ref={menuRefs.modelName} className={styles.model}>
           <button type="button" className={styles.button} onClick={() => clickInSortElement('modelName')}>
-            <span>{activeSortData?.modelName?.length > 0 ? activeSortData.modelName.join() : 'Модель'}</span>
+            <span>{activeSortData?.modelName && activeSortData?.modelName?.length > 0 ? activeSortData.modelName.join() : 'Модель'}</span>
             <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="#fdd3e8"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" /></svg>
           </button>
           {activeSortButton.category === 'modelName' && activeSortButton.active && (
@@ -372,7 +386,7 @@ export default function Page() {
         </div>
         <div ref={menuRefs.brandCountry} className={styles.brandCountry}>
           <button type="button" className={styles.button} onClick={() => clickInSortElement('brandCountry')}>
-            <span>{activeSortData?.brandCountry?.length > 0 ? activeSortData.brandCountry.join() : 'Страна бренда'}</span>
+            <span>{activeSortData?.brandCountry && activeSortData?.brandCountry?.length > 0 ? activeSortData.brandCountry.join() : 'Страна бренда'}</span>
             <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="#fdd3e8"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" /></svg>
           </button>
           {activeSortButton.category === 'brandCountry' && activeSortButton.active && (
@@ -386,8 +400,8 @@ export default function Page() {
           )}
         </div>
         <div className={styles.coast}>
-          <input type="number" name="coastMin" id="coastMin" defaultValue={message.coastMin} placeholder="Цена от, $" min="0" />
-          <input type="number" name="coastMax" id="coastMax" defaultValue={message.coastMax} placeholder="до" min="0" />
+          <input type="number" name="coastMin" id="coastMin" defaultValue={message.coastMin ?? ''} placeholder="Цена от, $" min="0" />
+          <input type="number" name="coastMax" id="coastMax" defaultValue={message.coastMax ?? ''} placeholder="до" min="0" />
         </div>
         <div ref={menuRefs.transmission} className={styles.transmission}>
           <button type="button" className={styles.button} onClick={() => clickInSortElement('transmission')}>
@@ -405,16 +419,16 @@ export default function Page() {
           )}
         </div>
         <div className={styles.volume}>
-          <input type="number" name="volumeMin" id="volumeMin" defaultValue={message.volumeMin} placeholder="Объем от, л." min="0" pattern="\d*" />
-          <input type="number" name="volumeMax" id="volumeMax" defaultValue={message.volumeMax} placeholder="до" min="0" pattern="\d*" />
+          <input type="number" name="volumeMin" id="volumeMin" defaultValue={message.volumeMin ?? ''} placeholder="Объем от, л." min="0" pattern="\d*" />
+          <input type="number" name="volumeMax" id="volumeMax" defaultValue={message.volumeMax ?? ''} placeholder="до" min="0" pattern="\d*" />
         </div>
         <div className={styles.mileage}>
-          <input type="number" name="mileageMin" id="mileageMin" defaultValue={message.mileageMin} placeholder="Пробег от, км" min="0" pattern="\d*" />
-          <input type="number" name="mileageMax" id="mileageMax" defaultValue={message.mileageMax} placeholder="до" min="0" pattern="\d*" />
+          <input type="number" name="mileageMin" id="mileageMin" defaultValue={message.mileageMin ?? ''} placeholder="Пробег от, км" min="0" pattern="\d*" />
+          <input type="number" name="mileageMax" id="mileageMax" defaultValue={message.mileageMax ?? ''} placeholder="до" min="0" pattern="\d*" />
         </div>
         <div ref={menuRefs.placeOfProduction} className={styles.placeOfProduction}>
           <button type="button" className={styles.button} onClick={() => clickInSortElement('placeOfProduction')}>
-            <span>{activeSortData?.placeOfProduction?.length > 0 ? activeSortData.placeOfProduction.join() : 'Страна-производитель'}</span>
+            <span>{activeSortData?.placeOfProduction && activeSortData?.placeOfProduction?.length > 0 ? activeSortData.placeOfProduction.join() : 'Страна-производитель'}</span>
             <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 256 256" fill="#fdd3e8"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" /></svg>
           </button>
           {activeSortButton.category === 'placeOfProduction' && activeSortButton.active && (
@@ -428,8 +442,8 @@ export default function Page() {
           )}
         </div>
         <div className={styles.year}>
-          <input type="number" name="yearMin" id="yearMin" defaultValue={message.yearMin} placeholder="Год от" min="0" pattern="\d*" />
-          <input type="number" name="yearMax" id="yearMax" defaultValue={message.yearMax} placeholder="до" min="0" pattern="\d*" />
+          <input type="number" name="yearMin" id="yearMin" defaultValue={message.yearMin ?? ''} placeholder="Год от" min="0" pattern="\d*" />
+          <input type="number" name="yearMax" id="yearMax" defaultValue={message.yearMax ?? ''} placeholder="до" min="0" pattern="\d*" />
         </div>
         <div ref={menuRefs.color} className={styles.color}>
           <button type="button" className={styles.button} onClick={() => clickInSortElement('color')}>
@@ -476,8 +490,8 @@ export default function Page() {
         && (
           <>
             <div className={styles.power}>
-              <input type="number" name="powerMin" id="powerMin" defaultValue={message.powerMin} placeholder="Мощность от" min="0" pattern="\d*" />
-              <input type="number" name="powerMax" id="powerMax" defaultValue={message.powerMax} placeholder="до, л.с." min="0" pattern="\d*" />
+              <input type="number" name="powerMin" id="powerMin" defaultValue={message.powerMin ?? ''} placeholder="Мощность от" min="0" pattern="\d*" />
+              <input type="number" name="powerMax" id="powerMax" defaultValue={message.powerMax ?? ''} placeholder="до, л.с." min="0" pattern="\d*" />
             </div>
             <div ref={menuRefs.fuel} className={styles.fuel}>
               <button type="button" className={styles.button} onClick={() => clickInSortElement('fuel')}>
@@ -513,11 +527,11 @@ export default function Page() {
         )}
       </form>
       <div className={styles.announcements}>
-        {announcements?.length > 0
+        {announcements && announcements?.length > 0
           ? announcements.map(
               (element) => <AnnouncementItem key={element.id} announcement={element} />
             )
-          : <p>Нет объявлений</p>}
+          : <p className={styles.nonAnnouncement}>Нет объявлений</p>}
       </div>
       <div className={styles.pagination}>
         {currentPage > 1

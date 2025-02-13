@@ -1,7 +1,7 @@
 'use client'
 import { useContext, useEffect, useState } from 'react'
 import Link from 'next/link'
-import SelectRole from '@/actions/Select/SelectRole'
+import selectRole from '@/actions/Select/SelectRole'
 import RegistrationContext from '@/contexts/RegistrationContext'
 import userId from '@/sorse/userId'
 import styles from './UserActions.module.css'
@@ -15,8 +15,9 @@ export default function UserActions() {
   useEffect(() => {
     async function getToken() {
       const id = await userId()
-      isHaveAccessRights(await SelectRole(id))
+      isHaveAccessRights(await selectRole(Number(id)))
     }
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     getToken()
   }, [registration])
 

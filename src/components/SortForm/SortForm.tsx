@@ -69,7 +69,6 @@ export default function SortForm({
       } as ActiveSort
     })
   }
-
   function clickOnActiveButton(categoryElement: string) {
     setActiveData((prev: ActiveSort | null) => {
       if (prev?.[category]) {

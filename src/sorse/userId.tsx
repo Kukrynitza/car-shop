@@ -6,7 +6,9 @@ import verifyJwt from './verifyJwt'
 export default async function userId() {
   const cookieStore = await cookies()
   const token = cookieStore.get('session')?.value
-  const payload = await verifyJwt(token)
+  if (token) {
+    const payload = await verifyJwt(token) as { id: string, role: string }
 
-  return payload.id
+    return payload.id
+  }
 }

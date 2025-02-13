@@ -28,9 +28,9 @@ export default async function selectAnnouncements(
   type: string,
   sort:string,
   offset:number,
-  info?: InputForm,
-  selectInfo?:ActiveSort,
-  brandFilter?:string[]
+  info: InputForm | null,
+  selectInfo:ActiveSort | null,
+  brandFilter?:[] | string[]
 ) {
   let selectAnnouncement = database
     .selectFrom('announcements')
