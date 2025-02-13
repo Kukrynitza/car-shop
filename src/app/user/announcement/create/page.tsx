@@ -100,10 +100,10 @@ export default function Page() {
   const [announcement, setAnnouncement] = useState<Announcement>(
     {
       mileage: null,
-      modelName: 'Error',
+      modelName: '',
       power: null,
       price: null,
-      text: 'Error',
+      text: '',
       volume: null,
       year: null
     }
@@ -177,7 +177,7 @@ export default function Page() {
             <CustomSelect
               isChange={isBrand}
               options={info.brand}
-              setChange={setBrand}
+              setChange={(value) => setBrand(value!)}
             />
           ) : null}
         </label>
@@ -205,7 +205,7 @@ export default function Page() {
             <CustomSelect
               isChange={isColor}
               options={info.color}
-              setChange={setColor}
+              setChange={(value) => setColor(value!)}
             />
           ) : null}
         </label>
@@ -215,7 +215,7 @@ export default function Page() {
             <CustomSelect
               isChange={isType}
               options={types}
-              setChange={setType}
+              setChange={(value) => setType(value!)}
             />
           ) : null}
         </label>
@@ -230,7 +230,7 @@ export default function Page() {
             <CustomSelect
               isChange={isDrive}
               options={info.drive}
-              setChange={setDrive}
+              setChange={(value) => setDrive(value!)}
             />
           ) : null}
         </label>
@@ -240,7 +240,7 @@ export default function Page() {
             <CustomSelect
               isChange={isFuel}
               options={info.fuel}
-              setChange={setFuel}
+              setChange={(value) => setFuel(value!)}
             />
           ) : null}
         </label>
@@ -251,7 +251,7 @@ export default function Page() {
                 <CustomSelect
                   isChange={isTransmission}
                   options={info.transmission}
-                  setChange={setTransmission}
+                  setChange={(value) => setTransmission(value!)}
                 />
               )
             : null}
@@ -262,7 +262,7 @@ export default function Page() {
             <CustomSelect
               isChange={isPlaceOfProduction}
               options={info.placeOfProduction}
-              setChange={setPlaceOfProduction}
+              setChange={(value) => setPlaceOfProduction(value!)}
             />
           ) : null}
         </label>
@@ -277,7 +277,7 @@ export default function Page() {
             <CustomSelect
               isChange={isTypeOfEquipment}
               options={info.typeOfEquipment}
-              setChange={setTypeOfEquipment}
+              setChange={(value) => setTypeOfEquipment(value!)}
             />
           ) : null}
         </label>

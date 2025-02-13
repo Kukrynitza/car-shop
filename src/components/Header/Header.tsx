@@ -56,6 +56,7 @@ export default function Header() {
             <Link href="/motorcycle">Мотоциклы</Link>
             <Link href="/truck">Грузовики</Link>
           </ul>
+
         </li>
         <li className={styles.avatar}>
           <div ref={menuRef} onMouseEnter={() => setUserModal(true)}>

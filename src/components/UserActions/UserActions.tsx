@@ -40,7 +40,7 @@ export default function UserActions() {
 
         </ul>
       </div>
-      <button type="button" className={styles.newAccount} onClick={() => setRegistration(2)}>Сменить аккаунт</button>
+      <button type="button" className={styles.newAccount} onClick={() => setRegistration?.(2)}>Сменить аккаунт</button>
     </article>
   )
 }
