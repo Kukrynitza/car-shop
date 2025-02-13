@@ -300,6 +300,18 @@ export default function Page() {
       yearMax: yearMax ? Number(yearMax) : 0,
       yearMin: yearMin ? Number(yearMin) : 0
     })
+    const inputInfo = {
+      coastMax: coastMax ? Number(coastMax) : 0,
+      coastMin: coastMin ? Number(coastMin) : 0,
+      mileageMax: mileageMax ? Number(mileageMax) : 0,
+      mileageMin: mileageMin ? Number(mileageMin) : 0,
+      powerMax: powerMax ? Number(powerMax) : 0,
+      powerMin: powerMin ? Number(powerMin) : 0,
+      volumeMax: volumeMax ? Number(volumeMax) : 0,
+      volumeMin: volumeMin ? Number(volumeMin) : 0,
+      yearMax: yearMax ? Number(yearMax) : 0,
+      yearMin: yearMin ? Number(yearMin) : 0
+    }
     async function getAnns() {
       const brands = brandFilter.reduce<string[]>((result, element) => {
         if (element.active) {
@@ -308,9 +320,8 @@ export default function Page() {
 
         return result
       }, [])
-      const anns = await selectAnnouncements('car', sortSelect.value, currentPage, inputSortInfo, activeSortData, brands)
-      const count = await selectAnnouncementsCount('car', inputSortInfo, activeSortData, brands)
-      console.log(anns)
+      const anns = await selectAnnouncements('car', sortSelect.value, currentPage, inputInfo, activeSortData, brands)
+      const count = await selectAnnouncementsCount('car', inputInfo, activeSortData, brands)
       setAnnouncements(anns)
       setTotalCount(Number(count[0].count))
     }
