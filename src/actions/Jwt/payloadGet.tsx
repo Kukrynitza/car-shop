@@ -6,5 +6,8 @@ export default async function payloadGet() {
   const cookieStore = await cookies()
   const token = cookieStore.get('session')?.value
 
-  return verifyJwt(token)
+  if (token) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    return verifyJwt(token)
+  }
 }

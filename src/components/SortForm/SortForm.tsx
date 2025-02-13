@@ -24,9 +24,11 @@ interface SortInfo {
 interface SortFormProps {
   activeData: ActiveSort | null;
   category: keyof ActiveSort;
-  data: ActiveSort;
-  setActiveData: (value: ActiveSort | null) => void;
-  setData: (value: SortInfo | null) => void;
+  // eslint-disable-next-line @typescript-eslint/no-empty-object-type
+  data: SortInfo | {};
+  setActiveData: React.Dispatch<React.SetStateAction<ActiveSort | null>>
+  // eslint-disable-next-line @typescript-eslint/no-empty-object-type
+  setData: (value: SortInfo | {}) => void;
 }
 export default function SortForm({
   activeData,
@@ -35,12 +37,17 @@ export default function SortForm({
   setActiveData,
   setData
 }: SortFormProps) {
+  function isSortInfo(obj: unknown): obj is SortInfo {
+    return typeof obj === 'object' && obj !== null
+  }
   function clickOnUnactiveButton(categoryElement: string) {
-    setData((prev: ActiveSort | null) => {
-      if (prev) {
+    // eslint-disable-next-line @typescript-eslint/no-empty-object-type
+    setData((prev: SortInfo | {}) => {
+      if (isSortInfo(prev) && prev[category]) {
         return {
           ...prev,
-          [category]: prev[category]?.filter((element) => element !== categoryElement) || []
+          // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+          [category]: prev[category].filter((element: string) => element !== categoryElement) || []
         }
       }
 
@@ -59,7 +66,7 @@ export default function SortForm({
 
       return {
         [category]: [categoryElement]
-      } as unknown as SortInfo
+      } as ActiveSort
     })
   }
 
@@ -67,6 +74,7 @@ export default function SortForm({
     setActiveData((prev: ActiveSort | null) => {
       if (prev?.[category]) {
         if (prev[category].length === 1) {
+          // eslint-disable-next-line no-param-reassign, @typescript-eslint/no-dynamic-delete
           delete prev[category]
 
           return { ...prev }
@@ -81,7 +89,7 @@ export default function SortForm({
       return prev
     })
 
-    setData((prev: ActiveSort | null) => {
+    setData((prev: SortInfo | null) => {
       const updatedCategory = Array.isArray(prev?.[category])
         ? [...prev[category], categoryElement]
         : [categoryElement]
@@ -104,11 +112,12 @@ export default function SortForm({
         ))}
       </ul>
       <ul className={styles.unactive}>
-        {Array.isArray(data[category]) && data[category].map((element: string) => (
-          <button key={element} type="button" className={styles.buttonUnactive} onClick={() => clickOnUnactiveButton(element)}>
-            {element}
-          </button>
-        ))}
+        {Array.isArray((data as SortInfo)[category]) && (data as SortInfo)[category]!
+          .map((element: string) => (
+            <button key={element} type="button" className={styles.buttonUnactive} onClick={() => clickOnUnactiveButton(element)}>
+              {element}
+            </button>
+          ))}
       </ul>
     </ul>
   )

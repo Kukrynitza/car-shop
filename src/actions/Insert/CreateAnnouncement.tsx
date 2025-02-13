@@ -30,8 +30,7 @@ const FileSchema = pipe(
 )
 const Schema = array(FileSchema)
 
-// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-const nanoid = customAlphabet(`${alphanumeric}-`, 12)
+const nanoid = customAlphabet(`${alphanumeric} -`, 12)
 
 function generateFilename(initialFilename: string) {
   const filename = nanoid()

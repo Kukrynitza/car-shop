@@ -8,6 +8,7 @@ if (!secretKey) {
 
 const key = new TextEncoder().encode(secretKey)
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default async function verifyJwt(token: string): Promise<any> {
   const { payload } = await jwtVerify(token, key, {
     algorithms: ['HS256']

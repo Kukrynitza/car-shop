@@ -54,15 +54,15 @@ export default function Registration() {
         if (loginError.success) {
           const login = loginError.output
           const password = passwordError.output
-          const insertUser = {
+          const insertUser : InsertUser = {
             login,
-            number: formData.get('number'),
+            // eslint-disable-next-line @typescript-eslint/no-base-to-string
+            number: String(formData.get('number')),
             password
           }
-
           // eslint-disable-next-line new-cap
           const err = await InsertUser(insertUser)
-          if (err?.length > 0) {
+          if (err && err.length > 0) {
             if (err === 'Такой логин уже существует') {
               setIsError([err, '2'])
               setRecord(record.map((element, index) => (index === 2 ? false : element)))

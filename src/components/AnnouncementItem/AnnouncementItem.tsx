@@ -22,8 +22,13 @@ interface Announcement {
 
 }
 
-export default function AnnouncementItem({ announcement }: Announcement) {
+interface AnnouncementProps {
+  announcement: Announcement
+}
+
+export default function AnnouncementItem({ announcement }: AnnouncementProps) {
   const carousel = useRef<HTMLDivElement>(null)
+  // eslint-disable-next-line @eslint-react/naming-convention/use-state
   const [isPathes, setPathes] = useState<string[]>([])
   const [carouselIndex, setCarouselIndex] = useState(0)
   useEffect(() => {
@@ -33,8 +38,9 @@ export default function AnnouncementItem({ announcement }: Announcement) {
       )
       setPathes(paths)
     }
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     getPath()
-  }, [])
+  }, [announcement.path])
   function scroll(action:boolean) {
     const elements = carousel.current?.children
     if (elements?.length) {

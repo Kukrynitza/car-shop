@@ -1,8 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
-import Select from 'react-select'
+import Select, { SingleValue } from 'react-select'
 
-export default function CustomSelect({ isChange, options, setChange }) {
+interface Option {
+  label: string;
+  value: string;
+}
+interface CustomSelectProps {
+  isChange: Option | null;
+  options: Option[];
+  setChange: (value: SingleValue<Option>) => void;
+}
+export default function CustomSelect({ isChange, options, setChange }: CustomSelectProps) {
   const customStyles = {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     control: (provided: any, state: { isFocused: any }) => ({

@@ -2,10 +2,19 @@
 
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 'use client'
-import Select from 'react-select'
+import Select, { SingleValue } from 'react-select'
 
+interface Option {
+  label: string;
+  value: string;
+}
+interface CustomSelectProps {
+  isChange: Option | null;
+  options: Option[];
+  setChange: (value: SingleValue<Option>) => void;
+}
 // const DynamicSelect = dynamic(() => import('react-select'), { ssr: false })
-export default function CustomSelect({ isChange, options, setChange }) {
+export default function CustomSelect({ isChange, options, setChange }: CustomSelectProps) {
   const customStyles = {
 
     control: (provided: any, state: { isFocused: any }) => ({
@@ -54,7 +63,7 @@ export default function CustomSelect({ isChange, options, setChange }) {
       'color': '#f6eeb4'
     }),
 
-    singleValue: (provided: unknown) => ({
+    singleValue: (provided: any) => ({
       ...provided,
       color: '#f6eeb4'
     })

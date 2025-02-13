@@ -65,10 +65,12 @@ export default function Page() {
   const [announcements, setAnnouncements] = useState<Announcement[]>()
   const [mounted, setMounted] = useState(false)
   const [brandFilter, setBrandFilter] = useState<BrandForFilter[]>([])
+  // eslint-disable-next-line @eslint-react/naming-convention/use-state
   const [isBrandExist, setBrandExist] = useState(false)
   const [otherBrand, setOtherBrand] = useState(false)
   const [largeSort, setLargeSort] = useState(false)
-  const [sortInfoData, setSortInfoData] = useState<SortInfo | null>(null)
+  // eslint-disable-next-line @typescript-eslint/no-empty-object-type
+  const [sortInfoData, setSortInfoData] = useState<SortInfo | {}>({})
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [fullSortInfoData, setFullSortInfoData] = useState<SortInfo | null>(null)
   const [activeSortData, setActiveSortData] = useState<ActiveSort | null>(null)
@@ -99,6 +101,7 @@ export default function Page() {
 
     return `${pathname}?${params.toString()}`
   }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const menuRefs = {
     brandCountry: useRef<HTMLDivElement>(null),
     color: useRef<HTMLDivElement>(null),
@@ -116,6 +119,7 @@ export default function Page() {
     }
   )
   useEffect(() => {
+    // eslint-disable-next-line @eslint-react/hooks-extra/no-direct-set-state-in-use-effect
     setMounted(true)
   }, [])
   useEffect(() => {
@@ -499,7 +503,7 @@ export default function Page() {
                 <SortForm
                   activeData={activeSortData ?? null}
                   category="drive"
-                  data={sortInfoData ?? {}}
+                  data={sortInfoData}
                   setActiveData={setActiveSortData}
                   setData={setSortInfoData}
                 />
