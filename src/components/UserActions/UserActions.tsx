@@ -30,7 +30,7 @@ export default function UserActions() {
         </Link>
       </span>
       <div className={styles.div}>
-        <p className={styles.p}><Link href="/user/">Все дейтсвия</Link></p>
+        <p className={styles.p}><Link href="/user/">Все действия</Link></p>
         <ul className={styles.ul}>
           <li><Link href="/user/announcement/create">Создать объявление</Link></li>
           {haveAccessRights
