@@ -76,7 +76,11 @@ export default function Page() {
             <CustomSelect
               isChange={isCountry}
               options={selectCountries}
-              setChange={(value) => setCountry(value!)}
+              setChange={(value) => {
+                if (value) {
+                  setCountry(value)
+                }
+              }}
             />
           ) : null}
         </div>
@@ -86,7 +90,11 @@ export default function Page() {
             <CustomSelect
               isChange={isType}
               options={types}
-              setChange={(value) => setType(value!)}
+              setChange={(value) => {
+                if (value) {
+                  setType(value)
+                }
+              }}
             />
           ) : null}
         </div>

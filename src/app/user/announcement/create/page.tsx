@@ -177,7 +177,11 @@ export default function Page() {
             <CustomSelect
               isChange={isBrand}
               options={info.brand}
-              setChange={(value) => setBrand(value!)}
+              setChange={(value) => {
+                if (value) {
+                  setBrand(value)
+                }
+              }}
             />
           ) : null}
         </label>
@@ -205,7 +209,11 @@ export default function Page() {
             <CustomSelect
               isChange={isColor}
               options={info.color}
-              setChange={(value) => setColor(value!)}
+              setChange={(value) => {
+                if (value) {
+                  setColor(value)
+                }
+              }}
             />
           ) : null}
         </label>
@@ -215,7 +223,11 @@ export default function Page() {
             <CustomSelect
               isChange={isType}
               options={types}
-              setChange={(value) => setType(value!)}
+              setChange={(value) => {
+                if (value) {
+                  setType(value)
+                }
+              }}
             />
           ) : null}
         </label>
@@ -230,7 +242,11 @@ export default function Page() {
             <CustomSelect
               isChange={isDrive}
               options={info.drive}
-              setChange={(value) => setDrive(value!)}
+              setChange={(value) => {
+                if (value) {
+                  setDrive(value)
+                }
+              }}
             />
           ) : null}
         </label>
@@ -240,7 +256,11 @@ export default function Page() {
             <CustomSelect
               isChange={isFuel}
               options={info.fuel}
-              setChange={(value) => setFuel(value!)}
+              setChange={(value) => {
+                if (value) {
+                  setFuel(value)
+                }
+              }}
             />
           ) : null}
         </label>
@@ -251,7 +271,11 @@ export default function Page() {
                 <CustomSelect
                   isChange={isTransmission}
                   options={info.transmission}
-                  setChange={(value) => setTransmission(value!)}
+                  setChange={(value) => {
+                    if (value) {
+                      setTransmission(value)
+                    }
+                  }}
                 />
               )
             : null}
@@ -262,7 +286,11 @@ export default function Page() {
             <CustomSelect
               isChange={isPlaceOfProduction}
               options={info.placeOfProduction}
-              setChange={(value) => setPlaceOfProduction(value!)}
+              setChange={(value) => {
+                if (value) {
+                  setPlaceOfProduction(value)
+                }
+              }}
             />
           ) : null}
         </label>
@@ -277,7 +305,11 @@ export default function Page() {
             <CustomSelect
               isChange={isTypeOfEquipment}
               options={info.typeOfEquipment}
-              setChange={(value) => setTypeOfEquipment(value!)}
+              setChange={(value) => {
+                if (value) {
+                  setTypeOfEquipment(value)
+                }
+              }}
             />
           ) : null}
         </label>

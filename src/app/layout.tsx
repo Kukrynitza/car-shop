@@ -1,6 +1,6 @@
 'use client'
 import 'the-new-css-reset'
-import { useState } from 'react'
+import { Suspense, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import Header from '@/components/Header/Header'
 import Registration from '@/components/Registration/Registration'
@@ -22,6 +22,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="ru">
       <body>
+
         <RegistrationContext value={{ registration, setRegistration }}>
           <Header />
           <Registration />
@@ -31,7 +32,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             : (
                 <main>
                   <div />
-                  {children}
+                  <Suspense fallback={<div>Loading...</div>}>
+                    {children}
+                  </Suspense>
                   <div />
                 </main>
               )}
