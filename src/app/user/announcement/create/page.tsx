@@ -55,19 +55,19 @@ export default function Page() {
     typeOfEquipment: [{ label: '', value: '' }]
   })
   // eslint-disable-next-line @eslint-react/naming-convention/use-state
-  const [isBrand, setBrand] = useState<OneInfo>({ label: '', value: '' })
+  const [isBrand, setBrand] = useState<OneInfo>({ label: 'Honda', value: 'Honda' })
   // eslint-disable-next-line @eslint-react/naming-convention/use-state
-  const [isColor, setColor] = useState<OneInfo>({ label: '', value: '' })
+  const [isColor, setColor] = useState<OneInfo>({ label: 'черный', value: 'черный' })
   // eslint-disable-next-line @eslint-react/naming-convention/use-state
-  const [isDrive, setDrive] = useState<OneInfo>({ label: '', value: '' })
+  const [isDrive, setDrive] = useState<OneInfo>({ label: 'полный', value: 'полный' })
   // eslint-disable-next-line @eslint-react/naming-convention/use-state
-  const [isFuel, setFuel] = useState<OneInfo>({ label: '', value: '' })
+  const [isFuel, setFuel] = useState<OneInfo>({ label: 'бензин', value: 'бензин' })
   // eslint-disable-next-line @eslint-react/naming-convention/use-state
-  const [isPlaceOfProduction, setPlaceOfProduction] = useState<OneInfo>({ label: '', value: '' })
+  const [isPlaceOfProduction, setPlaceOfProduction] = useState<OneInfo>({ label: 'Беларусь', value: 'Беларусь' })
   // eslint-disable-next-line @eslint-react/naming-convention/use-state
-  const [isTransmission, setTransmission] = useState<OneInfo>({ label: '', value: '' })
+  const [isTransmission, setTransmission] = useState<OneInfo>({ label: 'механика', value: 'механика' })
   // eslint-disable-next-line @eslint-react/naming-convention/use-state
-  const [isTypeOfEquipment, setTypeOfEquipment] = useState<OneInfo>({ label: '', value: '' })
+  const [isTypeOfEquipment, setTypeOfEquipment] = useState<OneInfo>({ label: 'седан', value: 'седан' })
   const types = [
     { label: 'Машина', value: 'car' },
     { label: 'Мотоцикл', value: 'motorcycle' },
@@ -100,10 +100,10 @@ export default function Page() {
   const [announcement, setAnnouncement] = useState<Announcement>(
     {
       mileage: null,
-      modelName: null,
+      modelName: 'Error',
       power: null,
       price: null,
-      text: null,
+      text: 'Error',
       volume: null,
       year: null
     }
@@ -146,10 +146,16 @@ export default function Page() {
         color: isColor.value,
         drive: isDrive.value,
         fuel: isFuel.value,
+        mileage: announcement.mileage,
+        modelName: announcement.modelName ?? '',
         placeOfProduction: isPlaceOfProduction.value,
+        power: announcement.power,
+        price: announcement.price,
+        text: announcement.text ?? '',
         transmission: isTransmission.value,
         typeOfEquipment: isTypeOfEquipment.value,
-        ...announcement
+        volume: announcement.volume,
+        year: announcement.year
       })
       if (err) {
         setError(err.error)

@@ -11,7 +11,7 @@ interface Option {
 interface CustomSelectProps {
   isChange: Option;
   options: Option[];
-  setChange: (value: Option) => void;
+  setChange: (value: Option | null) => void;
 }
 // const DynamicSelect = dynamic(() => import('react-select'), { ssr: false })
 export default function CustomSelect({ isChange, options, setChange }: CustomSelectProps) {

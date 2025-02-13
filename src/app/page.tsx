@@ -78,7 +78,10 @@ interface Announcement {
   volume: number;
   year: number;
 }
-
+interface Option {
+  label: string;
+  value: string;
+}
 export default function Page() {
   const router = useRouter()
   const [announcements, setAnnouncements] = useState<Announcement[]>()
@@ -104,7 +107,7 @@ export default function Page() {
     { label: 'С меньшим пробегом', value: 'mileage' },
     { label: 'С большим объемом', value: 'volume' }
   ]
-  const [sortSelect, setSortSelect] = useState(sortSelectInfo[0])
+  const [sortSelect, setSortSelect] = useState<Option>(sortSelectInfo[0])
 
   const [inputSortInfo, setInputSortInfo] = useState<InputForm | null>(null)
   const pathname = usePathname()

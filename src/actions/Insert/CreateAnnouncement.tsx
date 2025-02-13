@@ -10,17 +10,17 @@ import payloadGet from '../Jwt/payloadGet'
 // import createProduct from '@/queries/create-product'
 // import generateFilename from '@/utilities/generate-filename'
 interface Announcement {
-  color: string | null,
-  drive: string | null,
-  fuel: string | null,
+  color: string,
+  drive: string,
+  fuel: string,
   mileage: number | null,
-  modelName: string | null,
-  placeOfProduction: string | null,
+  modelName: string,
+  placeOfProduction: string,
   power: number | null,
   price: number | null,
-  text: string | null,
-  transmission: string | null,
-  typeOfEquipment: string | null,
+  text: string,
+  transmission: string,
+  typeOfEquipment: string,
   volume: number | null,
   year: number | null
 }

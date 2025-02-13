@@ -9,7 +9,7 @@ interface Option {
 interface CustomSelectProps {
   isChange: Option;
   options: Option[];
-  setChange: (value: Option) => void;
+  setChange: (value: Option | null) => void;
 }
 export default function CustomSelect({ isChange, options, setChange }: CustomSelectProps) {
   const customStyles = {
