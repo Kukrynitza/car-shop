@@ -2,6 +2,7 @@
 .mainDiv {
   display: grid;
   grid-template-rows: auto auto 1fr min-content;
+  max-width: 100vw;
   height: calc(100vh - 50px);
 }
 
@@ -555,7 +556,11 @@
 }
 
 .announcements {
+  width: 100%;
+  max-width: 100vw;
   margin-top: 40px;
+
+  /* overflow-x: hidden; */
 }
 
 .pagination {
@@ -572,25 +577,33 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     justify-items: center;
-    margin-top: 100px;
+    padding: 0 15px;
+    margin: 100px 15px 0;
     color: #fdd3e8;
   }
   /* stylelint-disable-next-line selector-class-pattern */
   .formLarge {
     display: grid;
     grid-template-areas:
-      "model volume volume"
-      "typeOfEquipment mileage mileage"
-      "year year brandCountry"
-      "placeOfProduction coast coast"
-      "transmission color drive"
-      "power power fuel"
-      "sort advancedSearch conclusion";
-    grid-template-rows: repeat(7, 1fr);
+      "model typeOfEquipment"
+      "mileage mileage"
+      "volume volume"
+      "brandCountry placeOfProduction"
+      "year year"
+      "coast coast"
+      "color color"
+      "transmission fuel"
+      "power power "
+      "sort drive"
+      "advancedSearch conclusion";
+    grid-template-rows: repeat(11, 1fr);
     /* stylelint-disable-next-line declaration-block-no-redundant-longhand-properties */
-    grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
-    height: 490px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    width: auto;
+    max-width: calc(100vw - 30px);
+    height: 540px;
+    margin: 55px 15px 0;
     margin-top: 55px;
     margin-right: 40px;
     margin-left: 40px;
@@ -598,23 +611,33 @@
     scrollbar-color: #524202 #381525;
     background-color: #381525;
     border-radius: 15px;
+
+    & .button {
+      height: 40px;
+    }
   }
   /* stylelint-disable-next-line selector-class-pattern */
   .formSmall {
     display: grid;
     grid-template-areas:
-      "model volume volume"
-      "typeOfEquipment mileage mileage"
-      "brandCountry year year"
-      "coast coast placeOfProduction"
-      "transmission color color"
-      "sort advancedSearch conclusion";
-    grid-template-rows: repeat(6, 1fr);
+      "model typeOfEquipment"
+      "mileage mileage"
+      "volume volume"
+      "brandCountry placeOfProduction"
+      "year year"
+      "coast coast"
+      "color color"
+      "transmission sort"
+      "advancedSearch conclusion";
+    grid-template-rows: repeat(9, 1fr);
     /* stylelint-disable-next-line declaration-block-no-redundant-longhand-properties */
-    grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
-    height: 420px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    width: auto;
+    max-width: calc(100vw - 30px);
+    height: 490px;
     padding: 15px;
+    margin: 55px 15px 0;
     margin-top: 55px;
     margin-right: 40px;
     margin-left: 40px;
@@ -622,5 +645,9 @@
     scrollbar-color: #524202 #381525;
     background-color: #381525;
     border-radius: 15px;
+
+    & .button {
+      height: 40px;
+    }
   }
 }

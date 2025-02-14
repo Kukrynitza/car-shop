@@ -191,16 +191,16 @@ export default function Page() {
         </label>
         <label className={styles.price}>
           <p>Стоимость, $</p>
-          <input type="number" value={announcement.price ?? ''} placeholder="Стоимость" min="0" step="1" onChange={(event) => handleChange('price', event)} />
+          <input type="number" value={announcement.price ?? ''} placeholder="Стоимость" max="9999999" min="0" step="1" onChange={(event) => handleChange('price', event)} />
         </label>
         <label className={styles.year}>
           <p>Год</p>
-          <input type="number" value={announcement.year ?? ''} placeholder="Год" min="1935" step="1" onChange={(event) => handleChange('year', event)} />
+          <input type="number" value={announcement.year ?? ''} placeholder="Год" max="2100" min="1935" step="1" onChange={(event) => handleChange('year', event)} />
 
         </label>
         <label className={styles.volume}>
           <p>Объем, л</p>
-          <input type="number" value={announcement.volume ?? ''} placeholder="Объем" min="0" step="0.1" onChange={(event) => handleChange('volume', event)} />
+          <input type="number" value={announcement.volume ?? ''} placeholder="Объем" max="99" min="0" step="0.1" onChange={(event) => handleChange('volume', event)} />
 
         </label>
         <label className={styles.color}>
@@ -233,7 +233,7 @@ export default function Page() {
         </label>
         <label className={styles.mileage}>
           <p>Пробег, км</p>
-          <input type="number" value={announcement.mileage ?? ''} placeholder="Пробег" min="0" step="1" onChange={(event) => handleChange('mileage', event)} />
+          <input type="number" value={announcement.mileage ?? ''} placeholder="Пробег" max="9999999" min="0" step="1" onChange={(event) => handleChange('mileage', event)} />
 
         </label>
         <label className={styles.drive}>
@@ -296,7 +296,7 @@ export default function Page() {
         </label>
         <label className={styles.power}>
           <p>Мощность, л.с.</p>
-          <input type="number" value={announcement.power ?? ''} placeholder="Мощность" min="0" step="0.1" onChange={(event) => handleChange('power', event)} />
+          <input type="number" value={announcement.power ?? ''} placeholder="Мощность" max="9999" min="0" step="0.1" onChange={(event) => handleChange('power', event)} />
 
         </label>
         <label className={styles.typeOfEquipment}>

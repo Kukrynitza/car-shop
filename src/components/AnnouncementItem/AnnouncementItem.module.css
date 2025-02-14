@@ -9,13 +9,6 @@
   color: #ffd1d9;
   background-color: #381525;
   border-radius: 8px;
-
-  /* stylelint-disable-next-line selector-class-pattern */
-  & .announcementName {
-    font-size: 20px;
-    font-weight: 700;
-    color: #f6eeb4;
-  }
   /* stylelint-disable-next-line selector-class-pattern */
   & .cartInfo {
     display: grid;
@@ -50,11 +43,6 @@
         }
       }
     }
-
-    & .price {
-      font-size: 20px;
-      font-weight: 500;
-    }
   }
 
   & .text {
@@ -67,6 +55,17 @@
   & .login {
     text-align: end;
   }
+}
+
+.price {
+  font-size: 20px;
+  font-weight: 500;
+}
+/* stylelint-disable-next-line selector-class-pattern */
+.announcementName {
+  font-size: 20px;
+  font-weight: 700;
+  color: #f6eeb4;
 }
 
 .li {
@@ -108,4 +107,54 @@
   color: #f5efc1;
   transition: transform 0.5s;
   transform: scale(1.05) rotateY(-21deg) perspective(500px);
+}
+
+@media (width <= 768px) {
+  .card {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin: 0 10px 16px;
+  }
+
+  /* stylelint-disable-next-line selector-class-pattern */
+  .mainInfo {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 10px;
+  }
+
+  .price {
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  .photo {
+    width: 120px;
+
+    & span img {
+      width: 120px;
+      height: 90px;
+      object-fit: cover;
+    }
+  }
+  /* stylelint-disable-next-line selector-class-pattern */
+  .announcementName {
+    font-size: 12px;
+    line-height: 1.2;
+  }
+
+  /* stylelint-disable-next-line selector-class-pattern */
+  .cartInfo {
+    font-size: 11px;
+    line-height: 1.2;
+  }
+
+  .text {
+    font-size: 11px;
+    line-height: 1.2;
+  }
+
+  .login {
+    font-size: 11px;
+  }
 }

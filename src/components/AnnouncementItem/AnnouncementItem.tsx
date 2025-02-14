@@ -100,14 +100,9 @@ export default function AnnouncementItem({ announcement }: AnnouncementProps) {
         <li className={styles.cartInfo}>
           <span>{announcement.year}</span>
           <span>
-            {announcement.transmission}
-            ,
-            {' '}
-            {volume}
-            л(
-            {power}
-            л.с.),
-            {announcement.fuel}
+            <p>{announcement.transmission},</p>
+            <p>{volume}л.({power} л.с.)</p>
+            <p>{announcement.fuel}</p>
 
           </span>
           <span>
