@@ -18,7 +18,7 @@
   /* stylelint-disable-next-line selector-class-pattern */
   & .mainInfo {
     display: grid;
-    grid-template-columns: 2fr 1fr min-content 1fr;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
     column-gap: 15px;
     height: 100%;
 
