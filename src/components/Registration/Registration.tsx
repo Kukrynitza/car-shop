@@ -20,7 +20,7 @@ interface InsertUser {
   number: string
   password: string
 }
-const numberShema = pipe(string(), regex(/^\+?[1-9]{1}[0-9]{3,14}$/, 'Некорректный номер телефона'), minLength(9, 'Минимальная длина адреса номера - 9'), maxLength(13, 'Максимальная длина адреса номера - 12'), trim())
+const numberShema = pipe(string(), regex(/^\+?[1-9]{1}[0-9]{3,14}$/, 'Некорректный номер телефона'), minLength(9, 'Минимальная длина адреса номера - 9'), maxLength(16, 'Максимальная длина адреса номера - 15'), trim())
 const passwordSchema = pipe(
   string(),
   trim(),

@@ -172,19 +172,9 @@
   }
 }
 
-.drive {
-  grid-area: drive;
-  width: 100%;
-}
-/* stylelint-disable-next-line selector-class-pattern */
-.typeOfEquipment {
-  grid-area: typeOfEquipment;
-  width: 100%;
-}
-
 .power {
   grid-area: power;
-
+  width: 100%;
   /* stylelint-disable-next-line no-descending-specificity */
   & input {
     width: 100%;
@@ -199,6 +189,16 @@
       border: 3px solid #ff92ad;
     }
   }
+}
+
+.drive {
+  grid-area: drive;
+  width: 100%;
+}
+/* stylelint-disable-next-line selector-class-pattern */
+.typeOfEquipment {
+  grid-area: typeOfEquipment;
+  width: 100%;
 }
 
 .transmission {

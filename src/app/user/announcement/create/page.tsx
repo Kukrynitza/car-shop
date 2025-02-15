@@ -236,6 +236,11 @@ export default function Page() {
           <input type="number" value={announcement.mileage ?? ''} placeholder="Пробег" max="9999999" min="0" step="1" onChange={(event) => handleChange('mileage', event)} />
 
         </label>
+        <label className={styles.power}>
+          <p>Мощность, л.с.</p>
+          <input type="number" value={announcement.power ?? ''} placeholder="Мощность" max="9999" min="0" step="0.1" onChange={(event) => handleChange('power', event)} />
+
+        </label>
         <label className={styles.drive}>
           <p>Привод</p>
           {mounted ? (
@@ -293,11 +298,6 @@ export default function Page() {
               }}
             />
           ) : null}
-        </label>
-        <label className={styles.power}>
-          <p>Мощность, л.с.</p>
-          <input type="number" value={announcement.power ?? ''} placeholder="Мощность" max="9999" min="0" step="0.1" onChange={(event) => handleChange('power', event)} />
-
         </label>
         <label className={styles.typeOfEquipment}>
           <p>Кузов</p>
