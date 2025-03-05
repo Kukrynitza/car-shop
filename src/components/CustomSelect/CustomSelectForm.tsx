@@ -55,7 +55,7 @@ export default function CustomSelect({ isChange, options, setChange }: CustomSel
       padding: 0,
       position: 'absolute',
       width: '100%',
-      zIndex: 9999
+      zIndex: 999
     }),
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     menuList: (provided: any) => ({
