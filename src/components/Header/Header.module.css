@@ -6,7 +6,7 @@
   padding: 0 150px;
   color: #f6eeb4;
   position: fixed;
-  z-index: 1000
+  z-index: 1000;
   background-color: #524202;
 
   & .ul {
