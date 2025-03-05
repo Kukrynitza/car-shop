@@ -5,6 +5,7 @@
   height: 50px;
   padding: 0 150px;
   color: #f6eeb4;
+  position: fixed;
   background-color: #524202;
 
   & .ul {
